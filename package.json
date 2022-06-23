@@ -1,0 +1,11 @@
+{
+  "Name" : "com.sadsapphicgames.InvalidName",
+  "Version" : "0.0.1",
+  "DisplayName" : "Invalid Name"
+  "description" : "this is a template description that needs to be updated"
+  "author" : {
+    "name" : "Chris Wedin"
+    "email" : "cmwedin@gmail.com"
+    "url" : "https://github.com/cmwedin"
+  }
+}
