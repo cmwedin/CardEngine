@@ -1,11 +1,10 @@
 {
-  "Name" : "com.sadsapphicgames.InvalidName",
+  "Name" : "com.sadsapphicgames.cardengine",
   "Version" : "0.0.1",
-  "DisplayName" : "Invalid Name"
-  "description" : "this is a template description that needs to be updated"
+  "DisplayName" : "Card Engine",
+  "description" : "This is an in development package to provide an extensible and generic architecture for card games that can be used across projects",
   "author" : {
-    "name" : "Chris Wedin"
-    "email" : "cmwedin@gmail.com"
+    "name" : "Chris Wedin",
     "url" : "https://github.com/cmwedin"
   }
 }
