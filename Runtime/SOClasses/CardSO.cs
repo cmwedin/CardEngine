@@ -7,13 +7,15 @@ namespace SadSapphicGames.CardEngine
     [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/CardSO", order = 0)]
     public class CardSO : ScriptableObject {
         //properties
-        [SerializeField] private string _CardName;
-        public string CardName {get => _CardName;}
-        [SerializeField] private string _CardID;
-        public string CardID {get => _CardID;}
-        [SerializeField] private string _EffectText;
-        public string EffectText {get => _EffectText;}
-        [SerializeField] private List<TypeSO> _CardTypes;
-        public List<TypeSO> CardTypes {get => _CardTypes;} 
+        [SerializeField] private string _cardName;
+        public string CardName {get => _cardName;}
+        [SerializeField] private Sprite _cardSprite;
+        public Sprite CardSprite {get => _cardSprite;}
+        [SerializeField] private string _cardText;
+        public string CardText {get => _cardText;}
+        [SerializeField] private List<TypeSO> _cardTypes;
+        public List<TypeSO> CardTypes {get => _cardTypes;}
+
+        
     }
 }

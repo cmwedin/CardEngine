@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SadSapphicGames.CardEngine
 {
-    [CreateAssetMenu(fileName = "TypeSO", menuName = "CardEngineDevelopment/TypeSO", order = 0)]
+    [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/TypeSO", order = 1)]
     public class TypeSO : ScriptableObject {
         
     }
