@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+namespace SadSapphicGames.CardEngine{
+    public class Card : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private GameObject cardNameArea;
+        [SerializeField] private GameObject cardDescriptionArea;
+        [SerializeField] private GameObject cardBack;
+        [SerializeField] private GameObject cardImageArea;
+        private CardSO cardData;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public string CardName { get => cardData.CardName; }
+        public string CardText{ get => cardData.CardText;}
+        public CardType[] cardTypes { get => gameObject.GetComponents<CardType>();}
+
+        private void LoadData(CardSO cardDataSO) {
+            cardData = cardDataSO;
+            foreach (var cardTypeSO in cardData.CardTypes)
+            {
+                cardTypeSO.AddTypeTo(this);
+            }
+        }
     }
 }
