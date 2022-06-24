@@ -14,6 +14,7 @@ namespace SadSapphicGames.CardEngine{
         public string CardName { get => cardData.CardName; }
         public string CardText{ get => cardData.CardText;}
         public CardType[] cardTypes { get => gameObject.GetComponents<CardType>();}
+        public ICardZone CurrentZone { get; internal set; }
 
         private void LoadData(CardSO cardDataSO) {
             cardData = cardDataSO;
