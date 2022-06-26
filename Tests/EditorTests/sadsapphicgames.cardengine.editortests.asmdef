@@ -1,0 +1,13 @@
+{
+  "name": "sadsapphicgames.cardengine.editortests",
+  "references": [
+    "sadsapphicgames.cardengine"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": []
+}
