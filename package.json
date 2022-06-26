@@ -3,6 +3,9 @@
   "Version" : "0.0.1",
   "DisplayName" : "Card Engine",
   "description" : "This is an in development package to provide an extensible and generic architecture for card games that can be used across projects",
+  "dependencies": {
+    "Unity.TextMeshPro" : "3.0.0"
+  },
   "author" : {
     "name" : "Chris Wedin",
     "url" : "https://github.com/cmwedin"
