@@ -11,7 +11,7 @@ namespace SadSapphicGames.CardEngine
             if(typeReferenceObject == null) {
                 Debug.LogWarning($"Type Scriptable Object {this.name} does not have an associated monobehavior component. See documentation for how to create one.");
             } else if (typeReferenceObject.GetComponents<CardType>().Length != 1) {
-                Debug.LogWarning($"the reference object for TypeSO {this.name} has multiple components of type CardType, see documentation method of creating a CardType reference object");
+                Debug.LogWarning($"the reference object for TypeSO {this.name} has multiple components of type CardType, see documentation for proper method of creating a CardType reference object");
             }
         }
         
