@@ -13,6 +13,7 @@ namespace SadSapphicGames.CardEngine{
 
         public string CardName { get => cardData.CardName; }
         public string CardText{ get => cardData.CardText;}
+        public bool IsVisible { get => !cardBack.activeSelf; set => cardBack.SetActive(!value); }
         public CardType[] cardTypes { get => gameObject.GetComponents<CardType>();}
         public ICardZone CurrentZone { get; internal set; }
 
