@@ -5,12 +5,19 @@ namespace SadSapphicGames.CardEngine
 {
     [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/TypeSO", order = 1)]
     public class TypeSO : ScriptableObject {
+        [SerializeField] private CardType typeReferenceObject;
+        
         private void OnEnable() {
-            if(typeComponent == null) {
-                Debug.LogWarning($"Type Scriptable Object {this.name} does not have an associated monobehavior component. Create a monobehaviour with the same name as the scriptable object");
+            if(typeReferenceObject == null) {
+                Debug.LogWarning($"Type Scriptable Object {this.name} does not have an associated monobehavior component. See documentation for how to create one.");
+            } else if (typeReferenceObject.GetComponents<CardType>().Length != 1) {
+                Debug.LogWarning($"the reference object for TypeSO {this.name} has multiple components of type CardType, see documentation method of creating a CardType reference object");
             }
         }
-        private Type typeComponent  { get => Type.GetType(this.name); }
+        
+        // private Type typeComponent  { get => Type.GetType(this.name); }
+        private Type typeComponent { get => typeReferenceObject.GetType();}
+
         public void AddTypeTo(Card card) {
             if(typeComponent == null) {throw new Exception($"there is no monobehaviour component associated with {this.name} to add");}
             card.gameObject.AddComponent(typeComponent); 
