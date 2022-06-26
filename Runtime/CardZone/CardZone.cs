@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 namespace SadSapphicGames.CardEngine
 {
-    public interface ICardZone {
+    public abstract class CardZone : MonoBehaviour {
         public IEnumerable Cards { get; set; }
-        public bool CardsDraggable { get; set; }
+        public bool CardsDraggable { get; private set; }
     }
 }

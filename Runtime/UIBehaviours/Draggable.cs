@@ -8,12 +8,12 @@ namespace SadSapphicGames.CardEngine {
     public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
         [SerializeField] private DropZone dropZone;
         private Card card { get => GetComponent<Card>(); }
-        private ICardZone CurrentZone { get => card.CurrentZone; }
+        private CardZone CurrentZone { get => card.CurrentZone; }
         
         //Monobehaviour callbacks
         private void OnEnable() {
             Card card = GetComponent<Card>();
-            ICardZone currentZone = card.CurrentZone;
+            CardZone currentZone = card.CurrentZone;
             //! this is slow but it doesnt run every frame so i think its fine, potentially a target for refactoring
             //! breaks if there are multiple Dropzones in the scene
             dropZone = (DropZone)Resources.FindObjectsOfTypeAll(typeof(DropZone))[0];
