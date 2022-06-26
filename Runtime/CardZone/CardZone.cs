@@ -7,6 +7,6 @@ namespace SadSapphicGames.CardEngine
 {
     public abstract class CardZone : MonoBehaviour {
         public IEnumerable Cards { get; set; }
-        public bool CardsDraggable { get; private set; }
+        public bool CardsDraggable { get; protected set; }
     }
 }

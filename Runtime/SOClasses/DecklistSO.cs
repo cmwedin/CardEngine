@@ -5,7 +5,7 @@ namespace SadSapphicGames.CardEngine {
     [System.Serializable]
     public struct DecklistEntry {
         public CardSO card;
-        public int number;
+        public int count;
     }
     
     [CreateAssetMenu(fileName = "DecklistSO", menuName = "SadSapphicGames/CardEngine/DecklistSO", order = 2)]

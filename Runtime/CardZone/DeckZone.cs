@@ -10,8 +10,10 @@ namespace SadSapphicGames.CardEngine {
         }
 
         public void LoadDecklist(DecklistSO deckData) {
+            Debug.Log($"loading decklist {deckData.name}");
             foreach (var entry in deckData.deckList) {
-                // Instantiate
+                for (int i = 0; i < entry.count; i++) {
+                }
             }
         }
     }
