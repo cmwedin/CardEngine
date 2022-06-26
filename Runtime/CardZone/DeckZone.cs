@@ -13,6 +13,7 @@ namespace SadSapphicGames.CardEngine {
             Debug.Log($"loading decklist {deckData.name}");
             foreach (var entry in deckData.deckList) {
                 for (int i = 0; i < entry.count; i++) {
+                    GameManager.instance.InstantiateCard(this,entry.card);
                 }
             }
         }

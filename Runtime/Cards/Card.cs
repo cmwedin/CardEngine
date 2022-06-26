@@ -15,9 +15,9 @@ namespace SadSapphicGames.CardEngine{
         public string CardText{ get => cardData.CardText;}
         public bool IsVisible { get => !cardBack.activeSelf; set => cardBack.SetActive(!value); }
         public CardType[] cardTypes { get => gameObject.GetComponents<CardType>();}
-        public ICardZone CurrentZone { get; internal set; }
+        public CardZone CurrentZone { get; internal set; }
 
-        private void LoadData(CardSO cardDataSO) {
+        public void LoadData(CardSO cardDataSO) {
             cardData = cardDataSO;
             foreach (var cardTypeSO in cardData.CardTypes)
             {
