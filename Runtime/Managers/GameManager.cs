@@ -23,6 +23,7 @@ namespace SadSapphicGames.CardEngine
             GameObject cardObject = Instantiate(cardPrefab);
             cardObject.transform.SetParent(targetZone.transform,false);
             cardObject.GetComponent<Card>().LoadData(targetData);
+            cardObject.GetComponent<Card>().IsVisible = false;
         }
         private void Awake() {
             instance = this;
