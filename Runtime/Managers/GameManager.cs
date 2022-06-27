@@ -16,6 +16,7 @@ namespace SadSapphicGames.CardEngine
         [SerializeField] private GameObject cardPrefab;
         [SerializeField] private DeckZone playerDeckZone;
         [SerializeField] private DecklistSO playerDecklist;
+        [SerializeField] private bool showAllCards;
 
         [HideInInspector] public static GameManager instance;
 
@@ -23,7 +24,9 @@ namespace SadSapphicGames.CardEngine
             GameObject cardObject = Instantiate(cardPrefab);
             cardObject.transform.SetParent(targetZone.transform,false);
             cardObject.GetComponent<Card>().LoadData(targetData);
-            cardObject.GetComponent<Card>().IsVisible = false;
+            cardObject.name = cardObject.GetComponent<Card>().CardName;
+            if(!showAllCards) cardObject.GetComponent<Card>().IsVisible = false;
+            targetZone.Cards.Add(cardObject.GetComponent<Card>());
         }
         private void Awake() {
             instance = this;
