@@ -16,6 +16,8 @@ namespace SadSapphicGames.CardEngine
         [SerializeField] private List<TypeSO> _cardTypes;
         public List<TypeSO> CardTypes {get => _cardTypes;}
 
-        
+        public void AddType(TypeSO typeSO) {
+            CardTypes.Add(typeSO);
+        }
     }
 }
