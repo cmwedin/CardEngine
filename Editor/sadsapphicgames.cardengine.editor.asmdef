@@ -1,0 +1,16 @@
+{
+    "name": "sadsapphicgames.cardengine.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4d9d15c4629caf440bcdaa29165625c1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
