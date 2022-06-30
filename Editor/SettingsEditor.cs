@@ -27,7 +27,7 @@ namespace SadSapphicGames.CardEngineEditor {
         // }
         [MenuItem("CardEngine/Settings/Set CardType directory")]
         private static void SetCardTypeDirectory() {
-            string path = EditorUtility.OpenFolderPanel("Select Directory","","");
+            string path = ConvertAbsoluteToRelativePath(EditorUtility.OpenFolderPanel("Select Directory","",""));
             if(path == "") return;
             
             var settings = ReadSettings();
@@ -36,7 +36,7 @@ namespace SadSapphicGames.CardEngineEditor {
         }
         [MenuItem("CardEngine/Settings/Set CardScriptableObject directory")]
         private static void SetCardScriptableObjectDirectory() {
-            string path = EditorUtility.OpenFolderPanel("Select Directory","","");
+            string path = ConvertAbsoluteToRelativePath(EditorUtility.OpenFolderPanel("Select Directory","",""));
             if(path == "") return;
             
             var settings = ReadSettings();
@@ -71,6 +71,11 @@ namespace SadSapphicGames.CardEngineEditor {
             StreamWriter writer = new StreamWriter(settingsPath);
             writer.WriteLine(json);
             writer.Close();
+        }
+        public static string ConvertAbsoluteToRelativePath (string absolutePath) {
+            if(absolutePath.StartsWith(Application.dataPath)) {
+                return "Assets" + absolutePath.Substring(Application.dataPath.Length);
+            } else return null;
         }
     }
 }
