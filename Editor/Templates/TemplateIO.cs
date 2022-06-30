@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public static class TemplateIO  {
-    public static void CopyTemplate(string templateName, string newFileName, string newFilePath) {
-        StreamReader reader = new StreamReader(templateName);
-        StreamWriter writer = new StreamWriter(newFilePath + "/" + newFileName);
-        newFileName = newFileName.Split(".")[0];
-        string line = "";
-        while((line = reader.ReadLine()) != null) {
-            // Debug.Log($"copying line: {line}");
-            if(line.Contains("FILENAME")) {
-                // Debug.Log("Replacing filler class name");    
-                line = line.Replace("FILENAME",newFileName); 
+namespace SadSapphicGames.CardEngineEditor {
+    public static class TemplateIO  {
+        static string templatePath = SettingsEditor.ReadSettings().Directories.Package + "/Editor/Templates/";
+        public static void CopyTemplate(string templateName, string newFileName, string newFilePath) {
+            StreamReader reader = new StreamReader(templatePath + templateName);
+            StreamWriter writer = new StreamWriter(newFilePath + "/" + newFileName);
+            newFileName = newFileName.Split(".")[0];
+            templateName = templateName.Split(".")[0];
+            string line = "";
+            while((line = reader.ReadLine()) != null) {
+                // Debug.Log($"copying line: {line}");
+                if(line.Contains(templateName)) {
+                    // Debug.Log("Replacing filler class name");    
+                    line = line.Replace(templateName,newFileName); 
+                }
+                writer.WriteLine(line);
             }
-            writer.WriteLine(line);
+            reader.Close();
+            writer.Close();
         }
-        reader.Close();
-        writer.Close();
     }
 }

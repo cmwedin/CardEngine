@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using SadSapphicGames.CardEngine;
+using System;
+using UnityEngine.Windows;
 
 namespace SadSapphicGames.CardEngineEditor {
     public class CardEngineCreateMenu {
@@ -12,12 +14,10 @@ namespace SadSapphicGames.CardEngineEditor {
 
         string typeName = ""; 
         string typesDirectory;
-        string monobehaviourTemplatePath;
 
         public CreateCardTypeWindow() : base() {
             var settings = SettingsEditor.ReadSettings(); 
             typesDirectory = settings.Directories.CardTypes;
-            monobehaviourTemplatePath = settings.Directories.Package + "/Editor/Templates/CardTypeTemplate.cs";
         }
         [MenuItem("CardEngine/Create/Card Type")]
         static void Init() {
@@ -33,10 +33,29 @@ namespace SadSapphicGames.CardEngineEditor {
                         Debug.LogWarning("No type name entered");
                         this.Close();
                     }
+                    if(Directory.Exists(typesDirectory + "/" + typeName)) {
+                        throw new Exception($"Folder for type {typeName} already exists");
+                    }
                     AssetDatabase.CreateFolder(typesDirectory, typeName);
                     string typePath = typesDirectory + "/" + typeName;
-                    TemplateIO.CopyTemplate(monobehaviourTemplatePath,typeName+".cs",typePath);
+                    TemplateIO.CopyTemplate("CardTypeTemplate.cs",typeName+".cs",typePath);
+                    AssetDatabase.ImportAsset($"{typePath}/{typeName}.cs");
+                    TemplateIO.CopyTemplate("TypeDataSOTemplate.cs",typeName+"DataSO.cs",typePath);
+                    AssetDatabase.ImportAsset($"{typePath}/{typeName}DataSO.cs");
                     AssetDatabase.Refresh();
+
+                    TypeSO typeSO = ScriptableObject.CreateInstance<TypeSO>();
+                    typeSO.name = typeName;
+                    AssetDatabase.CreateAsset(typeSO,$"{typePath}/{typeName}.asset");
+                    AssetDatabase.SaveAssets();
+
+                    GameObject referenceObject = new GameObject($"{typeName}ReferenceObject");
+                    if(referenceObject.AddComponent(Type.GetType(typeName)) == null) {
+                        Debug.LogWarning($"failed to create reference prefab of type {typeName}, file not yet compiled");
+                    } else {
+                        PrefabUtility.SaveAsPrefabAsset(referenceObject,$"{typePath}/{referenceObject.name}.prefab");
+                    }
+                    GameObject.DestroyImmediate(referenceObject);
                     this.Close();
                 }
                 if(GUILayout.Button("Cancel",EditorStyles.miniButtonRight)) {
