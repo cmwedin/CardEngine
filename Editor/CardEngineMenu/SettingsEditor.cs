@@ -14,7 +14,7 @@ namespace SadSapphicGames.CardEngineEditor {
     public struct Directories {
         public string CardTypes;
         public string CardScriptableObjects;
-
+        public string Package;
     }
     public class SettingsEditor : EditorWindow {
 
@@ -61,9 +61,9 @@ namespace SadSapphicGames.CardEngineEditor {
             StreamReader reader = new StreamReader(settingsPath);
             string json = reader.ReadToEnd();
             reader.Close();
-            Debug.Log($"settings json: {json}");
+            // Debug.Log($"settings json: {json}");
             Settings settings = JsonUtility.FromJson<Settings>(json);
-            Debug.Log($"settings struct values, CardType:{settings.Directories.CardTypes},CardScriptableObjects:{settings.Directories.CardScriptableObjects}");
+            // Debug.Log($"settings struct values, CardType:{settings.Directories.CardTypes},CardScriptableObjects:{settings.Directories.CardScriptableObjects}");
             return settings;
         }
         private static void WriteSettings(Settings settings) {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SadSapphicGames.CardEngine;
 
-public class TYPENAME : CardType
+public class FILENAME : CardType
 {
     // Start is called before the first frame update
     void Start()
