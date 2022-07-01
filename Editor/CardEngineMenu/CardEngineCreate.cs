@@ -49,13 +49,13 @@ namespace SadSapphicGames.CardEngineEditor {
                     AssetDatabase.CreateAsset(typeSO,$"{typePath}/{typeName}.asset");
                     AssetDatabase.SaveAssets();
 
-                    GameObject referenceObject = new GameObject($"{typeName}ReferenceObject");
-                    if(referenceObject.AddComponent(Type.GetType(typeName)) == null) {
-                        Debug.LogWarning($"failed to create reference prefab of type {typeName}, file not yet compiled");
-                    } else {
-                        PrefabUtility.SaveAsPrefabAsset(referenceObject,$"{typePath}/{referenceObject.name}.prefab");
-                    }
-                    GameObject.DestroyImmediate(referenceObject);
+                    // GameObject referenceObject = new GameObject($"{typeName}ReferenceObject");
+                    // if(referenceObject.AddComponent(Type.GetType(typeName)) == null) {
+                    //     Debug.LogWarning($"failed to create reference prefab of type {typeName}, file not yet compiled");
+                    // } else {
+                    //     PrefabUtility.SaveAsPrefabAsset(referenceObject,$"{typePath}/{referenceObject.name}.prefab");
+                    // }
+                    // GameObject.DestroyImmediate(referenceObject);
                     this.Close();
                 }
                 if(GUILayout.Button("Cancel",EditorStyles.miniButtonRight)) {
