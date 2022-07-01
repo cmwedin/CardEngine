@@ -26,8 +26,15 @@ namespace SadSapphicGames.CardEngineEditor {
                         var prefabAsset = AssetDatabase.LoadAssetAtPath($"{path}/{target.name}.prefab",typeof(CardType));
                         serializedObject.FindProperty("typeReferencePrefab").objectReferenceValue = prefabAsset;
 
+                        TypeDataSO typeDataSO = (TypeDataSO)ScriptableObject.CreateInstance(Type.GetType(target.name + "DataSO,Assembly-CSharp"));
+                        typeDataSO.name = target.name + "DataSORef";
+                        AssetDatabase.CreateAsset(typeDataSO,$"{path}/{typeDataSO.name}.asset");
+                        var dataAsset = AssetDatabase.LoadAssetAtPath($"{path}/{typeDataSO.name}.asset",typeof(TypeDataSO));
+                        serializedObject.FindProperty("typeDataReference").objectReferenceValue = dataAsset;
+                        AssetDatabase.SaveAssets();
+
+
                         serializedObject.FindProperty("initialized").boolValue = true;
-                        
                         serializedObject.ApplyModifiedProperties();
                     }
                 GUILayout.EndHorizontal();
