@@ -23,6 +23,8 @@ namespace SadSapphicGames.CardEngineEditor {
                             PrefabUtility.SaveAsPrefabAssetAndConnect(referenceObject,$"{path}/{target.name}.prefab",UnityEditor.InteractionMode.AutomatedAction);
                         }
                         GameObject.DestroyImmediate(referenceObject);
+                        var prefabAsset = AssetDatabase.LoadAssetAtPath($"{path}/{target.name}.prefab",typeof(CardType));
+                        serializedObject.FindProperty("typeReferencePrefab").objectReferenceValue = prefabAsset;
 
                         serializedObject.FindProperty("initialized").boolValue = true;
                         
