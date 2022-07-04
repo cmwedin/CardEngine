@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace SadSapphicGames.CardEngineEditor {
     public static class TemplateIO  {
-        static string templatePath = SettingsEditor.ReadSettings().Directories.Package + "/Editor/Templates/";
+        static string templatePath = "Packages/com.sadsapphicgames.cardengine/Editor/Templates/";
         public static void CopyTemplate(string templateName, string newFileName, string newFilePath) {
             StreamReader reader = new StreamReader(templatePath + templateName);
             StreamWriter writer = new StreamWriter(newFilePath + "/" + newFileName);
@@ -22,6 +24,13 @@ namespace SadSapphicGames.CardEngineEditor {
             }
             reader.Close();
             writer.Close();
+        }
+
+        internal static void GenerateSettings() {
+            if(!Directory.Exists("Assets/CardEngine")) {
+                AssetDatabase.CreateFolder("Assets","CardEngine");
+            }
+            CopyTemplate("DefaultSettings.json","settings.json","Assets/CardEngine");
         }
     }
 }

@@ -58,6 +58,10 @@ namespace SadSapphicGames.CardEngineEditor {
             // }
         }
         public static Settings ReadSettings() {
+            if(!File.Exists(settingsPath)) {
+                Debug.LogWarning("Settings file not found, generating default file");
+                TemplateIO.GenerateSettings();
+            }
             StreamReader reader = new StreamReader(settingsPath);
             string json = reader.ReadToEnd();
             reader.Close();
