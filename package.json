@@ -1,7 +1,7 @@
 {
-  "Name" : "com.sadsapphicgames.cardengine",
-  "Version" : "0.0.1",
-  "DisplayName" : "Card Engine",
+  "name" : "com.sadsapphicgames.cardengine",
+  "version" : "0.0.1",
+  "displayName" : "Card Engine",
   "description" : "This is an in development package to provide an extensible and generic architecture for card games that can be used across projects",
   "dependencies": {
     "Unity.TextMeshPro" : "3.0.0"
