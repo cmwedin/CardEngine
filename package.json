@@ -6,11 +6,11 @@
   "dependencies": {
     "com.unity.textmeshpro" : "3.0.0"
   },
-  "samples": {
+  "samples": [{
     "displayName" : "CardEngineConfig",
     "description" : "Mandatory config files",
     "path" : "Samples~/CardEngineConfig"
-  },
+  }],
   "author" : {
     "name" : "Chris Wedin",
     "url" : "https://github.com/cmwedin"
