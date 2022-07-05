@@ -18,7 +18,7 @@ namespace SadSapphicGames.CardEngineEditor {
     }
     public class SettingsEditor : EditorWindow {
 
-        static string settingsPath = $"Packages/com.sadsapphicgames.cardengine/Settings.json";
+        static string settingsPath = $"Assets/CardEngine/Settings.json";
         // [MenuItem("CardEngine/Settings")]
         // private static void ShowWindow() {
         //     var window = GetWindow<SettingsEditor>();
