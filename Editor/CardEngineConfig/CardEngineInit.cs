@@ -18,13 +18,35 @@ namespace SadSapphicGames.CardEngineEditor
                 GUILayout.BeginVertical(EditorStyles.helpBox); {
                     GUI.enabled = !initialized;
                     if (GUILayout.Button("Initialize CardEngine")) {
-                        AssetDatabase.CreateFolder("Assets","CardEngine");
-                        TemplateIO.CopyTemplate("DefaultSettings.json","settings.json","Assets/CardEngine");
+                        AssetDatabase.ImportPackage(CardEngineIO.GetPackagePath() + "/PackageResources/CardEngineConfig.unitypackage", false);
+                        // AssetDatabase.CreateFolder("Assets","CardEngine");
+                        // TemplateIO.CopyTemplate("DefaultSettings.json","settings.json","Assets/CardEngine");
                     }
                     GUILayout.Space(5f);
                     GUI.enabled = true;
                 } GUILayout.EndVertical();
             } GUILayout.EndVertical();
+        }
+    }
+    public class CardEngineInitWindow : EditorWindow {
+        [SerializeField]
+        CardEngineInit initializerObject;
+        static CardEngineInitWindow initializerWindow;
+        [MenuItem("CardEngine/Initialize")]
+        public static void showInitWindow() {
+            if(initializerWindow == null) {
+                initializerWindow = GetWindow<CardEngineInitWindow>();
+                initializerWindow.titleContent = new GUIContent("CardEngine Initializer");
+                initializerWindow.Focus();
+            }
+        }
+        private void OnEnable() {
+            if(initializerObject == null) {
+                initializerObject = new CardEngineInit();
+            }
+        }
+        private void OnGUI() {
+            initializerObject.OnGUI();
         }
     }
 }

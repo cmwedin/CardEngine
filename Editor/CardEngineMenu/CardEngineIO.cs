@@ -18,6 +18,7 @@ namespace SadSapphicGames.CardEngineEditor {
                 return packagePath;
             }
             // ? failed to find
+            Debug.LogWarning("Failed to find CardEngine instal location, returning null for path");
             return null;
         }
         public static void UpdateDirectories() {

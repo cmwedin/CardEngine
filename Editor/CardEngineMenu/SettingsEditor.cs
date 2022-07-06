@@ -17,7 +17,7 @@ namespace SadSapphicGames.CardEngineEditor {
     }
     public class SettingsEditor : EditorWindow {
 
-        static string settingsPath = $"Assets/CardEngine/Settings.json";
+        static string settingsPath = $"Assets/CardEngine/config/settings.json";
         // [MenuItem("CardEngine/Settings")]
         // private static void ShowWindow() {
         //     var window = GetWindow<SettingsEditor>();
@@ -58,8 +58,8 @@ namespace SadSapphicGames.CardEngineEditor {
         }
         public static Settings ReadSettings() {
             if(!File.Exists(settingsPath)) {
-                Debug.LogWarning("Settings file not found, generating default file");
-                TemplateIO.GenerateSettings();
+                Debug.LogWarning("Settings file not found, please initialize");
+                CardEngineInitWindow.showInitWindow();
             }
             StreamReader reader = new StreamReader(settingsPath);
             string json = reader.ReadToEnd();
