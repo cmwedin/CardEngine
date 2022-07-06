@@ -7,10 +7,13 @@ using UnityEngine;
 
 namespace SadSapphicGames.CardEngineEditor {
     public static class TemplateIO  {
-        static string templatePath = "Packages/com.sadsapphicgames.cardengine/Editor/Templates/";
-        public static void CopyTemplate(string templateName, string newFileName, string newFilePath) {
+        static string templatePath = CardEngineIO.GetPackagePath() + "/Editor/Templates/";
+        public static void CopyTemplate(string templateName, string newFileName, string parentDirectory) {
+            if(!Directory.Exists(parentDirectory)) {
+                throw new Exception($"parent directory {parentDirectory} for file {newFileName} not found");
+            }
             StreamReader reader = new StreamReader(templatePath + templateName);
-            StreamWriter writer = new StreamWriter(newFilePath + "/" + newFileName);
+            StreamWriter writer = new StreamWriter(parentDirectory + "/" + newFileName);
             newFileName = newFileName.Split(".")[0];
             templateName = templateName.Split(".")[0];
             string line = "";
@@ -26,11 +29,11 @@ namespace SadSapphicGames.CardEngineEditor {
             writer.Close();
         }
 
-        internal static void GenerateSettings() {
-            if(!Directory.Exists("Assets/CardEngine")) {
-                AssetDatabase.CreateFolder("Assets","CardEngine");
-            }
-            CopyTemplate("DefaultSettings.json","settings.json","Assets/CardEngine");
-        }
+        // internal static void GenerateSettings() {
+        //     if(!Directory.Exists("Assets/CardEngine")) {
+        //         AssetDatabase.CreateFolder("Assets","CardEngine");
+        //     }
+        //     CopyTemplate("DefaultSettings.json","settings.json","Assets/CardEngine");
+        // }
     }
 }
