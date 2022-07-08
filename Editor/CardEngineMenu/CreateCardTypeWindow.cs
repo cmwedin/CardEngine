@@ -14,10 +14,15 @@ namespace SadSapphicGames.CardEngineEditor {
 
         string typeName = ""; 
         string typesDirectory;
+        TypeDatabaseSO typeDatabase;
 
         public CreateCardTypeWindow() : base() {
             var settings = SettingsEditor.ReadSettings(); 
             typesDirectory = settings.Directories.CardTypes;
+        }
+        private void OnEnable() {
+            typeDatabase = AssetDatabase.LoadAssetAtPath<TypeDatabaseSO>("Assets/CardEngine/Config/TypeDatabase.asset");
+            
         }
         [MenuItem("CardEngine/Create/Card Type")]
         static void Init() {
@@ -48,56 +53,12 @@ namespace SadSapphicGames.CardEngineEditor {
                     TypeSO typeSO = ScriptableObject.CreateInstance<TypeSO>();
                     typeSO.name = typeName;
                     AssetDatabase.CreateAsset(typeSO,$"{typePath}/{typeName}.asset");
+                    typeDatabase.AddEntry(typeSO, typePath);
                     AssetDatabase.SaveAssets();
+
+
 
                     Debug.LogWarning("Remember to initialize your new TypeSO asset");
-                    this.Close();
-                }
-                if(GUILayout.Button("Cancel",EditorStyles.miniButtonRight)) {
-                    this.Close();
-                }
-            GUILayout.EndHorizontal();
-        }
-    }
-    public class CreateCardWindow : EditorWindow {
-        string cardName;
-        string cardText;
-        string cardsDirectory;
-        public CreateCardWindow() : base() {
-            var settings = SettingsEditor.ReadSettings(); 
-            cardsDirectory = settings.Directories.CardScriptableObjects;
-        }
-        [MenuItem("CardEngine/Create/Card")]
-        static void Init() {
-            EditorWindow window = EditorWindow.CreateInstance<CreateCardWindow>();
-            window.Show();
-        }
-        private void OnGUI() {
-            GUILayout.Label("Create a card type", EditorStyles.boldLabel);
-            GUILayout.BeginVertical();
-                cardName = EditorGUILayout.TextField("Enter card name",cardName);
-                GUILayout.Label("Card text:");
-                cardText = EditorGUILayout.TextArea(cardText);
-            GUILayout.EndVertical();
-            GUILayout.BeginHorizontal();
-                if(GUILayout.Button("Create Card",EditorStyles.miniButtonLeft)) {
-                    if(cardName == "") {
-                        Debug.LogWarning("Card name required");
-                        this.Close();
-                    }
-                    if(Directory.Exists(cardsDirectory + "/" + cardName)) {
-                        this.Close();
-                        throw new Exception($"Folder for card {cardName} already exists");
-                    }
-                    AssetDatabase.CreateFolder(cardsDirectory, cardName);
-                    string cardPath = cardsDirectory + "/" + cardName;
-
-                    CardSO cardSO = ScriptableObject.CreateInstance<CardSO>();
-                    cardSO.name = cardName;
-                    cardSO.CardText = cardText;
-                                        
-                    AssetDatabase.CreateAsset(cardSO,$"{cardPath}/{cardSO.name}.asset");
-                    AssetDatabase.SaveAssets();
                     this.Close();
                 }
                 if(GUILayout.Button("Cancel",EditorStyles.miniButtonRight)) {
