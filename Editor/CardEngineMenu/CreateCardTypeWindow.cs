@@ -14,10 +14,15 @@ namespace SadSapphicGames.CardEngineEditor {
 
         string typeName = ""; 
         string typesDirectory;
+        TypeDatabaseSO typeDatabase;
 
         public CreateCardTypeWindow() : base() {
             var settings = SettingsEditor.ReadSettings(); 
             typesDirectory = settings.Directories.CardTypes;
+        }
+        private void OnEnable() {
+            typeDatabase = AssetDatabase.LoadAssetAtPath<TypeDatabaseSO>("Assets/CardEngine/Config/TypeDatabase.asset");
+            
         }
         [MenuItem("CardEngine/Create/Card Type")]
         static void Init() {
@@ -48,7 +53,10 @@ namespace SadSapphicGames.CardEngineEditor {
                     TypeSO typeSO = ScriptableObject.CreateInstance<TypeSO>();
                     typeSO.name = typeName;
                     AssetDatabase.CreateAsset(typeSO,$"{typePath}/{typeName}.asset");
+                    typeDatabase.AddEntry(typeSO, typePath);
                     AssetDatabase.SaveAssets();
+
+
 
                     Debug.LogWarning("Remember to initialize your new TypeSO asset");
                     this.Close();

@@ -11,9 +11,13 @@ namespace SadSapphicGames.CardEngineEditor {
         string cardName;
         string cardText;
         string cardsDirectory;
+        CardDatabaseSO cardDatabase;
         public CreateCardWindow() : base() {
             var settings = SettingsEditor.ReadSettings(); 
             cardsDirectory = settings.Directories.CardScriptableObjects;
+        }
+        private void OnEnable() {
+            cardDatabase = AssetDatabase.LoadAssetAtPath<CardDatabaseSO>("Assets/CardEngine/Config/CardDatabase.asset");
         }
         [MenuItem("CardEngine/Create/Card")]
         static void Init() {
@@ -45,6 +49,7 @@ namespace SadSapphicGames.CardEngineEditor {
                     cardSO.CardText = cardText;
                                         
                     AssetDatabase.CreateAsset(cardSO,$"{cardPath}/{cardSO.name}.asset");
+                    cardDatabase.AddEntry(cardSO, cardPath);
                     AssetDatabase.SaveAssets();
                     this.Close();
                 }
