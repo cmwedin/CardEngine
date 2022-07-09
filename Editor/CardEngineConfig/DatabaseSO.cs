@@ -1,38 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-// public struct DatabaseEntry<TScriptableObject> where TScriptableObject : ScriptableObject {
-//     public TScriptableObject Object;
-//     public string path;
-// }
+
+[System.Serializable]
+public class DatabaseEntry<TScriptableObject> where TScriptableObject : ScriptableObject {
+    public TScriptableObject entrykey;
+    public string entryDirectory;
+
+    public DatabaseEntry(TScriptableObject _entryKey, string _entryDirectory)
+    {
+        entrykey = _entryKey;
+        this.entryDirectory = _entryDirectory;
+    }
+}
 namespace SadSapphicGames.CardEngineEditor {
     public class DatabaseSO<TScriptableObject> : ScriptableObject where TScriptableObject : ScriptableObject  {
         // Start is called before the first frame update
-        private Dictionary<TScriptableObject,string> database = new Dictionary<TScriptableObject, string>();
+        [SerializeField]
+        private List<DatabaseEntry<TScriptableObject>> database = new List<DatabaseEntry<TScriptableObject>>();
         public void AddEntry(TScriptableObject obj, string parentDirectory) {
-            if(Directory.Exists(parentDirectory)) {
-                database.Add(obj,parentDirectory);
+            if(ContainsKey(obj)) {
+                Debug.LogWarning($"Database already contains a entry for the object {obj.name}");
+            }
+            else if(Directory.Exists(parentDirectory)) {
+                database.Add(new DatabaseEntry<TScriptableObject>(obj,parentDirectory));
             } else {
                 throw new System.Exception($"failed to find directory {parentDirectory} entered for scriptable object {obj.name}");
             }
         }
+        public bool ContainsKey(TScriptableObject obj) {
+            foreach (var entry in database) {
+                if(entry.entrykey == obj) {
+                    return true;
+                }
+            } return false;
+        }
+        
+        private bool ContainsKey(TScriptableObject obj, out DatabaseEntry<TScriptableObject> outEntry) {
+            foreach (var entry in database) {
+                if(entry.entrykey == obj) {
+                    outEntry = entry;
+                    return true;
+                }
+            }
+            outEntry = null; 
+            return false;
+        }
+        public DatabaseEntry<TScriptableObject> GetEntryByKey(TScriptableObject obj, bool suppressWarning = false) {
+            if(ContainsKey(obj, out var entry)) {
+                return entry;
+            } else if(!suppressWarning) Debug.LogWarning($"entry for key {obj.name} not found");
+            return null;
+        }
         public string GetObjectPath(TScriptableObject obj) {
-            if(database.ContainsKey(obj)) {
-                return $"{database[obj]}/{obj.name}.asset";
+            DatabaseEntry<TScriptableObject> objEntry = GetEntryByKey(obj);
+            if(objEntry != null) {
+                return $"{objEntry.entryDirectory}/{obj.name}.asset";
             } else {
-                Debug.LogWarning($"Failed to find object {obj.name} in database");
                 return null;
             }
         }
         public string GetObjectDirectory(TScriptableObject obj) {
-            if(database.ContainsKey(obj)) {
-            return database[obj];
+            DatabaseEntry<TScriptableObject> objEntry = GetEntryByKey(obj);
+            if(objEntry != null) {
+                return objEntry.entryDirectory;
             } else {
-                Debug.LogWarning($"Failed to find object {obj.name} in database");
                 return null;
             }
+        }
+        public List<string> GetAllObjectNames() {
+            List<string> output = new List<string>();
+            foreach (var entry in database) {
+                output.Add(entry.entrykey.name);
+            }
+            return output;
         }
 
     }
