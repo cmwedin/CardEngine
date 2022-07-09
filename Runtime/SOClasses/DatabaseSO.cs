@@ -5,18 +5,19 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-[System.Serializable]
-public class DatabaseEntry<TScriptableObject> where TScriptableObject : ScriptableObject {
-    public TScriptableObject entrykey;
-    public string entryDirectory;
 
-    public DatabaseEntry(TScriptableObject _entryKey, string _entryDirectory)
-    {
-        entrykey = _entryKey;
-        this.entryDirectory = _entryDirectory;
+namespace SadSapphicGames.CardEngine {
+    [System.Serializable]
+    public class DatabaseEntry<TScriptableObject> where TScriptableObject : ScriptableObject {
+        public TScriptableObject entrykey;
+        public string entryDirectory;
+
+        public DatabaseEntry(TScriptableObject _entryKey, string _entryDirectory)
+        {
+            entrykey = _entryKey;
+            this.entryDirectory = _entryDirectory;
+        }
     }
-}
-namespace SadSapphicGames.CardEngineEditor {
     public class DatabaseSO<TScriptableObject> : ScriptableObject where TScriptableObject : ScriptableObject  {
         // Start is called before the first frame update
         [SerializeField]
@@ -53,6 +54,15 @@ namespace SadSapphicGames.CardEngineEditor {
             if(ContainsKey(obj, out var entry)) {
                 return entry;
             } else if(!suppressWarning) Debug.LogWarning($"entry for key {obj.name} not found");
+            return null;
+        }
+        public DatabaseEntry<TScriptableObject> GetEntryByName(string objName) {
+            foreach(var entry in database) {
+                if(entry.entrykey.name == objName) {
+                    return entry;
+                }
+            } 
+            Debug.LogWarning($"no entry with name {objName} found in database {this.name}");
             return null;
         }
         public string GetObjectPath(TScriptableObject obj) {

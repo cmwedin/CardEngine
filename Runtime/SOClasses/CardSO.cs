@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace SadSapphicGames.CardEngine
 {
     [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/CardSO", order = 0)]
@@ -16,8 +17,8 @@ namespace SadSapphicGames.CardEngine
         [SerializeField] private List<TypeSO> _cardTypes;
         public List<TypeSO> CardTypes {get => _cardTypes;}
 
-        public void AddType(TypeSO typeSO) {
-            CardTypes.Add(typeSO);
+        public void AddType(DatabaseEntry<TypeSO> typeDatabaseEntry) {
+            CardTypes.Add(typeDatabaseEntry.entrykey);
         }
     }
 }
