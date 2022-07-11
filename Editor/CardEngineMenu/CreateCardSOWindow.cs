@@ -17,7 +17,7 @@ namespace SadSapphicGames.CardEngineEditor {
             cardsDirectory = settings.Directories.CardScriptableObjects;
         }
         private void OnEnable() {
-            cardDatabase = AssetDatabase.LoadAssetAtPath<CardDatabaseSO>("Assets/CardEngine/Config/CardDatabase.asset");
+            cardDatabase = CardDatabaseSO.instance;
         }
         [MenuItem("CardEngine/Create/Card")]
         static void Init() {

@@ -12,13 +12,13 @@ namespace SadSapphicGames.CardEngineEditor {
 
         public SelectTypeSOPopup(CardSO target) : base() {
             targetCardSO = target;
-            typeDatabase = AssetDatabase.LoadAssetAtPath<TypeDatabaseSO>("Assets/CardEngine/Config/TypeDatabase.asset");
+            typeDatabase = TypeDatabaseSO.instance;
             typeNames = typeDatabase.GetAllObjectNames();
             typesToAdd = new bool[typeNames.Count];
 
         }
         public override void OnOpen() {
-            Debug.Log($"{typeNames.Count} potential types to add");
+            // Debug.Log($"{typeNames.Count} potential types to add");
         }
 
         public override void OnGUI(Rect rect)
@@ -33,7 +33,8 @@ namespace SadSapphicGames.CardEngineEditor {
                 if(GUILayout.Button("Add Selected Types",EditorStyles.miniButtonLeft)) {
                     for (int i = 0; i < typesToAdd.Length; i++) {
                         if(typesToAdd[i]) {
-                            targetCardSO.AddType(typeDatabase.GetEntryByName(typeNames[i]));
+                            Debug.Log($"Adding type {typeNames[i]} to {targetCardSO.name}");
+                            targetCardSO.AddType((DatabaseEntry<TypeSO>)typeDatabase.GetEntryByName(typeNames[i]));
                         }
                     }
                     editorWindow.Close();
