@@ -26,7 +26,7 @@ namespace SadSapphicGames.CardEngine
             cardObject.GetComponent<Card>().LoadData(targetData);
             cardObject.name = cardObject.GetComponent<Card>().CardName;
             if(!showAllCards) cardObject.GetComponent<Card>().IsVisible = false;
-            targetZone.Cards.Add(cardObject.GetComponent<Card>());
+            targetZone.AddCard(cardObject.GetComponent<Card>());
         }
         private void Awake() {
             instance = this;

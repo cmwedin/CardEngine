@@ -34,5 +34,11 @@ namespace SadSapphicGames.CardEngine {
                 Cards[i].transform.SetSiblingIndex(deckSize - 1 - i);    
             }
         }
+        public void DrawCard(HandZone playerHand) {
+            Card nextCard = cardQueue.Dequeue();
+            nextCard.IsVisible = true;
+            this.MoveCard(nextCard, playerHand);
+
+        }
     }
 }
