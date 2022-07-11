@@ -1,4 +1,5 @@
 # Card Engine
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 ## Card ECS model
 This **in development** unity package provides pre-made architecture for modeling cards in the style of an entity component system. To elaborate consider an example from the popular card game Magic the Gathering (MTG). In this game cards can have a type such as creature, land and sorcery. The exact rules of how these "card types" work isn't relevant for this example, just that they behave differently in the game. While the exact mechanical behavior of such card types can differ widely across games, this type of behavior is common among card games. I will not go into detail for them but other popular examples include Hearthstone and Slay the Spire.  
 
