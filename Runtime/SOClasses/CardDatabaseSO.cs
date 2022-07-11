@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using SadSapphicGames.CardEngine;
 
-namespace SadSapphicGames.CardEngineEditor
+namespace SadSapphicGames.CardEngine
 {
-    
-    [CreateAssetMenu(fileName = "CardDatabase", menuName = "SadSapphicGames/CardEngine/Databases/CardDatabase")]
     public class CardDatabaseSO : DatabaseSO<CardSO> {
-        
+        public static CardDatabaseSO instance; 
+        private void OnEnable() {
+            instance = AssetDatabase.LoadAssetAtPath<CardDatabaseSO>("Assets/CardEngine/Config/CardDatabase.asset");
+        }
     }
 }

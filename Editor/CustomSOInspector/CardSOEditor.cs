@@ -10,8 +10,9 @@ namespace SadSapphicGames.CardEngineEditor {
     public class CardSOEditor : Editor {
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
+            Rect buttonRect = new Rect();
             if(GUILayout.Button("Add Type")) {
-                ;
+                PopupWindow.Show(buttonRect, new SelectTypeSOPopup((CardSO)target));
             }
         }
     }

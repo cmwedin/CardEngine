@@ -20,7 +20,7 @@ namespace SadSapphicGames.CardEngine{
         public void LoadData(CardSO cardDataSO) {
             cardData = cardDataSO;
             foreach (var cardTypeSO in cardData.CardTypes) {
-                cardTypeSO.AddTypeTo(this);
+                cardTypeSO.AddTypeToGameObject(this);
             }
             cardNameArea.text = CardName;
             cardDescriptionArea.text = CardText;

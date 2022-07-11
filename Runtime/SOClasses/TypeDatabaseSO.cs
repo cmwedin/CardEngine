@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using SadSapphicGames.CardEngine;
 
-namespace SadSapphicGames.CardEngineEditor
+
+namespace SadSapphicGames.CardEngine
 {
-    [CreateAssetMenu(fileName = "TypeDatabase", menuName = "SadSapphicGames/CardEngine/Databases/TypeDatabase")]
+
     public class TypeDatabaseSO : DatabaseSO<TypeSO> {
-        
+        public static TypeDatabaseSO instance; 
+        private void OnEnable() {
+            instance = AssetDatabase.LoadAssetAtPath<TypeDatabaseSO>("Assets/CardEngine/Config/TypeDatabase.asset");
+        }
     }
 }
