@@ -32,6 +32,30 @@ namespace SadSapphicGames.CardEngine {
                 throw new System.Exception($"failed to find directory {parentDirectory} entered for scriptable object {obj.name}");
             }
         }
+        private void OnValidate() {
+            CleanUp();
+        }
+        public void RemoveEntry(TScriptableObject obj) {
+            if(ContainsKey(obj, out var entry)) {
+                database.Remove(entry);
+            } else {
+                Debug.LogWarning($"Attempted to remove scriptable object {obj.name} from a database that does not contain it");
+            }
+        }
+        public void CleanUp() {
+            List<DatabaseEntry<TScriptableObject>> entriesToCleanup = new List<DatabaseEntry<TScriptableObject>>();
+            foreach (var entry in database) {
+                if (entry.entrykey == null) {
+                    entriesToCleanup.Add(entry);
+                }
+            }
+            foreach (var entry in entriesToCleanup) {
+                if(Directory.Exists(entry.entryDirectory)) {
+                    //TODO ask to cleanup directory
+                }
+                database.Remove(entry);
+            }
+        }
         public bool ContainsKey(TScriptableObject obj) {
             foreach (var entry in database) {
                 if(entry.entrykey == obj) {
