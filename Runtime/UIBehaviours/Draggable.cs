@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace SadSapphicGames.CardEngine {
+    [RequireComponent(typeof(CanvasGroup))]
     public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
         [SerializeField] private DropZone dropZone;
         private Card card { get => GetComponent<Card>(); }
@@ -16,7 +17,7 @@ namespace SadSapphicGames.CardEngine {
             CardZone currentZone = card.CurrentZone;
             //! this is slow but it doesnt run every frame so i think its fine, potentially a target for refactoring
             //! breaks if there are multiple Dropzones in the scene
-            dropZone = (DropZone)Resources.FindObjectsOfTypeAll(typeof(DropZone))[0];
+            // dropZone = (DropZone)Resources.FindObjectsOfTypeAll(typeof(DropZone))[0];
         }
         private Vector2 dragOffset;
         private LayoutGroup layoutGroup;
@@ -27,7 +28,7 @@ namespace SadSapphicGames.CardEngine {
         }
     // * IDragHandler
         public void OnBeginDrag(PointerEventData eventData) {
-            dropZone.gameObject.SetActive(true);
+            // dropZone.gameObject.SetActive(true);
             UnityEngine.Debug.Log($"Dragging {GetComponent<Card>().CardName}");
             dragOffset = eventData.position - (Vector2)gameObject.transform.position;
             layoutGroup = gameObject.GetComponentInParent<LayoutGroup>();
@@ -36,7 +37,7 @@ namespace SadSapphicGames.CardEngine {
             if (!CurrentZone.CardsDraggable) { return; }
             gameObject.transform.position = eventData.position - dragOffset;  
         } public void OnEndDrag(PointerEventData eventData) {
-            dropZone.gameObject.SetActive(false);
+            // dropZone.gameObject.SetActive(false);
             UnityEngine.Debug.Log($"{GetComponent<Card>().CardName} dropped");
             dragOffset = Vector2.zero;
             GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
