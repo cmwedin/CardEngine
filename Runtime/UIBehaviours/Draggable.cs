@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace SadSapphicGames.CardEngine {
     [RequireComponent(typeof(CanvasGroup))]
     public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler {
-        [SerializeField] private DropZone dropZone;
+        // [SerializeField] private DropZone dropZone;
         private Card card { get => GetComponent<Card>(); }
         private CardZone CurrentZone { get => card.CurrentZone; }
         
@@ -32,7 +32,7 @@ namespace SadSapphicGames.CardEngine {
             UnityEngine.Debug.Log($"Dragging {GetComponent<Card>().CardName}");
             dragOffset = eventData.position - (Vector2)gameObject.transform.position;
             layoutGroup = gameObject.GetComponentInParent<LayoutGroup>();
-            GetComponent<CanvasGroup>().blocksRaycasts = false;
+            // GetComponent<CanvasGroup>().blocksRaycasts = false;
         } public void OnDrag(PointerEventData eventData) {
             if (!CurrentZone.CardsDraggable) { return; }
             gameObject.transform.position = eventData.position - dragOffset;  
@@ -40,7 +40,8 @@ namespace SadSapphicGames.CardEngine {
             // dropZone.gameObject.SetActive(false);
             UnityEngine.Debug.Log($"{GetComponent<Card>().CardName} dropped");
             dragOffset = Vector2.zero;
-            GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
+            CardEngineManager.instance.ValidatePlay(gameObject.GetComponent<Card>(),eventData);
+            // GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
             PokeLayoutGroup();
         }
     }

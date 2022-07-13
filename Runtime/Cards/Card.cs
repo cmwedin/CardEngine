@@ -16,7 +16,7 @@ namespace SadSapphicGames.CardEngine{
         public string CardText{ get => cardData.CardText;}
         public bool IsVisible { get => !cardBack.activeSelf; set => cardBack.SetActive(!value); }
         public CardType[] cardTypes { get => gameObject.GetComponents<CardType>();}
-        public CardZone CurrentZone { get; internal set; }
+        public CardZone CurrentZone { get; set; }
 
         public void LoadData(CardSO cardDataSO) {
             cardData = cardDataSO;
@@ -28,6 +28,9 @@ namespace SadSapphicGames.CardEngine{
         }
         public void SetController(AbstractActor _controller) {
             controller = _controller;
+        }
+        public AbstractActor GetController(){
+            return controller;
         }
     }
 }
