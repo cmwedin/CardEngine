@@ -11,11 +11,11 @@ namespace SadSapphicGames.CardEngine {
             CardsDraggable = false;
         }
 
-        public void LoadDecklist(DecklistSO deckData) {
+        public void LoadDecklist(DecklistSO deckData,CardActor owner) {
             Debug.Log($"loading decklist {deckData.name}");
             foreach (var entry in deckData.deckList) {
                 for (int i = 0; i < entry.count; i++) {
-                    GameManager.instance.InstantiateCard(this,entry.card);
+                    CardEngineManager.instance.InstantiateCard(this,entry.card,owner);
                 }
             }
             Shuffle();
