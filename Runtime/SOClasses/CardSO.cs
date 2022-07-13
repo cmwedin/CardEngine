@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SadSapphicGames.CardEngine
 {
-    [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/CardSO", order = 0)]
+    // [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/CardSO", order = 0)]
     public class CardSO : ScriptableObject {
         //properties
         // [SerializeField] private string _cardName;
@@ -29,15 +29,15 @@ namespace SadSapphicGames.CardEngine
             CardTypes.Add(typeSO);
 
             TypeDataSO typeData = (TypeDataSO)ScriptableObject.CreateInstance(typeDataSOType);
-            typeData.name = $"{CardName}{typeSO.Name}Data";
+            typeData.name = $"{CardName}{typeSO.name}Data";
             AssetDatabase.CreateAsset(typeData,$"{CardDatabaseSO.instance.GetEntryByKey(this).entryDirectory}/{typeData.name}.asset");
             typesSubData.Add(typeSO,typeData);
-            
+
             AssetDatabase.SaveAssets();
         }
         public TypeDataSO GetTypeSubdata(TypeSO type) {
             if (!CardTypes.Contains(type)) {
-                Debug.LogWarning($"{CardName} does not have type {type.Name}");
+                Debug.LogWarning($"{CardName} does not have type {type.name}");
                 return null;
             } else {
                 return typesSubData[type];

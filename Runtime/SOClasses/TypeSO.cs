@@ -3,19 +3,16 @@ using UnityEngine;
 
 namespace SadSapphicGames.CardEngine
 {
-    [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/TypeSO", order = 1)]
+    // [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/TypeSO", order = 1)]
     public class TypeSO : ScriptableObject {
         [SerializeField] private CardType typeReferencePrefab;
         [SerializeField] private TypeDataSO typeDataReference;
-        [SerializeField] public string Name { get => this.name; }
         [HideInInspector] public bool initialized = false; 
 
         private void OnEnable() {
-            // if(typeReferencePrefab == null) {
-            //     Debug.LogWarning($"Type Scriptable Object {this.name} does not have an associated monobehavior component. See documentation for how to create one.");
-            // } else if (typeReferencePrefab.GetComponents<CardType>().Length != 1) {
-            //     Debug.LogWarning($"the reference object for TypeSO {this.name} has multiple components of type CardType, see documentation for proper method of creating a CardType reference object");
-            // }
+            if(initialized == false) {
+                Debug.LogWarning($"TypeSO {name} not initialized");
+            }
         }
         
         // private Type typeComponent  { get => Type.GetType(this.name); }
