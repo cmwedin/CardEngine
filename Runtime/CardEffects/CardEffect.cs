@@ -1,6 +1,5 @@
 namespace SadSapphicGames.CardEngine
 {
-    [System.Serializable]
     public abstract class CardEffect
     {
         private Card source;
