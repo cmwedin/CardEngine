@@ -9,6 +9,7 @@ namespace SadSapphicGames.CardEngine
 {
     public abstract class CardZone : MonoBehaviour {
         protected List<Card> Cards { get; set; }
+        public int CardCount { get => Cards.Count;}
         public bool CardsDraggable { get; protected set; }
         private void Awake() {
             Cards = new List<Card>();

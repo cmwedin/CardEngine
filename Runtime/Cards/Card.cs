@@ -9,6 +9,7 @@ namespace SadSapphicGames.CardEngine{
         [SerializeField] private TextMeshProUGUI cardDescriptionArea;
         [SerializeField] private GameObject cardBack;
         [SerializeField] private GameObject cardImageArea;
+        private AbstractActor controller;
         private CardSO cardData;
 
         public string CardName { get => cardData.CardName; }
@@ -24,6 +25,9 @@ namespace SadSapphicGames.CardEngine{
             }
             cardNameArea.text = CardName;
             cardDescriptionArea.text = CardText;
+        }
+        public void SetController(AbstractActor _controller) {
+            controller = _controller;
         }
     }
 }
