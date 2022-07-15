@@ -6,8 +6,8 @@ using System;
 namespace SadSapphicGames.CardEngineEditor
 {
 
-[CustomEditor(typeof(EffectSO))]
-public class EffectSOEditor : Editor {
+[CustomEditor(typeof(CompositeEffectSO))]
+public class CompositeEffectSOEditor : Editor {
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
         int controlID = EditorGUIUtility.GetControlID(FocusType.Passive);
