@@ -14,6 +14,7 @@ This package is currently not recommended for use in general projects as it is s
 
 First you will need to go to the CardEngine menu in the top of the unity editor and select "Initialize" this will open a window prompting you to import essential resources. These resources will be created within your project in the folder "Assets/CardEngine/Config," in this early version of the software it is important you don't move these files. 
 Once you have done that, go to the settings submenu in the CardEngine menu and select a directory for the project to store your card types and a directory for it to store your cards. Once you have done that you are ready to begin using the package.
+
 **---- README a work in progress ----**
 ### Creating your first card type
 ### Creating your first card
