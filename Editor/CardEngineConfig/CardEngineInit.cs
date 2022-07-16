@@ -17,7 +17,9 @@ namespace SadSapphicGames.CardEngineEditor
                 // Display options to initialize CardEngine
                 GUILayout.BeginVertical(EditorStyles.helpBox); {
                     GUI.enabled = !initialized;
-                    if (GUILayout.Button("Initialize CardEngine")) {
+                    GUILayout.Label("CardEngine Essentials", EditorStyles.boldLabel);
+                    GUILayout.Label("Essential resources to run CardEngine have not been found. Please import these resource to use the package. They will be created in \\Assets\\CardEngine\\Config folder. Do not move these files.", new GUIStyle(EditorStyles.label) { wordWrap = true } );
+                    if (GUILayout.Button("Import Essential Resources")) {
                         AssetDatabase.ImportPackage(CardEngineIO.GetPackagePath() + "/PackageResources/CardEngineConfig.unitypackage", false);
                         // AssetDatabase.CreateFolder("Assets","CardEngine");
                         // TemplateIO.CopyTemplate("DefaultSettings.json","settings.json","Assets/CardEngine");
@@ -27,6 +29,7 @@ namespace SadSapphicGames.CardEngineEditor
                 } GUILayout.EndVertical();
             } GUILayout.EndVertical();
         }
+        
     }
     public class CardEngineInitWindow : EditorWindow {
         [SerializeField]
@@ -40,7 +43,16 @@ namespace SadSapphicGames.CardEngineEditor
                 initializerWindow.Focus();
             }
         }
+        void SetEditorWindowSize()
+        {
+            EditorWindow editorWindow = this;
+
+            Vector2 windowSize = new Vector2(300, 210);
+            editorWindow.minSize = windowSize;
+            editorWindow.maxSize = windowSize;
+        }
         private void OnEnable() {
+            SetEditorWindowSize();
             if(initializerObject == null) {
                 initializerObject = new CardEngineInit();
             }
