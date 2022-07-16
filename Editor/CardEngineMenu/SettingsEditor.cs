@@ -34,6 +34,15 @@ namespace SadSapphicGames.CardEngineEditor {
             settings.Directories.CardTypes = path;
             WriteSettings(settings);
         }
+        [MenuItem("CardEngine/Settings/Set Effect directory")]
+        private static void SetEffectDirectory() {
+            string path = ConvertAbsoluteToRelativePath(EditorUtility.OpenFolderPanel("Select Directory","",""));
+            if(path == "") return;
+            
+            var settings = ReadSettings();
+            settings.Directories.Effects = path;
+            WriteSettings(settings);
+        }
         [MenuItem("CardEngine/Settings/Set CardScriptableObject directory")]
         private static void SetCardScriptableObjectDirectory() {
             string path = ConvertAbsoluteToRelativePath(EditorUtility.OpenFolderPanel("Select Directory","",""));
