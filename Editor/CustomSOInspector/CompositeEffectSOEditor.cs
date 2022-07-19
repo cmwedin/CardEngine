@@ -8,23 +8,20 @@ namespace SadSapphicGames.CardEngineEditor
 
 [CustomEditor(typeof(CompositeEffectSO))]
 public class CompositeEffectSOEditor : Editor {
-    bool selectionMade = true;
-    
+        
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
         int controlID = EditorGUIUtility.GetControlID(FocusType.Passive);
-        if(GUILayout.Button("Add Subeffect")) {
-            selectionMade = false;
-            Debug.Log("opening subeffect window");
-            PopupWindow.Show(new Rect(), new SelectEffectPopup((CompositeEffectSO)target));
-            // EditorGUIUtility.ShowObjectPicker<UnitEffectSO>(null,false,"",controlID);
-        }
-        // if(Event.current.commandName == "ObjectSelectorUpdated" && EditorGUIUtility.GetObjectPickerControlID() ==  controlID && selectionMade == false) {
-        //     selectionMade = true;
-        //     AddUnitEffect((UnitEffectSO)EditorGUIUtility.GetObjectPickerObject());
-        // } else if (Event.current.commandName == "ObjectSelectorClosed" && EditorGUIUtility.GetObjectPickerControlID() ==  controlID) {
-        //     Debug.Log("Object selector closed");
-        // }
+        GUILayout.BeginHorizontal();
+            if(GUILayout.Button("Add Subeffect")) {
+                Debug.Log("opening subeffect window");
+                PopupWindow.Show(new Rect(), new SelectEffectPopup((CompositeEffectSO)target));
+            }
+            if (GUILayout.Button("Remove Subeffect")) {
+                Debug.Log("opening subeffect removal window");
+                PopupWindow.Show(new Rect(), new RemoveEffectPopup((CompositeEffectSO)target));
+            }
+        GUILayout.EndHorizontal();
     }
     private void AddUnitEffect(UnitEffectSO unitEffect)  {
             Type subEffectType = unitEffect.GetType();
