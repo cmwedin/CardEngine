@@ -18,6 +18,7 @@ namespace SadSapphicGames.CardEngineEditor {
         }
         private void OnEnable() {
             cardDatabase = CardDatabaseSO.instance;
+
         }
         [MenuItem("CardEngine/Create/Card")]
         static void Init() {
@@ -47,10 +48,17 @@ namespace SadSapphicGames.CardEngineEditor {
                     CardSO cardSO = ScriptableObject.CreateInstance<CardSO>();
                     cardSO.name = cardName;
                     cardSO.CardText = cardText;
-                                        
+
+
+                    CompositeEffectSO cardEffect = ScriptableObject.CreateInstance<CompositeEffectSO>();
+                    cardEffect.name = cardName + "Effect";
+                    cardSO.CardEffect = cardEffect;
+
+                    AssetDatabase.CreateAsset(cardEffect,$"{cardPath}/{cardEffect.name}.asset");
                     AssetDatabase.CreateAsset(cardSO,$"{cardPath}/{cardSO.name}.asset");
-                    cardDatabase.AddEntry(cardSO, cardPath);
                     AssetDatabase.SaveAssets();
+                    cardDatabase.AddEntry(cardSO, cardPath);
+
                     this.Close();
                 }
                 if(GUILayout.Button("Cancel",EditorStyles.miniButtonRight)) {
