@@ -16,15 +16,15 @@ public class CompositeEffectSOEditor : Editor {
         if(GUILayout.Button("Add Subeffect")) {
             selectionMade = false;
             Debug.Log("opening subeffect window");
-            // PopupWindow.Show(new Rect(), new SelectEffectPopup((EffectSO)target));
-            EditorGUIUtility.ShowObjectPicker<UnitEffectSO>(null,false,"",controlID);
+            PopupWindow.Show(new Rect(), new SelectEffectPopup((CompositeEffectSO)target));
+            // EditorGUIUtility.ShowObjectPicker<UnitEffectSO>(null,false,"",controlID);
         }
-        if(Event.current.commandName == "ObjectSelectorUpdated" && EditorGUIUtility.GetObjectPickerControlID() ==  controlID && selectionMade == false) {
-            selectionMade = true;
-            AddUnitEffect((UnitEffectSO)EditorGUIUtility.GetObjectPickerObject());
-        } else if (Event.current.commandName == "ObjectSelectorClosed" && EditorGUIUtility.GetObjectPickerControlID() ==  controlID) {
-            Debug.Log("Object selector closed");
-        }
+        // if(Event.current.commandName == "ObjectSelectorUpdated" && EditorGUIUtility.GetObjectPickerControlID() ==  controlID && selectionMade == false) {
+        //     selectionMade = true;
+        //     AddUnitEffect((UnitEffectSO)EditorGUIUtility.GetObjectPickerObject());
+        // } else if (Event.current.commandName == "ObjectSelectorClosed" && EditorGUIUtility.GetObjectPickerControlID() ==  controlID) {
+        //     Debug.Log("Object selector closed");
+        // }
     }
     private void AddUnitEffect(UnitEffectSO unitEffect)  {
             Type subEffectType = unitEffect.GetType();
