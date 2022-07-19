@@ -18,6 +18,8 @@ namespace SadSapphicGames.CardEngine
         public string CardText {get => _cardText; set => _cardText = value;}
         [SerializeField] private List<TypeSO> _cardTypes = new List<TypeSO>();
         public List<TypeSO> CardTypes {get => _cardTypes;}
+        [SerializeField] private EffectSO _cardEffect;
+        public EffectSO CardEffect {get => _cardEffect; set => _cardEffect = value;}
         
         private Dictionary<TypeSO,TypeDataSO> typesSubData = new Dictionary<TypeSO, TypeDataSO>();
 
