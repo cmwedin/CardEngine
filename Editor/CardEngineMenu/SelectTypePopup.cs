@@ -12,7 +12,7 @@ namespace SadSapphicGames.CardEngineEditor {
 
         public SelectTypeSOPopup(CardSO target) : base() {
             targetCardSO = target;
-            typeDatabase = TypeDatabaseSO.instance;
+            typeDatabase = TypeDatabaseSO.Instance;
             typeNames = typeDatabase.GetAllObjectNames();
             typesToAdd = new bool[typeNames.Count];
 

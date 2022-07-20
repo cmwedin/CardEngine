@@ -19,7 +19,7 @@ namespace SadSapphicGames.CardEngineEditor {
             effectsDirectory = settings.Directories.Effects;
         }
         private void OnEnable() {
-            effectDatabase = EffectDatabaseSO.instance;
+            effectDatabase = EffectDatabaseSO.Instance;
             
         }
         [MenuItem("CardEngine/Create/Unit Effect")]

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
+using SadSapphicGames.CardEngine;
 
 namespace SadSapphicGames.CardEngineEditor
 {
@@ -21,6 +22,7 @@ namespace SadSapphicGames.CardEngineEditor
                     GUILayout.Label("Essential resources to run CardEngine have not been found. Please import these resource to use the package. They will be created in \\Assets\\CardEngine\\Config folder. Do not move these files.", new GUIStyle(EditorStyles.label) { wordWrap = true } );
                     if (GUILayout.Button("Import Essential Resources")) {
                         AssetDatabase.ImportPackage(CardEngineIO.GetPackagePath() + "/PackageResources/CardEngineConfig.unitypackage", false);
+
                         // AssetDatabase.CreateFolder("Assets","CardEngine");
                         // TemplateIO.CopyTemplate("DefaultSettings.json","settings.json","Assets/CardEngine");
                     }

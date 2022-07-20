@@ -11,7 +11,7 @@ namespace SadSapphicGames.CardEngineEditor {
         private bool[] effectsToAdd;
         public SelectEffectPopup(CompositeEffectSO target) : base() {
             TargetEffectSO = target;
-            effectDatabase = EffectDatabaseSO.instance;
+            effectDatabase = EffectDatabaseSO.Instance;
             effectNames = effectDatabase.GetAllObjectNames();
             effectsToAdd = new bool[effectNames.Count];
         }

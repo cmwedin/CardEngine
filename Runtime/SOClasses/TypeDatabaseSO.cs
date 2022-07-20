@@ -9,9 +9,12 @@ namespace SadSapphicGames.CardEngine
 {
 
     public class TypeDatabaseSO : DatabaseSO<TypeSO> {
-        public static TypeDatabaseSO instance; 
-        private void OnEnable() {
-            instance = AssetDatabase.LoadAssetAtPath<TypeDatabaseSO>("Assets/CardEngine/Config/TypeDatabase.asset");
-        }
+        private static TypeDatabaseSO instance;
+        public static TypeDatabaseSO Instance { get {
+            if(instance == null) {
+                instance = AssetDatabase.LoadAssetAtPath<TypeDatabaseSO>("Assets/CardEngine/Config/TypeDatabase.asset");
+            }
+            return instance;
+        }}
     }
 }

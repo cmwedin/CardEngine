@@ -32,7 +32,7 @@ namespace SadSapphicGames.CardEngine
 
             TypeDataSO typeData = (TypeDataSO)ScriptableObject.CreateInstance(typeDataSOType);
             typeData.name = $"{CardName}{typeSO.name}Data";
-            AssetDatabase.CreateAsset(typeData,$"{CardDatabaseSO.instance.GetEntryByKey(this).entryDirectory}/{typeData.name}.asset");
+            AssetDatabase.CreateAsset(typeData,$"{CardDatabaseSO.Instance.GetEntryByKey(this).entryDirectory}/{typeData.name}.asset");
             typesSubData.Add(typeSO,typeData);
 
             AssetDatabase.SaveAssets();
