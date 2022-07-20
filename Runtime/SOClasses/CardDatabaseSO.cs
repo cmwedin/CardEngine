@@ -7,9 +7,12 @@ using UnityEngine;
 namespace SadSapphicGames.CardEngine
 {
     public class CardDatabaseSO : DatabaseSO<CardSO> {
-        public static CardDatabaseSO instance; 
-        private void OnEnable() {
-            instance = AssetDatabase.LoadAssetAtPath<CardDatabaseSO>("Assets/CardEngine/Config/CardDatabase.asset");
-        }
+        private static CardDatabaseSO instance;
+        public static CardDatabaseSO Instance {get {
+            if(instance == null) {
+                instance = AssetDatabase.LoadAssetAtPath<CardDatabaseSO>("Assets/CardEngine/Config/CardDatabase.asset");
+            }
+            return instance;
+        }}
     }
 }

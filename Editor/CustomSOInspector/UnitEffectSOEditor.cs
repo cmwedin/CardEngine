@@ -12,7 +12,7 @@ namespace SadSapphicGames.CardEngineEditor
         public UnitEffectSOEditor() : base()
         {
             effectDirectory = SettingsEditor.ReadSettings().Directories.Effects;
-            effectDatabase = EffectDatabaseSO.instance;
+            effectDatabase = EffectDatabaseSO.Instance;
         }
 
         private void OnEnable() {

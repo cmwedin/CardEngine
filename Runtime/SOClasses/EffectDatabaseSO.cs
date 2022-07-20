@@ -6,9 +6,12 @@ namespace SadSapphicGames.CardEngine
     public class EffectDatabaseSO : DatabaseSO<EffectSO>
     {
         
-        public static EffectDatabaseSO instance; 
-        private void OnEnable() {
-            instance = AssetDatabase.LoadAssetAtPath<EffectDatabaseSO>("Assets/CardEngine/Config/EffectDatabase.asset");
-        }
+        private static EffectDatabaseSO instance;
+        public static EffectDatabaseSO Instance { get {
+            if(instance == null) {
+                instance = AssetDatabase.LoadAssetAtPath<EffectDatabaseSO>("Assets/CardEngine/Config/EffectDatabase.asset");
+            }
+            return instance;
+        }}
     }
 }
