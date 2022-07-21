@@ -2,16 +2,18 @@ using UnityEngine;
 using UnityEditor;
 using SadSapphicGames.CardEngine;
 using System;
+using System.Collections.ObjectModel;
 
 namespace SadSapphicGames.CardEngineEditor
 {
 
 [CustomEditor(typeof(CompositeEffectSO))]
 public class CompositeEffectSOEditor : Editor {
-        
     public override void OnInspectorGUI() {
-        base.OnInspectorGUI();
-        int controlID = EditorGUIUtility.GetControlID(FocusType.Passive);
+        // base.OnInspectorGUI();
+        EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("subEffects"));
+        EditorGUI.EndDisabledGroup();
         GUILayout.BeginHorizontal();
             if(GUILayout.Button("Add Subeffect")) {
                 Debug.Log("opening subeffect window");
