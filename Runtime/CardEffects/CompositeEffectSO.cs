@@ -6,7 +6,7 @@ namespace SadSapphicGames.CardEngine
 {
     [CreateAssetMenu(fileName = "CompositeEffectSO", menuName = "CardEngineDevelopment/CompositeEffectSO", order = 0)]
     public class CompositeEffectSO : EffectSO {
-        private List<EffectSO> subEffects = new List<EffectSO>();
+        [SerializeField] private List<EffectSO> subEffects = new List<EffectSO>();
         public ReadOnlyCollection<EffectSO> Subeffects { get => subEffects.AsReadOnly();}
         public int ChildrenCount { get => subEffects.Count;}
         public override void ResolveEffect() {
