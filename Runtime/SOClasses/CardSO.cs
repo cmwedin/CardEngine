@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace SadSapphicGames.CardEngine
         [SerializeField] private string _cardText;
         public string CardText {get => _cardText; set => _cardText = value;}
         [SerializeField] private List<TypeSO> _cardTypes = new List<TypeSO>();
-        public List<TypeSO> CardTypes {get => _cardTypes;}
+        public ReadOnlyCollection<TypeSO> CardTypes {get => _cardTypes.AsReadOnly();}
         [SerializeField] private EffectSO _cardEffect;
         public EffectSO CardEffect {get => _cardEffect; set => _cardEffect = value;}
         
@@ -34,14 +35,25 @@ namespace SadSapphicGames.CardEngine
             Type typeDataSOType = typeSO.TypeDataReference.GetType(); 
                 //? this name is pretty confusing: 
                 //? this is the type of the scriptable object representing the data associated with the card-type we are adding
-            CardTypes.Add(typeSO);
+            _cardTypes.Add(typeSO);
 
             TypeDataSO typeData = (TypeDataSO)ScriptableObject.CreateInstance(typeDataSOType);
             typeData.name = $"{CardName}{typeSO.name}Data";
-            AssetDatabase.CreateAsset(typeData,$"{CardDatabaseSO.Instance.GetEntryByKey(this).entryDirectory}/{typeData.name}.asset");
-            typesSubData.Add(typeSO,typeData);
+            AssetDatabase.AddObjectToAsset(typeData,AssetDatabase.GetAssetPath(this));
+            // AssetDatabase.CreateAsset(typeData,$"{CardDatabaseSO.Instance.GetEntryByKey(this).entryDirectory}/{typeData.name}.asset");
+            typesSubData.Add(typeSO,(TypeDataSO)typeData);
 
             AssetDatabase.SaveAssets();
+        }
+        public void RemoveType(TypeSO typeToRemove) {
+            if(!CardTypes.Contains(typeToRemove)) {
+                Debug.LogWarning($"CardSO {CardName} does not have type {typeToRemove.name}");
+            } else {
+                TypeDataSO subdataToRemove = GetTypeSubdata(typeToRemove);
+                typesSubData.Remove(typeToRemove);
+                AssetDatabase.RemoveObjectFromAsset(subdataToRemove);
+                _cardTypes.Remove(typeToRemove);
+            }
         }
         public TypeDataSO GetTypeSubdata(TypeSO type) {
             if (!CardTypes.Contains(type)) {

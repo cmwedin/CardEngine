@@ -31,7 +31,7 @@ namespace SadSapphicGames.CardEngineEditor {
                     PopupWindow.Show(new Rect(), new SelectTypeSOPopup((CardSO)target));
                 }
                 if(GUILayout.Button("Remove Type")) {
-
+                    PopupWindow.Show(new Rect(), new RemoveTypePopup((CardSO)target));
                 }
             GUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
