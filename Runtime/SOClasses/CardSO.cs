@@ -11,7 +11,13 @@ namespace SadSapphicGames.CardEngine
     public class CardSO : ScriptableObject {
         //properties
         // [SerializeField] private string _cardName;
-        public string CardName {get => this.name;}
+        
+        // [SerializeField] private string _cardName;
+        // public string CardName {
+        //     get => _cardName; 
+        //     set => _cardName = value;
+        // }
+        public string CardName { get => this.name;}
         [SerializeField] private Sprite _cardSprite;
         public Sprite CardSprite {get => _cardSprite;}
         [SerializeField] private string _cardText;
