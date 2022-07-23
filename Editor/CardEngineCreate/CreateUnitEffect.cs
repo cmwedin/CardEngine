@@ -75,13 +75,15 @@ namespace SadSapphicGames.CardEngineEditor {
                 GUILayout.Label("Please wait while effect compiles", EditorStyles.boldLabel);
             }
             if(instance == null) {
-                Debug.Log("done compiling effect");
+                Debug.Log($"done compiling effect {effectName}");
                 //? We can tell when the generated script has compiled because after that happens the variables of the EditorWindow return to their initial value
                 //? However this means we also lose the information such as effectName entered
                 //? Which we need to be able to create a scriptable object of the generated type
-                Type effectType = Type.GetType(effectName);
+                Type effectType = Type.GetType(effectName + ",Assembly-CSharp");
                 UnitEffectSO effectSO = (UnitEffectSO)ScriptableObject.CreateInstance(effectType);
+                effectSO.name = effectName;
                 AssetDatabase.CreateAsset(effectSO,$"{effectsDirectory}/{effectName}/{effectName}.asset");
+                effectDatabase.AddEntry(effectSO,effectsDirectory);
                 this.Close();
             }
         }
