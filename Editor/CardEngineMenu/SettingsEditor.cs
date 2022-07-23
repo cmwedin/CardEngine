@@ -6,8 +6,8 @@ using System.IO;
 using SadSapphicGames.CardEngine;
 
 namespace SadSapphicGames.CardEngineEditor {
-    [System.Serializable]
-    public struct Settings {
+    [System.Serializable] //? we use a class not a struct for the root object so that it is nullable
+    public class Settings {
         public Directories Directories;
     }
     [System.Serializable]
@@ -67,9 +67,10 @@ namespace SadSapphicGames.CardEngineEditor {
             // }
         }
         public static Settings ReadSettings() {
-            if(!File.Exists(settingsPath)) {
+            if(!CardEngineInit.EssentialsImported) {
                 Debug.LogWarning("Settings file not found, please initialize");
                 CardEngineInitWindow.showInitWindow();
+                return null;
             }
             StreamReader reader = new StreamReader(settingsPath);
             string json = reader.ReadToEnd();

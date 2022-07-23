@@ -23,12 +23,19 @@ namespace SadSapphicGames.CardEngineEditor {
 
         }
         private void OnEnable() {
+            var settings = SettingsEditor.ReadSettings(); 
             effectDatabase = EffectDatabaseSO.Instance;
-            if(effectDatabase == null) {
+
+            if(effectDatabase == null || settings == null) {
                 this.Close();
                 throw new Exception("please finish initializing CardEngine before using the CardEngine/Create menu");
             }
             
+            effectsDirectory = settings.Directories.CardScriptableObjects;
+            if(!Directory.Exists(effectsDirectory)) {
+                this.Close();
+                throw new Exception("selected directory invalid, please select a valid directory to store card effects using the CardEngine/Settings menu");
+            } 
         }
         [MenuItem("CardEngine/Create/Unit Effect")]
         static void Init() {
