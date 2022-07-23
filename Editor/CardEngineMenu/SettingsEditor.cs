@@ -27,28 +27,34 @@ namespace SadSapphicGames.CardEngineEditor {
         // }
         [MenuItem("CardEngine/Settings/Set CardType directory")]
         private static void SetCardTypeDirectory() {
+            var settings = ReadSettings();
+            if(settings == null) return; 
+            
             string path = ConvertAbsoluteToRelativePath(EditorUtility.OpenFolderPanel("Select Directory","",""));
             if(path == "") return;
-            
-            var settings = ReadSettings();
+
             settings.Directories.CardTypes = path;
             WriteSettings(settings);
         }
         [MenuItem("CardEngine/Settings/Set Effect directory")]
         private static void SetEffectDirectory() {
+            var settings = ReadSettings();
+            if(settings == null) return; 
+
             string path = ConvertAbsoluteToRelativePath(EditorUtility.OpenFolderPanel("Select Directory","",""));
             if(path == "") return;
-            
-            var settings = ReadSettings();
+
             settings.Directories.Effects = path;
             WriteSettings(settings);
         }
         [MenuItem("CardEngine/Settings/Set CardScriptableObject directory")]
         private static void SetCardScriptableObjectDirectory() {
+            var settings = ReadSettings();
+            if(settings == null) return;
+
             string path = ConvertAbsoluteToRelativePath(EditorUtility.OpenFolderPanel("Select Directory","",""));
             if(path == "") return;
             
-            var settings = ReadSettings();
             settings.Directories.CardScriptableObjects = path;
             WriteSettings(settings);
         }
