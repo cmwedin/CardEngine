@@ -10,6 +10,9 @@ namespace SadSapphicGames.CardEngineEditor
         
         private static EffectDatabaseSO instance;
         public static EffectDatabaseSO Instance { get {
+            if(!CardEngineInit.EssentialsImported) {
+                CardEngineInitWindow.showInitWindow();
+            }
             if(instance == null) {
                 instance = AssetDatabase.LoadAssetAtPath<EffectDatabaseSO>("Assets/CardEngine/Config/EffectDatabase.asset");
             }

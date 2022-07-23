@@ -11,8 +11,8 @@ namespace SadSapphicGames.CardEngineEditor
     public class CardDatabaseSO : DatabaseSO<CardSO> {
         private static CardDatabaseSO instance;
         public static CardDatabaseSO Instance {get {
-            if(!Directory.Exists("Assets/CardEngine/Config")) {
-                
+            if(!CardEngineInit.EssentialsImported) {
+                CardEngineInitWindow.showInitWindow();
             }
             if(instance == null) {
                 instance = AssetDatabase.LoadAssetAtPath<CardDatabaseSO>("Assets/CardEngine/Config/CardDatabase.asset");

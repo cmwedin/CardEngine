@@ -15,9 +15,10 @@ namespace SadSapphicGames.CardEngineEditor {
         public CreateCardWindow() : base() {
             var settings = SettingsEditor.ReadSettings(); 
             cardsDirectory = settings.Directories.CardScriptableObjects;
+            if(!Directory.Exists(cardsDirectory)) throw new Exception("selected directory invalid, please select a valid directory to store card scriptable objects using the CardEngine/Settings menu");
+            cardDatabase = CardDatabaseSO.Instance;
         }
         private void OnEnable() {
-            cardDatabase = CardDatabaseSO.Instance;
 
         }
         [MenuItem("CardEngine/Create/Card")]
