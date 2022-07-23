@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace SadSapphicGames.CardEngineEditor {
@@ -18,7 +19,7 @@ namespace SadSapphicGames.CardEngineEditor {
                 return packagePath;
             }
             // ? failed to find
-            Debug.LogWarning("Failed to find CardEngine instal location, returning null for path");
+            Debug.LogWarning("Failed to find CardEngine install location, returning null for path");
             return null;
         }
         public static void UpdateDirectories() {

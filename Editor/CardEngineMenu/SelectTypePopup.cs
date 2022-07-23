@@ -34,7 +34,7 @@ namespace SadSapphicGames.CardEngineEditor {
                     for (int i = 0; i < typesToAdd.Length; i++) {
                         if(typesToAdd[i]) {
                             Debug.Log($"Adding type {typeNames[i]} to {targetCardSO.name}");
-                            targetCardSO.AddType((DatabaseEntry<TypeSO>)typeDatabase.GetEntryByName(typeNames[i]));
+                            targetCardSO.AddType(typeDatabase.GetEntryByName(typeNames[i]).entrykey);
                         }
                     }
                     editorWindow.Close();

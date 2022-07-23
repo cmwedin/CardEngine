@@ -12,13 +12,24 @@ namespace SadSapphicGames.CardEngineEditor {
         string cardText;
         string cardsDirectory;
         CardDatabaseSO cardDatabase;
+        bool closeWindow;
         public CreateCardWindow() : base() {
-            var settings = SettingsEditor.ReadSettings(); 
-            cardsDirectory = settings.Directories.CardScriptableObjects;
+            
         }
         private void OnEnable() {
+            var settings = SettingsEditor.ReadSettings(); 
             cardDatabase = CardDatabaseSO.Instance;
 
+            if(cardDatabase == null || settings == null) {
+                closeWindow = true;
+                Debug.LogWarning("please finish initializing CardEngine before using the CardEngine/Create menu");
+            } else {
+                cardsDirectory = settings.Directories.CardScriptableObjects;
+                if(!Directory.Exists(cardsDirectory)) {
+                    closeWindow = true;
+                    Debug.LogWarning("selected directory invalid, please select a valid directory to store card scriptable objects using the CardEngine/Settings menu");
+                }
+            }
         }
         [MenuItem("CardEngine/Create/Card")]
         static void Init() {
@@ -26,6 +37,7 @@ namespace SadSapphicGames.CardEngineEditor {
             window.Show();
         }
         private void OnGUI() {
+            if(closeWindow) this.Close();
             GUILayout.Label("Create a card type", EditorStyles.boldLabel);
             GUILayout.BeginVertical();
                 cardName = EditorGUILayout.TextField("Enter card name",cardName);

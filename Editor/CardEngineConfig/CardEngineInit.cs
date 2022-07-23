@@ -9,6 +9,7 @@ namespace SadSapphicGames.CardEngineEditor
     [System.Serializable]
     public class CardEngineInit
     {
+        public static bool EssentialsImported { get => Directory.Exists("Assets/CardEngine/Config");} 
         bool initialized;
         public CardEngineInit() {}
 
