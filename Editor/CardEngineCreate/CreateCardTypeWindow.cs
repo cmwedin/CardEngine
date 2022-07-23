@@ -21,7 +21,9 @@ namespace SadSapphicGames.CardEngineEditor {
             typesDirectory = settings.Directories.CardTypes;
             if(!Directory.Exists(typesDirectory)) throw new Exception("selected directory invalid, please select a valid directory to store card types using the CardEngine/Settings menu");
             typeDatabase = TypeDatabaseSO.Instance;
-
+            if(typeDatabase == null) {
+                throw new Exception("please finish initializing CardEngine before using the CardEngine/Create menu");
+            }
         }
         private void OnEnable() {
             
