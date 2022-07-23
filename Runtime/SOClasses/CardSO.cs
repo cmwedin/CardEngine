@@ -30,18 +30,16 @@ namespace SadSapphicGames.CardEngine
         
         private Dictionary<TypeSO,TypeDataSO> typesSubData = new Dictionary<TypeSO, TypeDataSO>();
 
-        public void AddType(DatabaseEntry<TypeSO> typeDatabaseEntry) {
-            TypeSO typeSO = typeDatabaseEntry.entrykey;
-            Type typeDataSOType = typeSO.TypeDataReference.GetType(); 
+        public void AddType(TypeSO typeToAdd) {
+            Type typeDataSOType = typeToAdd.TypeDataReference.GetType(); 
                 //? this name is pretty confusing: 
                 //? this is the type of the scriptable object representing the data associated with the card-type we are adding
-            _cardTypes.Add(typeSO);
+            _cardTypes.Add(typeToAdd);
 
             TypeDataSO typeData = (TypeDataSO)ScriptableObject.CreateInstance(typeDataSOType);
-            typeData.name = $"{CardName}{typeSO.name}Data";
+            typeData.name = $"{CardName}{typeToAdd.name}Data";
             AssetDatabase.AddObjectToAsset(typeData,AssetDatabase.GetAssetPath(this));
-            // AssetDatabase.CreateAsset(typeData,$"{CardDatabaseSO.Instance.GetEntryByKey(this).entryDirectory}/{typeData.name}.asset");
-            typesSubData.Add(typeSO,(TypeDataSO)typeData);
+            typesSubData.Add(typeToAdd,(TypeDataSO)typeData);
 
             AssetDatabase.SaveAssets();
         }

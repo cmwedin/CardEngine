@@ -4,9 +4,10 @@ using System.Linq;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using SadSapphicGames.CardEngine;
 
 
-namespace SadSapphicGames.CardEngine {
+namespace SadSapphicGames.CardEngineEditor {
     [System.Serializable]
     public class DatabaseEntry<TScriptableObject> where TScriptableObject : ScriptableObject {
         public TScriptableObject entrykey;

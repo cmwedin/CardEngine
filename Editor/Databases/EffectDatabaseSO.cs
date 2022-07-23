@@ -1,7 +1,9 @@
 using UnityEditor;
 using UnityEngine;
+using SadSapphicGames.CardEngine;
 
-namespace SadSapphicGames.CardEngine
+
+namespace SadSapphicGames.CardEngineEditor
 {
     public class EffectDatabaseSO : DatabaseSO<EffectSO>
     {

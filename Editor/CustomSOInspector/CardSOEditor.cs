@@ -35,6 +35,7 @@ namespace SadSapphicGames.CardEngineEditor {
                 }
             GUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
+            Repaint();
             // AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target),serializedObject.FindProperty("_cardName").stringValue.Replace(" ", string.Empty));
         }
     }
