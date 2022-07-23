@@ -15,11 +15,6 @@ namespace SadSapphicGames.CardEngineEditor {
         EffectDatabaseSO effectDatabase;
 
         public CreateUnitEffectWindow() : base() {
-            var settings = SettingsEditor.ReadSettings(); 
-            effectsDirectory = settings.Directories.Effects;
-            if(!Directory.Exists(effectsDirectory)) throw new Exception("selected directory invalid, please select a valid directory to store card effects using the CardEngine/Settings menu");
-
-
 
         }
         private void OnEnable() {
@@ -28,13 +23,13 @@ namespace SadSapphicGames.CardEngineEditor {
 
             if(effectDatabase == null || settings == null) {
                 this.Close();
-                throw new Exception("please finish initializing CardEngine before using the CardEngine/Create menu");
+                Debug.LogWarning("please finish initializing CardEngine before using the CardEngine/Create menu");
             }
             
             effectsDirectory = settings.Directories.CardScriptableObjects;
             if(!Directory.Exists(effectsDirectory)) {
                 this.Close();
-                throw new Exception("selected directory invalid, please select a valid directory to store card effects using the CardEngine/Settings menu");
+                Debug.LogWarning("selected directory invalid, please select a valid directory to store card effects using the CardEngine/Settings menu");
             } 
         }
         [MenuItem("CardEngine/Create/Unit Effect")]
