@@ -13,6 +13,7 @@ namespace SadSapphicGames.CardEngineEditor {
         string effectName = ""; 
         string effectsDirectory;
         EffectDatabaseSO effectDatabase;
+        bool closeWindow;
 
         public CreateUnitEffectWindow() : base() {
 
@@ -22,15 +23,15 @@ namespace SadSapphicGames.CardEngineEditor {
             effectDatabase = EffectDatabaseSO.Instance;
 
             if(effectDatabase == null || settings == null) {
-                this.Close();
+                closeWindow = true;
                 Debug.LogWarning("please finish initializing CardEngine before using the CardEngine/Create menu");
+            } else {
+                effectsDirectory = settings.Directories.CardScriptableObjects;
+                if(!Directory.Exists(effectsDirectory)) {
+                    closeWindow = true;
+                    Debug.LogWarning("selected directory invalid, please select a valid directory to store card effects using the CardEngine/Settings menu");
+                } 
             }
-            
-            effectsDirectory = settings.Directories.CardScriptableObjects;
-            if(!Directory.Exists(effectsDirectory)) {
-                this.Close();
-                Debug.LogWarning("selected directory invalid, please select a valid directory to store card effects using the CardEngine/Settings menu");
-            } 
         }
         [MenuItem("CardEngine/Create/Unit Effect")]
         static void Init() {
@@ -38,6 +39,7 @@ namespace SadSapphicGames.CardEngineEditor {
             instance.Show();
         }
         private void OnGUI() {
+            if(closeWindow) this.Close();
             if (!effectIsCompiling) {
                 GUILayout.Label("Create a new unit effect", EditorStyles.boldLabel);
                 effectName = EditorGUILayout.TextField("Enter effect name",effectName);

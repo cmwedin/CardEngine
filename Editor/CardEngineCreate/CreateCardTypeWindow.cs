@@ -15,6 +15,7 @@ namespace SadSapphicGames.CardEngineEditor {
         string typeName = ""; 
         string typesDirectory;
         TypeDatabaseSO typeDatabase;
+        bool closeWindow;
 
         public CreateCardTypeWindow() : base() {
 
@@ -24,14 +25,14 @@ namespace SadSapphicGames.CardEngineEditor {
             typeDatabase = TypeDatabaseSO.Instance;
 
             if(typeDatabase == null || settings == null) {
-                this.Close();
+                closeWindow = true;
                 Debug.LogWarning("please finish initializing CardEngine before using the CardEngine/Create menu");
-            }
-            
-            typesDirectory = settings.Directories.CardTypes;
-            if(!Directory.Exists(typesDirectory)) {
-                this.Close();
-                Debug.LogWarning("selected directory invalid, please select a valid directory to store card types using the CardEngine/Settings menu");
+            } else {
+                typesDirectory = settings.Directories.CardTypes;
+                if(!Directory.Exists(typesDirectory)) {
+                    closeWindow = true;
+                    Debug.LogWarning("selected directory invalid, please select a valid directory to store card types using the CardEngine/Settings menu");
+                }
             }
             
         }
@@ -41,6 +42,7 @@ namespace SadSapphicGames.CardEngineEditor {
             window.Show();
         }
         private void OnGUI() {
+            if(closeWindow) this.Close();
             GUILayout.Label("Create a card type", EditorStyles.boldLabel);
             typeName = EditorGUILayout.TextField("Enter Type name",typeName);
             GUILayout.BeginHorizontal();
