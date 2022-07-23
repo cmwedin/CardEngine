@@ -16,12 +16,14 @@ namespace SadSapphicGames.CardEngineEditor {
             var settings = SettingsEditor.ReadSettings(); 
             cardsDirectory = settings.Directories.CardScriptableObjects;
             if(!Directory.Exists(cardsDirectory)) throw new Exception("selected directory invalid, please select a valid directory to store card scriptable objects using the CardEngine/Settings menu");
-            cardDatabase = CardDatabaseSO.Instance;
-            if(cardDatabase == null) {
-                throw new Exception("please finish initializing CardEngine before using the CardEngine/Create menu");
-            }
+
         }
         private void OnEnable() {
+            cardDatabase = CardDatabaseSO.Instance;
+            if(cardDatabase == null) {
+                this.Close();
+                throw new Exception("please finish initializing CardEngine before using the CardEngine/Create menu");
+            }
 
         }
         [MenuItem("CardEngine/Create/Card")]

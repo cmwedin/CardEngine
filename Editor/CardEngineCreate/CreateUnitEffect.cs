@@ -18,14 +18,16 @@ namespace SadSapphicGames.CardEngineEditor {
             var settings = SettingsEditor.ReadSettings(); 
             effectsDirectory = settings.Directories.Effects;
             if(!Directory.Exists(effectsDirectory)) throw new Exception("selected directory invalid, please select a valid directory to store card effects using the CardEngine/Settings menu");
-            effectDatabase = EffectDatabaseSO.Instance;
-            if(effectDatabase == null) {
-                throw new Exception("please finish initializing CardEngine before using the CardEngine/Create menu");
-            }
+
 
 
         }
         private void OnEnable() {
+            effectDatabase = EffectDatabaseSO.Instance;
+            if(effectDatabase == null) {
+                this.Close();
+                throw new Exception("please finish initializing CardEngine before using the CardEngine/Create menu");
+            }
             
         }
         [MenuItem("CardEngine/Create/Unit Effect")]
