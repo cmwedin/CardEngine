@@ -89,7 +89,24 @@ namespace SadSapphicGames.CardEngineEditor {
             }
             if(instance == null) {
                 GUILayout.Label("Done compiling", EditorStyles.boldLabel);
+                TypeSO typeSO = AssetDatabase.LoadAssetAtPath<TypeSO>($"{typesDirectory}/{typeName}/{typeName}.asset");
+                GameObject referenceObject = new GameObject($"{typeName}ReferenceObject");
+                if(referenceObject.AddComponent(Type.GetType(typeName + ",Assembly-CSharp")) == null) {
+                    Debug.LogWarning($"failed to create reference prefab of type {typeName}, file not found");
+                } else {
+                    PrefabUtility.SaveAsPrefabAssetAndConnect(referenceObject,$"{typesDirectory}/{typeName}/{typeName}.prefab",UnityEditor.InteractionMode.AutomatedAction);
+                }
+                GameObject.DestroyImmediate(referenceObject);
+                CardType prefabAsset = AssetDatabase.LoadAssetAtPath<CardType>($"{typesDirectory}/{typeName}/{typeName}.prefab");
+                typeSO.SetComponentReference(prefabAsset);
 
+                TypeDataSO typeDataSO = (TypeDataSO)ScriptableObject.CreateInstance(Type.GetType(typeName + "DataSO,Assembly-CSharp"));
+                typeDataSO.name = typeName + "DataSORef";
+                AssetDatabase.CreateAsset(typeDataSO,$"{typesDirectory}/{typeName}/{typeDataSO.name}.asset");
+                typeSO.SetDataReference(typeDataSO);
+
+                AssetDatabase.SaveAssets();
+                this.Close();
             }
         }
     }
