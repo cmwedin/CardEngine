@@ -32,6 +32,7 @@ namespace SadSapphicGames.CardEngineEditor {
             } else {
                 throw new System.Exception($"failed to find directory {parentDirectory} entered for scriptable object {obj.name}");
             }
+            EditorUtility.SetDirty(this);
         }
         private void OnValidate() {
             CleanUp();
