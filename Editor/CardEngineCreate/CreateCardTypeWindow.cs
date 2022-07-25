@@ -105,6 +105,7 @@ namespace SadSapphicGames.CardEngineEditor {
                 AssetDatabase.CreateAsset(typeDataSO,$"{typesDirectory}/{typeName}/{typeDataSO.name}.asset");
                 typeSO.SetDataReference(typeDataSO);
 
+                EditorUtility.SetDirty(typeSO);
                 AssetDatabase.SaveAssets();
                 this.Close();
             }
