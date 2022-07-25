@@ -12,10 +12,12 @@ namespace SadSapphicGames.CardEngineEditor {
     }
     public class CreateCardTypeWindow : EditorWindow {
 
-        string typeName = ""; 
-        string typesDirectory;
+        [SerializeField]string typeName = ""; 
+        [SerializeField]string typesDirectory;
         TypeDatabaseSO typeDatabase;
         bool closeWindow;
+        static CreateCardTypeWindow instance;
+        bool typeCompiling = false;
 
         public CreateCardTypeWindow() : base() {
 
@@ -38,46 +40,74 @@ namespace SadSapphicGames.CardEngineEditor {
         }
         [MenuItem("CardEngine/Create/Card Type")]
         static void Init() {
-            EditorWindow window = EditorWindow.CreateInstance<CreateCardTypeWindow>();
-            window.Show();
+            if(instance != null) {
+                Debug.LogWarning("Create type window already open");
+            }
+            instance = EditorWindow.CreateInstance<CreateCardTypeWindow>();
+            instance.Show();
         }
         private void OnGUI() {
             if(closeWindow) this.Close();
-            GUILayout.Label("Create a card type", EditorStyles.boldLabel);
-            typeName = EditorGUILayout.TextField("Enter Type name",typeName);
-            GUILayout.BeginHorizontal();
-                if(GUILayout.Button("Create Type",EditorStyles.miniButtonLeft)) {
-                    if(typeName == "") {
-                        Debug.LogWarning("No type name entered");
+            if(!typeCompiling) {
+                GUILayout.Label("Create a card type", EditorStyles.boldLabel);
+                typeName = EditorGUILayout.TextField("Enter Type name",typeName);
+                GUILayout.BeginHorizontal();
+                    if(GUILayout.Button("Create Type",EditorStyles.miniButtonLeft)) {
+                        if(typeName == "") {
+                            Debug.LogWarning("No type name entered");
+                            this.Close();
+                        }
+                        if(Directory.Exists(typesDirectory + "/" + typeName)) {
+                            this.Close();
+                            throw new Exception($"Folder for type {typeName} already exists");
+                        }
+                        AssetDatabase.CreateFolder(typesDirectory, typeName);
+                        string typePath = typesDirectory + "/" + typeName;
+                        TemplateIO.CopyTemplate("CardTypeTemplate.cs",typeName+".cs",typePath);
+                        AssetDatabase.ImportAsset($"{typePath}/{typeName}.cs");
+                        TemplateIO.CopyTemplate("TypeDataSOTemplate.cs",typeName+"DataSO.cs",typePath);
+                        AssetDatabase.ImportAsset($"{typePath}/{typeName}DataSO.cs");
+                        AssetDatabase.Refresh();
+
+                        TypeSO typeSO = ScriptableObject.CreateInstance<TypeSO>();
+                        typeSO.name = typeName;
+                        AssetDatabase.CreateAsset(typeSO,$"{typePath}/{typeName}.asset");
+                        typeDatabase.AddEntry(typeSO, typePath);
+                        AssetDatabase.SaveAssets();
+
+
+
+                        Debug.LogWarning("Remember to initialize your new TypeSO asset");
+                        typeCompiling = true;
+                    }
+                    if(GUILayout.Button("Cancel",EditorStyles.miniButtonRight)) {
                         this.Close();
                     }
-                    if(Directory.Exists(typesDirectory + "/" + typeName)) {
-                        this.Close();
-                        throw new Exception($"Folder for type {typeName} already exists");
-                    }
-                    AssetDatabase.CreateFolder(typesDirectory, typeName);
-                    string typePath = typesDirectory + "/" + typeName;
-                    TemplateIO.CopyTemplate("CardTypeTemplate.cs",typeName+".cs",typePath);
-                    AssetDatabase.ImportAsset($"{typePath}/{typeName}.cs");
-                    TemplateIO.CopyTemplate("TypeDataSOTemplate.cs",typeName+"DataSO.cs",typePath);
-                    AssetDatabase.ImportAsset($"{typePath}/{typeName}DataSO.cs");
-                    AssetDatabase.Refresh();
-
-                    TypeSO typeSO = ScriptableObject.CreateInstance<TypeSO>();
-                    typeSO.name = typeName;
-                    AssetDatabase.CreateAsset(typeSO,$"{typePath}/{typeName}.asset");
-                    typeDatabase.AddEntry(typeSO, typePath);
-                    AssetDatabase.SaveAssets();
-
-
-
-                    Debug.LogWarning("Remember to initialize your new TypeSO asset");
-                    this.Close();
+                GUILayout.EndHorizontal();
+            } else if (typeCompiling) {
+                GUILayout.Label("Please wait while effect compiles", EditorStyles.boldLabel);
+            }
+            if(instance == null) {
+                GUILayout.Label("Done compiling", EditorStyles.boldLabel);
+                TypeSO typeSO = AssetDatabase.LoadAssetAtPath<TypeSO>($"{typesDirectory}/{typeName}/{typeName}.asset");
+                GameObject referenceObject = new GameObject($"{typeName}ReferenceObject");
+                if(referenceObject.AddComponent(Type.GetType(typeName + ",Assembly-CSharp")) == null) {
+                    Debug.LogWarning($"failed to create reference prefab of type {typeName}, file not found");
+                } else {
+                    PrefabUtility.SaveAsPrefabAssetAndConnect(referenceObject,$"{typesDirectory}/{typeName}/{typeName}.prefab",UnityEditor.InteractionMode.AutomatedAction);
                 }
-                if(GUILayout.Button("Cancel",EditorStyles.miniButtonRight)) {
-                    this.Close();
-                }
-            GUILayout.EndHorizontal();
+                GameObject.DestroyImmediate(referenceObject);
+                CardType prefabAsset = AssetDatabase.LoadAssetAtPath<CardType>($"{typesDirectory}/{typeName}/{typeName}.prefab");
+                typeSO.SetComponentReference(prefabAsset);
+
+                TypeDataSO typeDataSO = (TypeDataSO)ScriptableObject.CreateInstance(Type.GetType(typeName + "DataSO,Assembly-CSharp"));
+                typeDataSO.name = typeName + "DataSORef";
+                AssetDatabase.CreateAsset(typeDataSO,$"{typesDirectory}/{typeName}/{typeDataSO.name}.asset");
+                typeSO.SetDataReference(typeDataSO);
+
+                AssetDatabase.SaveAssets();
+                this.Close();
+            }
         }
     }
 }
