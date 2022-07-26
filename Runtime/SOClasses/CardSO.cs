@@ -29,7 +29,6 @@ namespace SadSapphicGames.CardEngine
         public EffectSO CardEffect {get => _cardEffect; set => _cardEffect = value;}
         
         private Dictionary<TypeSO,TypeDataSO> typesSubData = new Dictionary<TypeSO, TypeDataSO>();
-
         public void AddType(TypeSO typeToAdd) {
             Type typeDataSOType = typeToAdd.TypeDataReference.GetType(); 
                 //? this name is pretty confusing: 
@@ -52,6 +51,15 @@ namespace SadSapphicGames.CardEngine
                 AssetDatabase.RemoveObjectFromAsset(subdataToRemove);
                 _cardTypes.Remove(typeToRemove);
             }
+        }
+        public bool HasType(TypeSO type) {
+            return CardTypes.Contains(type);
+        }
+        public bool HasType(string typeName) {
+            foreach (var type in CardTypes) {
+                if(type.name == typeName) return true;
+            }
+            return false;
         }
         public TypeDataSO GetTypeSubdata(TypeSO type) {
             if (!CardTypes.Contains(type)) {
