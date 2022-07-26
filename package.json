@@ -1,16 +1,11 @@
 {
   "name" : "com.sadsapphicgames.cardengine",
-  "version" : "0.2.12",
+  "version" : "0.2.13",
   "displayName" : "CardEngine",
   "description" : "This is an in development package to provide an extensible and generic architecture for card games that can be used across projects",
   "dependencies": {
     "com.unity.textmeshpro" : "3.0.0"
   },
-  "samples": [{
-    "displayName" : "CardEngineConfig",
-    "description" : "Mandatory config files",
-    "path" : "Samples~/CardEngineConfig"
-  }],
   "author" : {
     "name" : "Chris Wedin",
     "url" : "https://github.com/cmwedin"
