@@ -25,6 +25,7 @@ public class CompositeEffectSOEditor : Editor {
             }
         GUILayout.EndHorizontal();
         serializedObject.ApplyModifiedProperties();
+        serializedObject.Update();
         Repaint();
     }
     private void AddUnitEffect(UnitEffectSO unitEffect)  {
