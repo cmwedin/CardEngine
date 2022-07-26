@@ -10,6 +10,16 @@ namespace SadSapphicGames.CardEngine
 {
     // [CreateAssetMenu(fileName = "CardSO", menuName = "SadSapphicGames/CardEngine/CardSO", order = 0)]
     public class CardSO : ScriptableObject {
+        [System.Serializable] 
+        private class SubdataEntry { //? a bit of a hack-ey workaround to unity not serializing dictionaries
+            public string typeName;
+            public TypeDataSO typeSubdata;
+
+            public SubdataEntry(string typeName, TypeDataSO typeSubdata) {
+                this.typeName = typeName;
+                this.typeSubdata = typeSubdata;
+            }
+        }
         //properties
         // [SerializeField] private string _cardName;
         
@@ -28,8 +38,11 @@ namespace SadSapphicGames.CardEngine
         [SerializeField] private EffectSO _cardEffect;
         public EffectSO CardEffect {get => _cardEffect; set => _cardEffect = value;}
         
-        private Dictionary<TypeSO,TypeDataSO> typesSubData = new Dictionary<TypeSO, TypeDataSO>();
+        [SerializeField]private List<SubdataEntry> typesSubData = new List<SubdataEntry>();
         public void AddType(TypeSO typeToAdd) {
+            if(CardTypes.Contains(typeToAdd)) {
+                throw new Exception($"Card already has type {typeToAdd.name}");
+            }
             Type typeDataSOType = typeToAdd.TypeDataReference.GetType(); 
                 //? this name is pretty confusing: 
                 //? this is the type of the scriptable object representing the data associated with the card-type we are adding
@@ -38,7 +51,7 @@ namespace SadSapphicGames.CardEngine
             TypeDataSO typeData = (TypeDataSO)ScriptableObject.CreateInstance(typeDataSOType);
             typeData.name = $"{CardName}{typeToAdd.name}Data";
             AssetDatabase.AddObjectToAsset(typeData,AssetDatabase.GetAssetPath(this));
-            typesSubData.Add(typeToAdd,(TypeDataSO)typeData);
+            typesSubData.Add(new SubdataEntry(typeToAdd.name,typeData));
 
             AssetDatabase.SaveAssets();
         }
@@ -47,7 +60,12 @@ namespace SadSapphicGames.CardEngine
                 Debug.LogWarning($"CardSO {CardName} does not have type {typeToRemove.name}");
             } else {
                 TypeDataSO subdataToRemove = GetTypeSubdata(typeToRemove);
-                typesSubData.Remove(typeToRemove);
+                foreach (var entry in typesSubData) {
+                    if(entry.typeName == typeToRemove.name) {
+                        typesSubData.Remove(entry);
+                        break;
+                    }
+                }
                 AssetDatabase.RemoveObjectFromAsset(subdataToRemove);
                 _cardTypes.Remove(typeToRemove);
             }
@@ -66,7 +84,12 @@ namespace SadSapphicGames.CardEngine
                 Debug.LogWarning($"{CardName} does not have type {type.name}");
                 return null;
             } else {
-                return typesSubData[type];
+                foreach (var entry in typesSubData) {
+                    if(entry.typeName == type.name) {
+                        return entry.typeSubdata;
+                    }
+                }
+                throw new Exception($"Failed to find matching entry subdata list, card does have type {type.name}");
             }
         }
     }

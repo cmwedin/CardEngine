@@ -22,7 +22,7 @@ namespace SadSapphicGames.CardEngineEditor {
                 if(effectsToRemove[i]) {
                     effectRefs.Add(targetEffect.Subeffects[i]);
                 }
-            } foreach (var effect in effectRefs) {
+            } foreach (var effect in effectRefs) { //? we do this in a separate loop so we dont mess up the indices
                 AssetDatabase.RemoveObjectFromAsset(effect);
                 targetEffect.RemoveChild(effect);
             }
