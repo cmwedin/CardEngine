@@ -117,7 +117,7 @@ namespace SadSapphicGames.CardEngineEditor {
             } else if (typeCompiling) { //? the if is redundant but included for clarity
                 GUILayout.Label("Please wait while effect compiles", EditorStyles.boldLabel);
             }
-            if(instance == null && typeInitializing == false) {
+            if(instance == null && !typeInitializing) {
                 typeInitializing = true;
                 windowObject.InitializeType(typeName);
             }

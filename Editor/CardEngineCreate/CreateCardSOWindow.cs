@@ -34,7 +34,7 @@ namespace SadSapphicGames.CardEngineEditor {
                     }
                     if(Directory.Exists(cardsDirectory + "/" + cardName)) {
                         CloseWindow = true;
-                        Debug.LogWarning($"Folder for card {cardName} already exists");
+                        Debug.LogWarning($"Folder for card {cardName} already exists, please delete it before creating a new card with the same name");
                         return;
                     }
                     AssetDatabase.CreateFolder(cardsDirectory, cardName);
