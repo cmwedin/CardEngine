@@ -1,7 +1,10 @@
 # Card Engine
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
+Credit should be given to Chris Wedin at this time.
 (a commercial use license will be available in a future paid version of this software)
+# README disclaimer
+as this package is heavily in development frequent updates may make parts of this readme outdated. This is a one person project as of now, so I will not be investing the time to rewrite it every minor update as that time could be spent bring the package closer to release. I will do my best to identify sections that are no longer in date, but I will not be doing extensive rewrites outside of 0.x... updates. 
 ## Card ECS model
 This **in development** unity package provides pre-made architecture for modeling cards in the style of an entity component system. To elaborate consider an example from the popular card game Magic the Gathering (MTG). In this game cards can have a type such as creature, land and sorcery. The exact rules of how these "card types" work isn't relevant for this example, just that they behave differently in the game. While the exact mechanical behavior of such card types can differ widely across games, this type of behavior is common among card games. I will not go into detail for them but other popular examples include Hearthstone and Slay the Spire.  
 
@@ -22,6 +25,8 @@ Once you have done that, go to the settings submenu in the CardEngine menu and s
 To start using the package it is best to first create some of the card types you will need for your project. To do this, select the CardEngine menu, and select the "Create" sub-menu. You will be prompted to enter a name for the type, after which a folder will be generated for the type along with a few new files, give these files a moment to compile and navigate to the folder. A warning will be displayed reminding you to initialize the type scriptable object, but first, lets discus what exactly the files that where just generated are.
 
 First we have the C# script named "TypeName" (if not obvious, "TypeName" will be whatever you entered in the type prompt). This script is defines the monobehaviour component that will be added to entity's who's data identifies them as having this type. This is indicated using the scriptable object of the same name that was also just generated. If this type has additional data associated with it as well (as an example many card games have a "monster"-like type that would have additional data of health and attack), this is defined within the "TypeNameDataSO" class that was just generated.
+
+**as of version 0.2.12 TypeSO's initalize automatically**
 
 Once you have added your needed code to these files (you can also modify them latter if you wish), select the Type scriptable object, and click on the initialize button. This will generate two additional assets and connect them to the scriptable object. The first is a prefab game object with the component defined in "TypeName.cs" attached to it. This is used as a reference for the type scriptable object to be able to easily attach the correct component to entity's that load it into their data. Similarly, an instance of the TypeNameDataSO scriptable object will be created. Again, this is a reference so when this type is added to a card's data it can create a new instance of the appropriate type of scriptable object to store the additional data needed for the card.
 
