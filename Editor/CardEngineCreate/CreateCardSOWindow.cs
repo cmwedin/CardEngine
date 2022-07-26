@@ -10,18 +10,18 @@ namespace SadSapphicGames.CardEngineEditor {
     public class CreateCardObject {
         string cardsDirectory;
         CardDatabaseSO cardDatabase;
-        public bool closeWindow = false;
+        public bool CloseWindow { get; private set;}
         public CreateCardObject() {
             var settings = SettingsEditor.ReadSettings(); 
             cardDatabase = CardDatabaseSO.Instance;
 
             if(cardDatabase == null || settings == null) {
-                closeWindow = true;
+                CloseWindow = true;
                 Debug.LogWarning("please finish initializing CardEngine before using the CardEngine/Create menu");
             } else {
                 cardsDirectory = settings.Directories.CardScriptableObjects;
                 if(!Directory.Exists(cardsDirectory)) {
-                    closeWindow = true;
+                    CloseWindow = true;
                     Debug.LogWarning("selected directory invalid, please select a valid directory to store card scriptable objects using the CardEngine/Settings menu");
                 }
             }
@@ -29,11 +29,11 @@ namespace SadSapphicGames.CardEngineEditor {
         public void CreateCard(string cardName, string cardText) {
             if(cardName == "") {
                         Debug.LogWarning("Card name required");
-                        closeWindow = true;
+                        CloseWindow = true;
                         return;
                     }
                     if(Directory.Exists(cardsDirectory + "/" + cardName)) {
-                        closeWindow = true;
+                        CloseWindow = true;
                         Debug.LogWarning($"Folder for card {cardName} already exists");
                         return;
                     }
@@ -55,27 +55,26 @@ namespace SadSapphicGames.CardEngineEditor {
                     cardDatabase.AddEntry(cardSO, cardPath);
 
                     EditorUtility.SetDirty(cardSO);
-                    closeWindow = true;
+                    CloseWindow = true;
         }
     }
     public class CreateCardWindow : EditorWindow {
         string cardName;
         string cardText;
-        public CreateCardObject windowObject;
+        private CreateCardObject windowObject;
         
         public CreateCardWindow() : base() {
         }
         private void OnEnable() {
-            
+            windowObject = new CreateCardObject();
         }
         [MenuItem("CardEngine/Create/Card")]
         static void Init() {
             CreateCardWindow window = EditorWindow.CreateInstance<CreateCardWindow>();
-            window.windowObject = new CreateCardObject();
             window.Show();
         }
         private void OnGUI() {
-            if(windowObject.closeWindow) this.Close();
+            if(windowObject.CloseWindow) this.Close();
             GUILayout.Label("Create a card type", EditorStyles.boldLabel);
             GUILayout.BeginVertical();
                 cardName = EditorGUILayout.TextField("Enter card name",cardName);
