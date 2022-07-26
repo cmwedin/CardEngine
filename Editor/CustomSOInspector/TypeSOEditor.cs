@@ -11,6 +11,8 @@ namespace SadSapphicGames.CardEngineEditor {
     public class TypeSOEditor : Editor {
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
+            serializedObject.ApplyModifiedProperties();
+            Repaint();
         }
     }
 }

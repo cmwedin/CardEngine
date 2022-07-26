@@ -97,6 +97,5 @@ namespace SadSapphicGames.CardEngineEditor {
                 windowObject.InitializeEffect(effectName);
             }
         }
-
     }
 }
