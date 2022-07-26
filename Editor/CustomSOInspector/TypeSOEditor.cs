@@ -10,7 +10,12 @@ namespace SadSapphicGames.CardEngineEditor {
     [CustomEditor(typeof(TypeSO))]
     public class TypeSOEditor : Editor {
         public override void OnInspectorGUI() {
+            EditorGUI.BeginDisabledGroup(true);
             base.OnInspectorGUI();
+            EditorGUI.EndDisabledGroup();
+            serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
+            Repaint();
         }
     }
 }

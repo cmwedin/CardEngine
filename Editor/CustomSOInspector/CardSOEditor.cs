@@ -28,13 +28,14 @@ namespace SadSapphicGames.CardEngineEditor {
             EditorGUI.EndDisabledGroup();
             GUILayout.BeginHorizontal();
                 if(GUILayout.Button("Add Type")) {
-                    PopupWindow.Show(new Rect(), new SelectTypeSOPopup((CardSO)target));
+                    PopupWindow.Show(new Rect(), new AddTypePopup((CardSO)target));
                 }
                 if(GUILayout.Button("Remove Type")) {
                     PopupWindow.Show(new Rect(), new RemoveTypePopup((CardSO)target));
                 }
             GUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
             Repaint();
             // AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target),serializedObject.FindProperty("_cardName").stringValue.Replace(" ", string.Empty));
         }

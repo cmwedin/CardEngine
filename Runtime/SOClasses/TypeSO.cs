@@ -9,7 +9,7 @@ namespace SadSapphicGames.CardEngine
         [SerializeField] private TypeDataSO typeDataReference;
         
         // private Type typeComponent  { get => Type.GetType(this.name); }
-        private Type typeComponent { get => componentReferencePrefab.GetType();}
+        public Type typeComponent { get => componentReferencePrefab.GetType();}
         public TypeDataSO TypeDataReference { get => typeDataReference; }
 
         public void AddTypeToGameObject(Card card) {
@@ -20,15 +20,17 @@ namespace SadSapphicGames.CardEngine
             if(componentReferencePrefab != null) {
                 Debug.LogWarning("the reference prefab for this type has already been set");
                 return;
+            } else {
+                componentReferencePrefab = _componentReference;
             }
-            componentReferencePrefab = _componentReference;
         }
         public void SetDataReference(TypeDataSO _dataReference) {
             if(typeDataReference != null) {
                 Debug.LogWarning("the reference prefab for this type has already been set");
                 return;
+            } else {
+                typeDataReference = _dataReference;
             }
-            typeDataReference = _dataReference;
         }
     }
 }

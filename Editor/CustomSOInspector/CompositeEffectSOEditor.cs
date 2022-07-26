@@ -17,13 +17,16 @@ public class CompositeEffectSOEditor : Editor {
         GUILayout.BeginHorizontal();
             if(GUILayout.Button("Add Subeffect")) {
                 Debug.Log("opening subeffect window");
-                PopupWindow.Show(new Rect(), new SelectEffectPopup((CompositeEffectSO)target));
+                PopupWindow.Show(new Rect(), new AddEffectPopup((CompositeEffectSO)target));
             }
             if (GUILayout.Button("Remove Subeffect")) {
                 Debug.Log("opening subeffect removal window");
                 PopupWindow.Show(new Rect(), new RemoveEffectPopup((CompositeEffectSO)target));
             }
         GUILayout.EndHorizontal();
+        serializedObject.ApplyModifiedProperties();
+        serializedObject.Update();
+        Repaint();
     }
     private void AddUnitEffect(UnitEffectSO unitEffect)  {
             Type subEffectType = unitEffect.GetType();

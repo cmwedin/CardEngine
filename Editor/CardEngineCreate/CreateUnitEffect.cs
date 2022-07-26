@@ -7,65 +7,83 @@ using System;
 using UnityEngine.Windows;
 
 namespace SadSapphicGames.CardEngineEditor {
-
-    public class CreateUnitEffectWindow : EditorWindow {
-        static CreateUnitEffectWindow instance = null;
-        bool effectIsCompiling = false;
-        [SerializeField]string effectName = ""; 
-        [SerializeField]string effectsDirectory;
+    public class CreateUnitEffectObject {
+        string effectsDirectory;
         EffectDatabaseSO effectDatabase;
-        bool closeWindow;
+        public bool CloseWindow { get; private set;}
 
-        public CreateUnitEffectWindow() : base() {
-
-        }
-        private void OnEnable() {
+        public CreateUnitEffectObject() {
             var settings = SettingsEditor.ReadSettings(); 
             effectDatabase = EffectDatabaseSO.Instance;
 
             if(effectDatabase == null || settings == null) {
-                closeWindow = true;
+                CloseWindow = true;
                 Debug.LogWarning("please finish initializing CardEngine before using the CardEngine/Create menu");
             } else {
                 effectsDirectory = settings.Directories.Effects;
                 if(!Directory.Exists(effectsDirectory)) {
-                    closeWindow = true;
+                    CloseWindow = true;
                     Debug.LogWarning("selected directory invalid, please select a valid directory to store card effects using the CardEngine/Settings menu");
                 } 
             }
         }
+        public void CreateUnitEffect(string effectName) {
+            if(effectName == "") {
+                CloseWindow = true;
+                Debug.LogWarning("No type name entered");
+                return;
+            }
+            effectName = effectName.Replace(" ",string.Empty);
+            if(Directory.Exists(effectsDirectory + "/" + effectName)) {
+                CloseWindow = true;
+                Debug.LogWarning($"Folder for type {effectName} already exists, please delete it before creating a new effect with the same name");
+            }
+            AssetDatabase.CreateFolder(effectsDirectory, effectName);
+            string newEffectDirectory = effectsDirectory + "/" + effectName;
+            TemplateIO.CopyTemplate("UnitEffectTemplate.cs",effectName+".cs",newEffectDirectory);
+            AssetDatabase.ImportAsset($"{newEffectDirectory}/{effectName}.cs");
+            AssetDatabase.Refresh();
+        }
+        public void InitializeEffect(string effectName) {
+            effectName = effectName.Replace(" ",string.Empty);
+            Type effectType = Type.GetType(effectName + ",Assembly-CSharp");
+            UnitEffectSO effectSO = (UnitEffectSO)ScriptableObject.CreateInstance(effectType);
+            effectSO.name = effectName;
+            AssetDatabase.CreateAsset(effectSO,$"{effectsDirectory}/{effectName}/{effectName}.asset");
+            effectDatabase.AddEntry(effectSO,effectsDirectory);
+            CloseWindow = true;
+        }
+    }
+    public class CreateUnitEffectWindow : EditorWindow {
+        
+        private CreateUnitEffectObject windowObject;
+        static CreateUnitEffectWindow instance = null;
+        bool effectIsCompiling = false;
+        bool effectIsInitializing;
+        [SerializeField] string effectName = ""; 
+
+        public CreateUnitEffectWindow() : base() {
+        }
+        private void OnEnable() {
+            windowObject = new CreateUnitEffectObject();
+        }
         [MenuItem("CardEngine/Create/Unit Effect")]
         static void Init() {
+            if(instance != null) {
+                Debug.LogWarning("Create effect window already open");
+            }
             instance = EditorWindow.CreateInstance<CreateUnitEffectWindow>();
             instance.Show();
         }
         private void OnGUI() {
-            if(closeWindow) this.Close();
+            if(windowObject.CloseWindow) this.Close();
             if (!effectIsCompiling) {
                 GUILayout.Label("Create a new unit effect", EditorStyles.boldLabel);
                 effectName = EditorGUILayout.TextField("Enter effect name",effectName);
                 GUILayout.BeginHorizontal();
                     if(GUILayout.Button("Create effect",EditorStyles.miniButtonLeft)) {
-                        if(effectName == "") {
-                            Debug.LogWarning("No type name entered");
-                            this.Close();
-                        }
-                        if(Directory.Exists(effectsDirectory + "/" + effectName)) {
-                            this.Close();
-                            throw new Exception($"Folder for type {effectName} already exists");
-                        }
-                        AssetDatabase.CreateFolder(effectsDirectory, effectName);
-                        string newEffectDirectory = effectsDirectory + "/" + effectName;
-                        TemplateIO.CopyTemplate("UnitEffectTemplate.cs",effectName+".cs",newEffectDirectory);
-                        AssetDatabase.ImportAsset($"{newEffectDirectory}/{effectName}.cs");
-                        AssetDatabase.Refresh();
+                        windowObject.CreateUnitEffect(effectName);
                         effectIsCompiling = true;
-
-                        // TypeSO UnitEffectSO = ScriptableObject.CreateInstance<TypeSO>();
-                        // UnitEffectSO.name = effectName;
-                        // AssetDatabase.CreateAsset(UnitEffectSO,$"{typePath}/{typeName}.asset");
-                        // typeDatabase.AddEntry(UnitEffectSO, typePath);
-                        // AssetDatabase.SaveAssets();
                     }
                     if(GUILayout.Button("Cancel",EditorStyles.miniButtonRight)) {
                         this.Close();
@@ -74,19 +92,10 @@ namespace SadSapphicGames.CardEngineEditor {
             } else if(effectIsCompiling) {
                 GUILayout.Label("Please wait while effect compiles", EditorStyles.boldLabel);
             }
-            if(instance == null) {
-                Debug.Log($"done compiling effect {effectName}");
-                //? We can tell when the generated script has compiled because after that happens the variables of the EditorWindow return to their initial value
-                //? However this means we also lose the information such as effectName entered
-                //? Which we need to be able to create a scriptable object of the generated type
-                Type effectType = Type.GetType(effectName + ",Assembly-CSharp");
-                UnitEffectSO effectSO = (UnitEffectSO)ScriptableObject.CreateInstance(effectType);
-                effectSO.name = effectName;
-                AssetDatabase.CreateAsset(effectSO,$"{effectsDirectory}/{effectName}/{effectName}.asset");
-                effectDatabase.AddEntry(effectSO,effectsDirectory);
-                this.Close();
+            if(instance == null && !effectIsInitializing) {
+                effectIsInitializing = true;
+                windowObject.InitializeEffect(effectName);
             }
         }
-
     }
 }

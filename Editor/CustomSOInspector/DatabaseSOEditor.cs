@@ -14,6 +14,9 @@ namespace SadSapphicGames.CardEngineEditor
             EditorGUI.BeginDisabledGroup(true);
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("database"));
             EditorGUI.EndDisabledGroup();
+            serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
+            Repaint();
         }
     }
 }
