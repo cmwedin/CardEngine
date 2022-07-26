@@ -4,13 +4,13 @@ using SadSapphicGames.CardEngine;
 using System.Collections.Generic;
 
 namespace SadSapphicGames.CardEngineEditor {
-    public class SelectTypeSOPopup : PopupWindowContent {
+    public class AddTypeSOPopup : PopupWindowContent {
         private List<string> typeNames;
         bool[] typesToAdd;
         private TypeDatabaseSO typeDatabase;
         private CardSO targetCardSO;
 
-        public SelectTypeSOPopup(CardSO target) : base() {
+        public AddTypeSOPopup(CardSO target) : base() {
             targetCardSO = target;
             typeDatabase = TypeDatabaseSO.Instance;
             typeNames = typeDatabase.GetAllObjectNames();
@@ -44,8 +44,7 @@ namespace SadSapphicGames.CardEngineEditor {
                 }
             EditorGUILayout.EndHorizontal();
         }
-        public override Vector2 GetWindowSize()
-        {
+        public override Vector2 GetWindowSize() {
             return new Vector2(200,150);
         }
     }

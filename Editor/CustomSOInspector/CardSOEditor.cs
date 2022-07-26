@@ -28,7 +28,7 @@ namespace SadSapphicGames.CardEngineEditor {
             EditorGUI.EndDisabledGroup();
             GUILayout.BeginHorizontal();
                 if(GUILayout.Button("Add Type")) {
-                    PopupWindow.Show(new Rect(), new SelectTypeSOPopup((CardSO)target));
+                    PopupWindow.Show(new Rect(), new AddTypeSOPopup((CardSO)target));
                 }
                 if(GUILayout.Button("Remove Type")) {
                     PopupWindow.Show(new Rect(), new RemoveTypePopup((CardSO)target));
