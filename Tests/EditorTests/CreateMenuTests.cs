@@ -84,6 +84,11 @@ public class CreateMenuTests : IPostBuildCleanup
         Assert.AreEqual(expected:testCardName, actual: testCard.CardName);
         Assert.AreEqual(expected:"test card text", actual: testCard.CardText);
     }
+
+//! The following tests are probably bad practice as they require the previous test to have been run first
+//! however its easier to test it like this as the alternative is generating a new test card for each test
+//! which couples the functionality we are testing here to the functionality of the create card menu
+
     [Test, Order(3)]
     public void AddTypeTest(){
         //? Load card
@@ -106,5 +111,30 @@ public class CreateMenuTests : IPostBuildCleanup
         //? Verify the subdata is being added appropriately
         Object typeSubdata = AssetDatabase.LoadAllAssetsAtPath($"{cardsDirectory}/{testCardName}/{testCardName}.asset")[0];
         Assert.AreEqual(expected: typeSubdata, actual: testCard.GetTypeSubdata(addedType));
+    }
+
+    [Test, Order(4)]
+    public void RemoveTypeTest() {
+        //? Load card
+        CardSO testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/{testCardName}/{testCardName}.asset");
+        
+        //? Create remove type object
+        RemoveTypeObject removeTypeObject = new RemoveTypeObject(testCard);
+
+        //? Identify the type to remove
+        bool[] typesToRemove = new bool[testCard.CardTypes.Count];
+        int typeIndex = Random.Range(0,testCard.CardTypes.Count -1); //? there should only be one option here
+        TypeSO removedType = testCard.CardTypes[typeIndex];
+        typesToRemove[typeIndex] = true;
+
+        //? Remove type
+        removeTypeObject.RemoveTypes(typesToRemove);
+        
+        //? verify type has been removed
+        Assert.IsFalse(testCard.HasType(removedType));
+
+        //? verify subdata has been removed
+        //? if we change this test to involved a card with multiple types we will need to rework this line
+        Assert.AreEqual(expected: testCard, actual: AssetDatabase.LoadAllAssetsAtPath($"{cardsDirectory}/{testCardName}/{testCardName}.asset")[0]); 
     }
 }
