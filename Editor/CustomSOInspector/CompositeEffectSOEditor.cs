@@ -28,16 +28,5 @@ public class CompositeEffectSOEditor : Editor {
         serializedObject.Update();
         Repaint();
     }
-    private void AddUnitEffect(UnitEffectSO unitEffect)  {
-            Type subEffectType = unitEffect.GetType();
-            CompositeEffectSO targetObj = (CompositeEffectSO)target;
-            Debug.Log($"adding subeffect {unitEffect.name}");
-            EffectSO subEffectObj = (EffectSO)ScriptableObject.CreateInstance(subEffectType);
-            subEffectObj.name = $"{targetObj.name}Subeffect{targetObj.ChildrenCount + 1}";
-            AssetDatabase.AddObjectToAsset(subEffectObj,AssetDatabase.GetAssetPath(targetObj));
-            targetObj.AddChild(subEffectObj);
-            AssetDatabase.SaveAssets();
-
-    }
 }
 }

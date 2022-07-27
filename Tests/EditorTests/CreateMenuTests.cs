@@ -7,6 +7,7 @@ using SadSapphicGames.CardEngineEditor;
 using SadSapphicGames.CardEngine;
 using UnityEditor;
 
+// ! MAKE SURE YOU RUN ALL TESTS - later tests use assets created my earlier ones
 public class CreateMenuTests : IPostBuildCleanup
 {
     //? Directories
@@ -19,6 +20,8 @@ public class CreateMenuTests : IPostBuildCleanup
     CreateUnitEffectObject createUnitEffectObject = new CreateUnitEffectObject();
     CreateCardObject createCardObject = new CreateCardObject();
 
+
+
     //? Test asset names
     string testTypeName = "TestType";
     string testEffectName = "TestEffect";
@@ -30,7 +33,7 @@ public class CreateMenuTests : IPostBuildCleanup
         AssetDatabase.DeleteAsset($"{cardsDirectory}/{testCardName}");
     }
 
-    [UnityTest]
+    [UnityTest, Order(0)]
     public IEnumerator CreateCardTypeTest() {
         //? create a card type
         createCardTypeObject.CreateCardType(testTypeName);
@@ -51,9 +54,9 @@ public class CreateMenuTests : IPostBuildCleanup
         Assert.AreEqual(expected: testTypeData, actual: testType.TypeDataReference);
         Assert.AreEqual(expected: testTypeComponent.GetType(), actual: testType.typeComponent);
     }
-    [UnityTest]
+    [UnityTest, Order(1)]
     public IEnumerator CreateUnitEffectTest() {
-        //? create a unity effect
+        //? create a unit effect
         createUnitEffectObject.CreateUnitEffect(testEffectName);
         yield return new RecompileScripts();
 
@@ -64,7 +67,7 @@ public class CreateMenuTests : IPostBuildCleanup
         //? verify the effect was found
         Assert.IsNotNull(testEffect);
     }
-    [Test]
+    [Test, Order(2)]
     public void CreateCardTest(){
         //? Create the card
         createCardObject.CreateCard(testCardName,"test card text");
@@ -80,5 +83,28 @@ public class CreateMenuTests : IPostBuildCleanup
         //? Verify fields where assigned properly
         Assert.AreEqual(expected:testCardName, actual: testCard.CardName);
         Assert.AreEqual(expected:"test card text", actual: testCard.CardText);
+    }
+    [Test, Order(3)]
+    public void AddTypeTest(){
+        //? Load card
+        CardSO testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/{testCardName}/{testCardName}.asset");
+        
+        //? Create add card object and an array to use as an argument
+        AddTypeObject addTypeObject = new AddTypeObject(testCard);
+        List<string> typeNames = TypeDatabaseSO.Instance.GetAllObjectNames();
+        bool[] typesToAdd = new bool[typeNames.Count];
+        int typeIndex = Random.Range(0,typeNames.Count-1);
+        typesToAdd[typeIndex] = true;
+        
+        //? get what the type to be added is and add it to the card
+        TypeSO addedType = TypeDatabaseSO.Instance.GetEntryByName(typeNames[typeIndex]).entrykey;
+        addTypeObject.AddTypes(typesToAdd);
+
+        //? Verify that the card has the added type
+        Assert.IsTrue(testCard.HasType(addedType));
+
+        //? Verify the subdata is being added appropriately
+        Object typeSubdata = AssetDatabase.LoadAllAssetsAtPath($"{cardsDirectory}/{testCardName}/{testCardName}.asset")[0];
+        Assert.AreEqual(expected: typeSubdata, actual: testCard.GetTypeSubdata(addedType));
     }
 }
