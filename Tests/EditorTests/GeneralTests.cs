@@ -6,20 +6,5 @@ using UnityEngine.TestTools;
 
 public class GeneralTests
 {
-    // A Test behaves as an ordinary method
-    [Test]
-    public void GeneralTestsSimplePasses()
-    {
-        // Use the Assert class to test conditions
-    }
-
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator GeneralTestsWithEnumeratorPasses()
-    {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
-    }
+    //? this is a placeholder file for any test that dont fit into other files
 }

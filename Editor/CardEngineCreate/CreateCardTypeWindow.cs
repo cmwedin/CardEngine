@@ -57,7 +57,6 @@ namespace SadSapphicGames.CardEngineEditor {
         public void InitializeType(string typeName) {
             typeName = typeName.Replace(" ", string.Empty);
 
-            GUILayout.Label("Done compiling", EditorStyles.boldLabel);
             TypeSO typeSO = AssetDatabase.LoadAssetAtPath<TypeSO>($"{typesDirectory}/{typeName}/{typeName}.asset");
             GameObject referenceObject = new GameObject($"{typeName}ReferenceObject");
             if(referenceObject.AddComponent(Type.GetType(typeName + ",Assembly-CSharp")) == null) {

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SadSapphicGames.CardEngineEditor {
     public static class CardEngineIO {
-        private static Directories directories;
+        public static Directories directories { get => SettingsEditor.ReadSettings().Directories;}
         public static string GetPackagePath() {
             // ? standard package location
             string packagePath = "Packages/com.sadsapphicgames.cardengine";
@@ -22,8 +22,6 @@ namespace SadSapphicGames.CardEngineEditor {
             Debug.LogWarning("Failed to find CardEngine install location, returning null for path");
             return null;
         }
-        public static void UpdateDirectories() {
-            directories = SettingsEditor.ReadSettings().Directories;
-        }
+
     }
 }
