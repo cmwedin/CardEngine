@@ -17,15 +17,17 @@ public class CreateMenuTests : IPostBuildCleanup
     //? creator objects
     CreateCardTypeObject createCardTypeObject = new CreateCardTypeObject();
     CreateUnitEffectObject createUnitEffectObject = new CreateUnitEffectObject();
+    CreateCardObject createCardObject = new CreateCardObject();
 
     //? Test asset names
     string testTypeName = "TestType";
     string testEffectName = "TestEffect";
+    string testCardName = "TestCard";
 
-    public void Cleanup()
-    {
+    public void Cleanup() {
         AssetDatabase.DeleteAsset($"{typesDirectory}/{testTypeName}");
         AssetDatabase.DeleteAsset($"{effectsDirectory}/{testEffectName}");
+        AssetDatabase.DeleteAsset($"{cardsDirectory}/{testCardName}");
     }
 
     [UnityTest]
@@ -61,5 +63,22 @@ public class CreateMenuTests : IPostBuildCleanup
 
         //? verify the effect was found
         Assert.IsNotNull(testEffect);
+    }
+    [Test]
+    public void CreateCardTest(){
+        //? Create the card
+        createCardObject.CreateCard(testCardName,"test card text");
+
+        //? Load the card
+        CardSO testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/{testCardName}/{testCardName}.asset");
+        CompositeEffectSO testCardEffect = AssetDatabase.LoadAssetAtPath<CompositeEffectSO>($"{cardsDirectory}/{testCardName}/{testCardName}Effect.asset");
+
+        //? Verify the card was found
+        Assert.IsNotNull(testCard);
+        Assert.IsNotNull(testCardEffect);
+
+        //? Verify fields where assigned properly
+        Assert.AreEqual(expected:testCardName, actual: testCard.CardName);
+        Assert.AreEqual(expected:"test card text", actual: testCard.CardText);
     }
 }
