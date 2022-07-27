@@ -7,18 +7,59 @@ using SadSapphicGames.CardEngineEditor;
 using SadSapphicGames.CardEngine;
 using UnityEditor;
 public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
+    //? Directories
+    string typesDirectory = CardEngineIO.directories.CardTypes;
+    string effectsDirectory = CardEngineIO.directories.Effects;
+    string cardsDirectory = CardEngineIO.directories.CardScriptableObjects;
+    
+    //? Test Assets
     CardSO testCard;
     CompositeEffectSO testCompEffect;
 
+    
+
     public void Setup() {
         //? generate the test card and its composite effect 
-        //? as well as a test type and test unit effect
-        //? to make sure both databases have at least one entry
-        throw new System.NotImplementedException();
+        CreateCardObject createCardObject = new CreateCardObject();
+        createCardObject.CreateCard("TestCard", "Test Card Text");
+        testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/TestCard/TestCard.asset");
+        testCompEffect = AssetDatabase.LoadAssetAtPath<CompositeEffectSO>($"{cardsDirectory}/TestCard/TestCardEffect.asset");
+        
+        //? Make sure the type and unit effect databases have atleast one entry
+        if(
+            TypeDatabaseSO.Instance.GetAllObjectNames().Count == 0 ||
+            EffectDatabaseSO.Instance.GetAllObjectNames().Count == 0
+        ) {
+            throw new System.Exception("There must be at least one entry in the type and effect databases each to test inspector actions");
+        }
+
+        
     }
 
     public void Cleanup() {
-        throw new System.NotImplementedException();
+        AssetDatabase.DeleteAsset($"{cardsDirectory}/TestCard");
+    }
+    [Test]
+    public void AddTypeTest(){
+        
+        //? Create add card object and an array to use as an argument
+        //? we pick a random type to add
+        AddTypeObject addTypeObject = new AddTypeObject(testCard);
+        List<string> typeNames = TypeDatabaseSO.Instance.GetAllObjectNames();
+        bool[] typesToAdd = new bool[typeNames.Count];
+        int typeIndex = Random.Range(0,typeNames.Count-1);
+        typesToAdd[typeIndex] = true;
+        
+        //? get what the type to be added is and add it to the card
+        TypeSO addedType = TypeDatabaseSO.Instance.GetEntryByName(typeNames[typeIndex]).entrykey;
+        addTypeObject.AddTypes(typesToAdd);
+
+        //? Verify that the card has the added type
+        Assert.IsTrue(testCard.HasType(addedType));
+
+        //? Verify the subdata is being added appropriately
+        Object typeSubdata = AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(testCard))[0];
+        Assert.AreEqual(expected: typeSubdata, actual: testCard.GetTypeSubdata(addedType));
     }
     [Test]
     public void RemoveTypeTest() {
@@ -27,7 +68,7 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
         //? Create remove type object
         RemoveTypeObject removeTypeObject = new RemoveTypeObject(testCard);
 
-        //? Identify the type to remove
+        //? Identify a random type to remove
         bool[] typesToRemove = new bool[testCard.CardTypes.Count];
         int typeIndex = Random.Range(0,testCard.CardTypes.Count -1); //? there should only be one option here
         TypeSO removedType = testCard.CardTypes[typeIndex];
@@ -49,6 +90,7 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
 
 
         //?create Add effect object and the array argument
+        //? again adding a random effect
         AddEffectObject addEffectObject = new AddEffectObject(testCompEffect);
         List<string> effectNames = EffectDatabaseSO.Instance.GetAllObjectNames();
         bool[] effectsToAdd = new bool[effectNames.Count];
