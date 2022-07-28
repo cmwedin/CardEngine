@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UnityEditor;
 using UnityEngine;
 
 namespace SadSapphicGames.CardEngine
@@ -14,8 +15,12 @@ namespace SadSapphicGames.CardEngine
                 effect.ResolveEffect();                
             }
         }
-        public void AddChild(EffectSO childEffect) {
-            subEffects.Add(childEffect);
+        public void AddChildEffect(EffectSO desiredEffect) {
+            EffectSO effectClone = (EffectSO)ScriptableObject.CreateInstance(desiredEffect.GetType());
+            effectClone.name = $"{this.name}{desiredEffect.name}Subeffect";
+            AssetDatabase.AddObjectToAsset(effectClone,AssetDatabase.GetAssetPath(this));
+            subEffects.Add(effectClone);
+            AssetDatabase.SaveAssets();
         }
         public void RemoveChild(EffectSO childEffect) {
             if(subEffects.Remove(childEffect)) {
