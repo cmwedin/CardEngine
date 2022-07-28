@@ -26,12 +26,8 @@ namespace SadSapphicGames.CardEngineEditor {
             for (int i = 0; i < effectsToAdd.Length; i++) {
                 if(effectsToAdd[i]) {
                     Debug.Log($"Adding subeffect {effectNames[i]} to {targetEffect.name}");
-                    DatabaseEntry<EffectSO> effectEntry = effectDatabase.GetEntryByName(effectNames[i]);
-                    EffectSO effectClone = (EffectSO)ScriptableObject.CreateInstance(effectEntry.entrykey.GetType());
-                    effectClone.name = $"{targetEffect.name}{effectNames[i]}";
-                    AssetDatabase.AddObjectToAsset(effectClone, AssetDatabase.GetAssetPath(targetEffect));
-                    targetEffect.AddChild(effectClone);
-                    AssetDatabase.SaveAssets();
+                    targetEffect.AddChildEffect(effectDatabase.GetEntryByName(effectNames[i]).entrykey);
+                    
                 }
             }
             EditorUtility.SetDirty(targetEffect);

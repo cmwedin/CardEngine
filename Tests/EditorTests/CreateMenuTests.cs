@@ -19,6 +19,8 @@ public class CreateMenuTests : IPostBuildCleanup
     CreateUnitEffectObject createUnitEffectObject = new CreateUnitEffectObject();
     CreateCardObject createCardObject = new CreateCardObject();
 
+
+
     //? Test asset names
     string testTypeName = "TestType";
     string testEffectName = "TestEffect";
@@ -30,7 +32,7 @@ public class CreateMenuTests : IPostBuildCleanup
         AssetDatabase.DeleteAsset($"{cardsDirectory}/{testCardName}");
     }
 
-    [UnityTest]
+    [UnityTest, Order(0)]
     public IEnumerator CreateCardTypeTest() {
         //? create a card type
         createCardTypeObject.CreateCardType(testTypeName);
@@ -51,9 +53,9 @@ public class CreateMenuTests : IPostBuildCleanup
         Assert.AreEqual(expected: testTypeData, actual: testType.TypeDataReference);
         Assert.AreEqual(expected: testTypeComponent.GetType(), actual: testType.typeComponent);
     }
-    [UnityTest]
+    [UnityTest, Order(1)]
     public IEnumerator CreateUnitEffectTest() {
-        //? create a unity effect
+        //? create a unit effect
         createUnitEffectObject.CreateUnitEffect(testEffectName);
         yield return new RecompileScripts();
 
@@ -64,7 +66,7 @@ public class CreateMenuTests : IPostBuildCleanup
         //? verify the effect was found
         Assert.IsNotNull(testEffect);
     }
-    [Test]
+    [Test, Order(2)]
     public void CreateCardTest(){
         //? Create the card
         createCardObject.CreateCard(testCardName,"test card text");
@@ -80,5 +82,10 @@ public class CreateMenuTests : IPostBuildCleanup
         //? Verify fields where assigned properly
         Assert.AreEqual(expected:testCardName, actual: testCard.CardName);
         Assert.AreEqual(expected:"test card text", actual: testCard.CardText);
+        Assert.AreEqual(expected:testCardEffect, actual: testCard.CardEffect);
     }
+
+
+
+    
 }
