@@ -76,6 +76,10 @@ namespace SadSapphicGames.CardEngineEditor {
             outEntry = null; 
             return false;
         }
+        public DatabaseEntry<TScriptableObject> GetRandomEntry(){
+            int randomIndex = Random.Range(0,database.Count);
+            return database[randomIndex];
+        }
         public DatabaseEntry<TScriptableObject> GetEntryByKey(TScriptableObject obj, bool suppressWarning = false) {
             if(ContainsKey(obj, out var entry)) {
                 return entry;

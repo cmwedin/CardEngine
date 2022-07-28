@@ -60,6 +60,10 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
     public void RemoveTypeTest() {
         testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/TestCard/TestCard.asset");
         
+        //? add a random type to the test card to make sure it has atleast one
+        TypeSO randomCardType = TypeDatabaseSO.Instance.GetRandomEntry().entrykey;
+        testCard.AddType(randomCardType);
+        
         //? Create remove type object
         RemoveTypeObject removeTypeObject = new RemoveTypeObject(testCard);
 
