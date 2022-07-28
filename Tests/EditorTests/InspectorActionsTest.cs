@@ -16,14 +16,10 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
     CardSO testCard;
     CompositeEffectSO testCompEffect;
 
-    
-
     public void Setup() {
         //? generate the test card and its composite effect 
         CreateCardObject createCardObject = new CreateCardObject();
         createCardObject.CreateCard("TestCard", "Test Card Text");
-        testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/TestCard/TestCard.asset");
-        testCompEffect = AssetDatabase.LoadAssetAtPath<CompositeEffectSO>($"{cardsDirectory}/TestCard/TestCardEffect.asset");
         
         //? Make sure the type and unit effect databases have atleast one entry
         if(
@@ -32,8 +28,6 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
         ) {
             throw new System.Exception("There must be at least one entry in the type and effect databases each to test inspector actions");
         }
-
-        
     }
 
     public void Cleanup() {
@@ -41,6 +35,7 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
     }
     [Test]
     public void AddTypeTest(){
+        testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/TestCard/TestCard.asset");
         
         //? Create add card object and an array to use as an argument
         //? we pick a random type to add
@@ -63,7 +58,7 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
     }
     [Test]
     public void RemoveTypeTest() {
-
+        testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/TestCard/TestCard.asset");
         
         //? Create remove type object
         RemoveTypeObject removeTypeObject = new RemoveTypeObject(testCard);
@@ -87,6 +82,7 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
     [Test]
     public void AddEffectTest() {
         //? Load composite effect
+        testCompEffect = AssetDatabase.LoadAssetAtPath<CompositeEffectSO>($"{cardsDirectory}/TestCard/TestCardEffect.asset");
 
 
         //?create Add effect object and the array argument

@@ -12,6 +12,9 @@ namespace SadSapphicGames.CardEngineEditor {
         public List<string> typeNames;
 
         public AddTypeObject(CardSO _targetCardSO) {
+            if(_targetCardSO == null) {
+                throw new ArgumentNullException();
+            }
             targetCardSO = _targetCardSO;
             typeDatabase = TypeDatabaseSO.Instance;
             typeNames = typeDatabase.GetAllObjectNames();
