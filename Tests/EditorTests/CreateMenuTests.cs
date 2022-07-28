@@ -24,7 +24,7 @@ public class CreateMenuTests : IPostBuildCleanup
     //? Test asset names
     string testTypeName = "TestType";
     string testEffectName = "TestEffect";
-    string testCardName = "TestCard";
+    string testCardName = "TestCard2";
 
     public void Cleanup() {
         AssetDatabase.DeleteAsset($"{typesDirectory}/{testTypeName}");
