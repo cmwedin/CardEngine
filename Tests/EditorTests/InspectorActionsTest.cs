@@ -42,7 +42,7 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
         AddTypeObject addTypeObject = new AddTypeObject(testCard);
         List<string> typeNames = TypeDatabaseSO.Instance.GetAllObjectNames();
         bool[] typesToAdd = new bool[typeNames.Count];
-        int typeIndex = Random.Range(0,typeNames.Count-1);
+        int typeIndex = Random.Range(0,typeNames.Count);
         typesToAdd[typeIndex] = true;
         
         //? get what the type to be added is and add it to the card
@@ -60,16 +60,18 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
     public void RemoveTypeTest() {
         testCard = AssetDatabase.LoadAssetAtPath<CardSO>($"{cardsDirectory}/TestCard/TestCard.asset");
         
-        //? add a random type to the test card to make sure it has atleast one
-        TypeSO randomCardType = TypeDatabaseSO.Instance.GetRandomEntry().entrykey;
-        testCard.AddType(randomCardType);
+        //? add a random type to the test card if it doesnt have any
+        if(testCard.CardTypes.Count == 0) {
+            TypeSO randomCardType = TypeDatabaseSO.Instance.GetRandomEntry().entrykey;
+            testCard.AddType(randomCardType);
+        }
         
         //? Create remove type object
         RemoveTypeObject removeTypeObject = new RemoveTypeObject(testCard);
 
         //? Identify a random type to remove
         bool[] typesToRemove = new bool[testCard.CardTypes.Count];
-        int typeIndex = Random.Range(0,testCard.CardTypes.Count -1); //? there should only be one option here
+        int typeIndex = Random.Range(0,testCard.CardTypes.Count); //? there should only be one option here
         TypeSO removedType = testCard.CardTypes[typeIndex];
         typesToRemove[typeIndex] = true;
 
@@ -79,9 +81,10 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
         //? verify type has been removed
         Assert.IsFalse(testCard.HasType(removedType));
 
-        //? verify subdata has been removed
-        //? if we change this test to involved a card with multiple types we will need to rework this line
-        Assert.AreEqual(expected: testCard, actual: AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(testCard))[0]); 
+        Assert.AreEqual(
+            expected: testCard, 
+            actual: AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(testCard))[testCard.CardTypes.Count]
+        ); 
     }
     [Test]
     public void AddEffectTest() {
@@ -94,7 +97,7 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
         AddEffectObject addEffectObject = new AddEffectObject(testCompEffect);
         List<string> effectNames = EffectDatabaseSO.Instance.GetAllObjectNames();
         bool[] effectsToAdd = new bool[effectNames.Count];
-        int effectIndex = Random.Range(0, effectNames.Count - 1); 
+        int effectIndex = Random.Range(0, effectNames.Count); 
         EffectSO addedEffect = EffectDatabaseSO.Instance.GetEntryByName(effectNames[effectIndex]).entrykey;
         effectsToAdd[effectIndex] = true;
 
@@ -106,6 +109,34 @@ public class InspectorActionsTest : IPrebuildSetup, IPostBuildCleanup{
         Assert.AreEqual(
             expected: testCompEffect.Subeffects[0],
             actual: AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(testCompEffect))[0]
+        );
+    }
+    [Test]
+    public void RemoveEffectTest() {
+        testCompEffect = AssetDatabase.LoadAssetAtPath<CompositeEffectSO>($"{cardsDirectory}/TestCard/TestCardEffect.asset");
+
+        //? add a random effect so there is something to remove
+        EffectSO randomEffect = EffectDatabaseSO.Instance.GetRandomEntry().entrykey;
+        testCompEffect.AddChildEffect(randomEffect);
+        int previousSubeffectCount = testCompEffect.ChildrenCount;
+
+        //? create RemoveEffectObject
+        RemoveEffectObject removeEffectObject = new RemoveEffectObject(testCompEffect);
+
+        //? identify an effect to remove and create array argument 
+        bool[] effectsToRemove = new bool[testCompEffect.Subeffects.Count];
+        int randomIndex = Random.Range(0,testCompEffect.Subeffects.Count);
+        EffectSO removedEffect = testCompEffect.Subeffects[randomIndex];
+        effectsToRemove[randomIndex] = true;
+
+        //? remove the effect
+        removeEffectObject.RemoveEffects(effectsToRemove);
+
+        //? Verify removal
+        Assert.AreEqual(expected: previousSubeffectCount - 1, actual: testCompEffect.ChildrenCount);
+        Assert.AreEqual(
+            expected: testCompEffect,
+            actual: AssetDatabase.LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(testCompEffect))[testCompEffect.ChildrenCount]
         );
     }
 
