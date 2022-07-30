@@ -19,12 +19,10 @@ public class CreateMenuTests : IPostBuildCleanup
     CreateUnitEffectObject createUnitEffectObject = new CreateUnitEffectObject();
     CreateCardObject createCardObject = new CreateCardObject();
 
-
-
     //? Test asset names
     string testTypeName = "TestType";
     string testEffectName = "TestEffect";
-    string testCardName = "TestCard";
+    string testCardName = "TestCard2";
 
     public void Cleanup() {
         AssetDatabase.DeleteAsset($"{typesDirectory}/{testTypeName}");
@@ -83,9 +81,5 @@ public class CreateMenuTests : IPostBuildCleanup
         Assert.AreEqual(expected:testCardName, actual: testCard.CardName);
         Assert.AreEqual(expected:"test card text", actual: testCard.CardText);
         Assert.AreEqual(expected:testCardEffect, actual: testCard.CardEffect);
-    }
-
-
-
-    
+    }  
 }

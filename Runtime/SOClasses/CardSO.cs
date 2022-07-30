@@ -20,6 +20,11 @@ namespace SadSapphicGames.CardEngine
                 this.typeSubdata = typeSubdata;
             }
         }
+        [System.Serializable]
+        private class ResourceCost { //? Same
+            public ResourceSO resource;
+            public int costMagnitude;
+        }
         //properties
         // [SerializeField] private string _cardName;
         
@@ -39,6 +44,7 @@ namespace SadSapphicGames.CardEngine
         public EffectSO CardEffect {get => _cardEffect; set => _cardEffect = value;}
         
         [SerializeField]private List<SubdataEntry> typesSubData = new List<SubdataEntry>();
+        [SerializeField] private List<ResourceCost> cardCosts = new List<ResourceCost>();
         public void AddType(TypeSO typeToAdd) {
             if(CardTypes.Contains(typeToAdd)) {
                 throw new Exception($"Card already has type {typeToAdd.name}");
