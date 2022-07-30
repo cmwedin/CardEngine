@@ -14,6 +14,7 @@ namespace SadSapphicGames.CardEngineEditor {
             // EditorGUILayout.PropertyField(serializedObject.FindProperty("_cardName"));
             var labelStyle = new GUIStyle(GUI.skin.label) {alignment = TextAnchor.MiddleCenter, fontSize = 20};
             GUILayout.Label(target.name,labelStyle);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("cardCosts"));
             // EditorGUILayout.PropertyField(serializedObject.FindProperty("_cardText"));
             GUILayout.BeginHorizontal();
                 GUILayout.Label("Card Text:",EditorStyles.boldLabel);

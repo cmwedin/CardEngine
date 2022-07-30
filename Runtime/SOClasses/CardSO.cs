@@ -20,6 +20,7 @@ namespace SadSapphicGames.CardEngine
                 this.typeSubdata = typeSubdata;
             }
         }
+        [System.Serializable]
         private class ResourceCost { //? Same
             public ResourceSO resource;
             public int costMagnitude;
