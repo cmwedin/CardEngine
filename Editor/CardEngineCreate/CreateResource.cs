@@ -10,15 +10,54 @@ namespace SadSapphicGames.CardEngineEditor
 {
     public class CreateResourceObject {
         public bool CloseWindow { get; private set; }
+        string resourceDirectory;
+        ResourceDatabaseSO resourceDatabase;
 
-        internal void CreateResource(string resourceName)
+        public CreateResourceObject()
         {
-            throw new NotImplementedException();
+            var settings = SettingsEditor.ReadSettings();
+            resourceDatabase = ResourceDatabaseSO.Instance;
+            if(resourceDatabase == null || settings == null) {
+                CloseWindow = true;
+                Debug.LogWarning("please finish initializing CardEngine before using the CardEngine/Create menu");
+            } else {
+                resourceDirectory = settings.Directories.Resources;
+                if(!Directory.Exists(resourceDirectory)) {
+                    CloseWindow = true;
+                    Debug.LogWarning("selected directory invalid, please select a valid directory to store resources using the CardEngine/Settings menu");
+                }
+            }
         }
 
-        internal void InitializeResource()
-        {
-            throw new NotImplementedException();
+        public void CreateResource(string resourceName) {
+            if(resourceName == "") {
+                CloseWindow = true;
+                Debug.Log("No resource name entered");
+                return;
+            }
+            resourceName = resourceName.Replace(" ", string.Empty);
+            if(Directory.Exists(resourceDirectory + "/" + resourceName)) {
+                    CloseWindow = true;
+                    Debug.LogWarning($"Folder for resource {resourceName} already exists, please delete it before creating a new type with that name");
+                    return;
+            }
+
+            AssetDatabase.CreateFolder(resourceDirectory,resourceName);
+            string resourcePath = $"{resourceDirectory}/{resourceName}";
+            TemplateIO.CopyTemplate("ResourceTemplate.cs",$"{resourceName}.cs",resourcePath); 
+            AssetDatabase.ImportAsset($"{resourcePath}/{resourceName}.cs");
+            AssetDatabase.SaveAssets();
+
+        }
+
+        public void InitializeResource(string resourceName) {
+            ResourceSO resourceSO = (ResourceSO)ScriptableObject.CreateInstance(Type.GetType($"{resourceName},Assembly-csharp"));
+            resourceSO.name = resourceName;
+            AssetDatabase.CreateAsset(resourceSO,$"{resourceDirectory}/{resourceName}/{resourceName}.asset");
+
+            EditorUtility.SetDirty(resourceSO);
+            AssetDatabase.SaveAssets();
+            CloseWindow = true;
         }
     }
     public class CreateResourceWindow : EditorWindow {
@@ -26,7 +65,7 @@ namespace SadSapphicGames.CardEngineEditor
         static CreateResourceWindow instance;
         bool resourceCompiling;
         bool resourceInitializing;
-        string resourceName;
+        [SerializeField]string resourceName;
         
         [MenuItem("CardEngine/Create/Resource")]
         static void Init() {
@@ -47,7 +86,7 @@ namespace SadSapphicGames.CardEngineEditor
                 GUILayout.Label("Create New Resource");
                 resourceName = EditorGUILayout.TextField("Enter Resource name:",resourceName); 
                 GUILayout.BeginHorizontal();
-                    if(GUILayout.Button("Create Type",EditorStyles.miniButtonLeft)) {
+                    if(GUILayout.Button("Create Resource",EditorStyles.miniButtonLeft)) {
                         windowObject.CreateResource(resourceName);
                         resourceCompiling = true;
                     }
@@ -60,7 +99,7 @@ namespace SadSapphicGames.CardEngineEditor
             }
             if(instance == null && !resourceInitializing) {
                 resourceInitializing = true;
-                windowObject.InitializeResource();
+                windowObject.InitializeResource(resourceName);
             }
         }
     }
