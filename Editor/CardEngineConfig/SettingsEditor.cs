@@ -15,6 +15,7 @@ namespace SadSapphicGames.CardEngineEditor {
         public string CardTypes;
         public string CardScriptableObjects;
         public string Effects;
+        public string Resources;
     }
     public class SettingsEditor : EditorWindow {
 
