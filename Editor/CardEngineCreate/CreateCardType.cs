@@ -103,7 +103,7 @@ namespace SadSapphicGames.CardEngineEditor {
             if(windowObject.CloseWindow) this.Close();
             if(!typeCompiling) {
                 GUILayout.Label("Create a card type", EditorStyles.boldLabel);
-                typeName = EditorGUILayout.TextField("Enter Type name",typeName);
+                typeName = EditorGUILayout.TextField("Enter Type name:",typeName);
                 GUILayout.BeginHorizontal();
                     if(GUILayout.Button("Create Type",EditorStyles.miniButtonLeft)) {
                         windowObject.CreateCardType(typeName);
