@@ -59,6 +59,17 @@ namespace SadSapphicGames.CardEngineEditor {
             settings.Directories.CardScriptableObjects = path;
             WriteSettings(settings);
         }
+        [MenuItem("CardEngine/Settings/Set Resource directory")]
+        private static void SetResourceDirectory() {
+            var settings = ReadSettings();
+            if(settings == null) return;
+
+            string path = ConvertAbsoluteToRelativePath(EditorUtility.OpenFolderPanel("Select Directory","",""));
+            if(path == "") return;
+            
+            settings.Directories.Resources = path;
+            WriteSettings(settings);
+        }
         private void OnGUI() {
             // if(GUILayout.Button("Select CardType Directory")) {
             //     string path = EditorUtility.OpenFolderPanel("Select Directory","","");
