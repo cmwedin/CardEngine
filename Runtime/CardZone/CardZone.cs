@@ -28,6 +28,7 @@ namespace SadSapphicGames.CardEngine
             Cards.Add(card);
             card.CurrentZone = this;
             card.transform.SetParent(this.transform);
+            card.transform.localPosition = Vector3.zero;
         }
         public void RemoveCard(Card card) {
             if(!Cards.Contains(card)) {
