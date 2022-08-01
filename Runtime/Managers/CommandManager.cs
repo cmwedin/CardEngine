@@ -13,16 +13,18 @@ namespace SadSapphicGames.CardEngine {
         public void QueueCommand(Command command) {
             queuedCommands.Enqueue(command);
         }
-        private void ExecuteNextCommand() {
-            Command nextCommand = queuedCommands.Dequeue();
-            nextCommand.Execute();
-            executedCommands.Push(nextCommand);
+        private void ExecuteNextCommand() { 
+            if(queuedCommands.TryDequeue(out Command nextCommand)) {
+                nextCommand.Execute();
+                executedCommands.Push(nextCommand);
+            }
         }
         public void UndoPreviousCommand() {
-            freezeCommandExecution = true;
-            Command previousCommand = executedCommands.Pop();
-            previousCommand.Undo();
-            freezeCommandExecution = false;
+            if(executedCommands.TryPop(out Command previousCommand)) {
+                freezeCommandExecution = true;
+                previousCommand.Undo();
+                freezeCommandExecution = false;
+            }
         }
         private void Awake() {
             if(instance != null && instance != this) {
