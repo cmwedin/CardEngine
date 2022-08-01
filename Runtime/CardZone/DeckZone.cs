@@ -40,5 +40,11 @@ namespace SadSapphicGames.CardEngine {
             this.MoveCard(nextCard, playerHand);
 
         }
+        public override void AddCard(Card card)
+        {
+            base.AddCard(card);
+            card.IsVisible = false;
+            Shuffle();
+        }
     }
 }

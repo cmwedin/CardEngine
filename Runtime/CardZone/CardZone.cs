@@ -24,7 +24,7 @@ namespace SadSapphicGames.CardEngine
             }
         }
 
-        public void AddCard(Card card) {
+        public virtual void AddCard(Card card) {
             Cards.Add(card);
             card.CurrentZone = this;
             card.transform.SetParent(this.transform);
