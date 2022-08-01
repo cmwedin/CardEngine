@@ -16,18 +16,28 @@ namespace SadSapphicGames.CardEngine
         }
         public void MoveCard(Card card, CardZone moveToZone) { //? might be better to put this method in Card
             if(Cards.Contains(card)) {
-                Cards.Remove(card);
-                moveToZone.AddCard(card); //? this method will take care of card.CurrentZone as well
+                CommandManager.instance.QueueCommand(
+                    new MoveCardCommand(card, moveToZone)
+                );
             } else {
-                Debug.LogWarning($"Card {card.CardName} not found in cardzone {this.name}");
+                Debug.LogWarning($"Zone does not contain card {card.CardName}");
             }
-            return;
         }
 
-        public void AddCard(Card card) {
+        public virtual void AddCard(Card card) {
             Cards.Add(card);
             card.CurrentZone = this;
             card.transform.SetParent(this.transform);
+            card.transform.localPosition = Vector3.zero;
+        }
+        public void RemoveCard(Card card) {
+            if(!Cards.Contains(card)) {
+                Debug.LogWarning($"Zone does not contain card {card.CardName}");
+            } else {
+                Cards.Remove(card);
+                card.CurrentZone = null;
+                card.transform.SetParent(null);
+            }
         }
     }
 }
