@@ -7,8 +7,8 @@ namespace SadSapphicGames.CardEngine {
     {
         public static CommandManager instance;
         public bool freezeCommandExecution;
-        private Stack<Command> executedCommands;
-        private Queue<Command> queuedCommands; 
+        private Stack<Command> executedCommands = new();
+        private Queue<Command> queuedCommands = new(); 
         
         public void QueueCommand(Command command) {
             queuedCommands.Enqueue(command);
@@ -39,7 +39,7 @@ namespace SadSapphicGames.CardEngine {
 
         // Update is called once per frame
         void Update() {
-            if(!freezeCommandExecution) {
+            if(!freezeCommandExecution && queuedCommands.Count > 0) {
                 ExecuteNextCommand();
             }
         }
