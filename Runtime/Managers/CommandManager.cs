@@ -9,14 +9,18 @@ namespace SadSapphicGames.CardEngine {
         public bool freezeCommandExecution;
         private Stack<Command> executedCommands = new();
         private Queue<Command> queuedCommands = new(); 
-        
+
         public void QueueCommand(Command command) {
             queuedCommands.Enqueue(command);
         }
         private void ExecuteNextCommand() { 
             if(queuedCommands.TryDequeue(out Command nextCommand)) {
-                nextCommand.Execute();
-                executedCommands.Push(nextCommand);
+                if(nextCommand.Execute()) {
+                    executedCommands.Push(nextCommand);
+                    return;
+                } else {
+                    nextCommand.OnFailure();
+                }
             }
         }
         public void UndoPreviousCommand() {
@@ -32,6 +36,7 @@ namespace SadSapphicGames.CardEngine {
             } else {
                 instance = this;
             }
+
         }
         // Start is called before the first frame update
         void Start()

@@ -2,7 +2,8 @@ namespace SadSapphicGames.CardEngine
 {
     public abstract class Command
     {
-        public abstract void Execute();
+        public abstract bool Execute();
         public abstract void Undo();
+        public abstract void OnFailure();
     }
 }
