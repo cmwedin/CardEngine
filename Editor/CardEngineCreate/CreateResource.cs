@@ -44,8 +44,11 @@ namespace SadSapphicGames.CardEngineEditor
 
             AssetDatabase.CreateFolder(resourceDirectory,resourceName);
             string resourcePath = $"{resourceDirectory}/{resourceName}";
-            TemplateIO.CopyTemplate("ResourceTemplate.cs",$"{resourceName}.cs",resourcePath); 
+            TemplateIO.CopyTemplate("ResourceTemplate.cs",$"{resourceName}.cs",resourcePath);
+            TemplateIO.CopyTemplate("PayResourceCommandTemplate.cs",$"Pay{resourceName}Command.cs",resourcePath);
             AssetDatabase.ImportAsset($"{resourcePath}/{resourceName}.cs");
+            AssetDatabase.ImportAsset($"{resourcePath}/Pay{resourceName}Command.cs");
+
             AssetDatabase.SaveAssets();
 
         }

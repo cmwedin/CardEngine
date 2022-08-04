@@ -10,7 +10,8 @@ public class PayResourceCommandTemplate : PayResourceCommand
         throw new System.NotImplementedException();
     }
 
-    //? On failure is implemented by the base PayResourceCommand class and will log a warning that the resource was unable to be payed
+    //? OnFailure is implemented by the base PayResourceCommand class and will log a warning that the resource was unable to be payed
+    //? If you need to do something more specific you can still override the method here
 
     public override void Undo()
     {
