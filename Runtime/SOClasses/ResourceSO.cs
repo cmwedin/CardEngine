@@ -3,6 +3,6 @@ using UnityEngine;
 
 namespace SadSapphicGames.CardEngine {
     public abstract class ResourceSO : ScriptableObject {
-        public abstract void PayResource(AbstractActor actorPaying);
+        public abstract void QueuePayResourceCommand();
     }
 }
