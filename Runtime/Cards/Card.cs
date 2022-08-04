@@ -26,6 +26,9 @@ namespace SadSapphicGames.CardEngine{
             cardNameArea.text = CardName;
             cardDescriptionArea.text = CardText;
         }
+        public CardSO GetData() {
+            return cardData;
+        }
         public void SetController(AbstractActor _controller) {
             controller = _controller;
         }

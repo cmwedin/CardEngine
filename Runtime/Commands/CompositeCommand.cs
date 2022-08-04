@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SadSapphicGames.CardEngine
 {
     public abstract class CompositeCommand : Command {
-        private List<Command> subcommands = new List<Command>();
+        protected List<Command> subcommands = new List<Command>();
 
         public override bool Execute() {
             List<Command> executedSubcommands = new();
@@ -12,6 +12,7 @@ namespace SadSapphicGames.CardEngine
                 if (command.Execute()) {
                     executedSubcommands.Add(command);
                 } else {
+                    command.OnFailure();
                     foreach (var executedCommand in executedSubcommands) {
                         executedCommand.Undo();
                     }
