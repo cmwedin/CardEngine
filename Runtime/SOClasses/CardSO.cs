@@ -98,5 +98,12 @@ namespace SadSapphicGames.CardEngine
                 throw new Exception($"Failed to find matching entry subdata list, card does have type {type.name}");
             }
         }
+        public Dictionary<ResourceSO,int> GetCardCost(){
+            Dictionary<ResourceSO, int> output = new();
+            foreach (var resource in cardCosts) {
+                output.Add(resource.resource, resource.costMagnitude);
+            }
+            return output;
+        }
     }
 }

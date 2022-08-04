@@ -12,6 +12,7 @@ namespace SadSapphicGames.CardEngine
                 if (command.Execute()) {
                     executedSubcommands.Add(command);
                 } else {
+                    command.OnFailure();
                     foreach (var executedCommand in executedSubcommands) {
                         executedCommand.Undo();
                     }
