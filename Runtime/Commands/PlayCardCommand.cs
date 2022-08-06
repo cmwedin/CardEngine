@@ -11,7 +11,7 @@ namespace SadSapphicGames.CardEngine
             var cardCosts = card.GetData().GetCardCost();
             foreach (var resource in cardCosts.Keys) {
                 for (int i = 0; i < cardCosts[resource]; i++) {
-                    subcommands.Add(resource.CreatePayResourceCommand());
+                    subcommands.Add(resource.CreatePayResourceCommand(card.GetController()));
                 }
             }
         }

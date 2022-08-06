@@ -45,9 +45,9 @@ namespace SadSapphicGames.CardEngine
             float[] cancelXBounds = new float[2] {cancelRectCorners[0].x,cancelRectCorners[2].x};
             float[] cancelYBounds = new float[2] {cancelRectCorners[0].y,cancelRectCorners[2].y};
 
-            Debug.Log($"Cancel zone for card is {card.CurrentZone.name}, ({cancelXBounds[0]},{cancelXBounds[1]}) by ({cancelYBounds[0]},{cancelYBounds[1]})");
+            // Debug.Log($"Cancel zone for card is {card.CurrentZone.name}, ({cancelXBounds[0]},{cancelXBounds[1]}) by ({cancelYBounds[0]},{cancelYBounds[1]})");
             Vector2 dropPos = dropPointerData.position;
-            Debug.Log($"card dropped at {dropPos.x},{dropPos.y}");
+            // Debug.Log($"card dropped at {dropPos.x},{dropPos.y}");
 
             if ((cancelXBounds[0]  <= dropPos.x) && (dropPos.x <= cancelXBounds[1])) {
                 if ((cancelYBounds[0]  <= dropPos.y) && (dropPos.y <= cancelYBounds[1])) {
@@ -55,7 +55,7 @@ namespace SadSapphicGames.CardEngine
                     return;
                 }
             }
-            Debug.Log($"Cast of card {card.name} validated");
+            Debug.Log($"Cast of card {card.name} detected");
         }
         private void Awake() {
             if(instance != null && instance != this) {
