@@ -1,7 +1,7 @@
 using UnityEngine;
     namespace SadSapphicGames.CardEngine {
     public class ZoneManager : MonoBehaviour {
-        public ZoneManager instance;
+        public static ZoneManager instance;
         public StagingZone stagingZone;
 
         private void Awake() {
