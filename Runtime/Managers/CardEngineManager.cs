@@ -56,6 +56,7 @@ namespace SadSapphicGames.CardEngine
                 }
             }
             Debug.Log($"Cast of card {card.name} detected");
+            CommandManager.instance.QueueCommand(new PlayCardCommand(card,ZoneManager.instance.stagingZone));
         }
         private void Awake() {
             if(instance != null && instance != this) {
