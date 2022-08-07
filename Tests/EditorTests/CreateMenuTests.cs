@@ -13,24 +13,28 @@ public class CreateMenuTests : IPostBuildCleanup
     string typesDirectory = CardEngineIO.directories.CardTypes;
     string effectsDirectory = CardEngineIO.directories.Effects;
     string cardsDirectory = CardEngineIO.directories.CardScriptableObjects;
+    string resourcesDirectory = CardEngineIO.directories.Resources;
 
     //? creator objects
     CreateCardTypeObject createCardTypeObject = new CreateCardTypeObject();
     CreateUnitEffectObject createUnitEffectObject = new CreateUnitEffectObject();
     CreateCardObject createCardObject = new CreateCardObject();
+    CreateResourceObject createResourceObject = new CreateResourceObject();
 
     //? Test asset names
     string testTypeName = "TestType";
     string testEffectName = "TestEffect";
     string testCardName = "TestCard2";
+    string testResourceName = "TestResource";
 
     public void Cleanup() {
         AssetDatabase.DeleteAsset($"{typesDirectory}/{testTypeName}");
         AssetDatabase.DeleteAsset($"{effectsDirectory}/{testEffectName}");
         AssetDatabase.DeleteAsset($"{cardsDirectory}/{testCardName}");
+        AssetDatabase.DeleteAsset($"{resourcesDirectory}/{testResourceName}");
     }
 
-    [UnityTest, Order(0)]
+    [UnityTest]
     public IEnumerator CreateCardTypeTest() {
         //? create a card type
         createCardTypeObject.CreateCardType(testTypeName);
@@ -51,7 +55,7 @@ public class CreateMenuTests : IPostBuildCleanup
         Assert.AreEqual(expected: testTypeData, actual: testType.TypeDataReference);
         Assert.AreEqual(expected: testTypeComponent.GetType(), actual: testType.typeComponent);
     }
-    [UnityTest, Order(1)]
+    [UnityTest]
     public IEnumerator CreateUnitEffectTest() {
         //? create a unit effect
         createUnitEffectObject.CreateUnitEffect(testEffectName);
@@ -64,7 +68,20 @@ public class CreateMenuTests : IPostBuildCleanup
         //? verify the effect was found
         Assert.IsNotNull(testEffect);
     }
-    [Test, Order(2)]
+    [UnityTest]
+    public IEnumerator CreateResourceTest() {
+        //? Create a resource
+        createResourceObject.CreateResource(testResourceName);
+        yield return new RecompileScripts();
+
+        //? initialize resource - load its asset
+        createResourceObject.InitializeResource(testResourceName);
+        ResourceSO testResource = AssetDatabase.LoadAssetAtPath<ResourceSO>($"{resourcesDirectory}/{testResourceName}/{testResourceName}.asset");
+
+        //? verify the resource was found
+        Assert.IsNotNull(testResource);
+    }
+    [Test]
     public void CreateCardTest(){
         //? Create the card
         createCardObject.CreateCard(testCardName,"test card text");
