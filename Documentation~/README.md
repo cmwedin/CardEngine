@@ -4,6 +4,15 @@
 Credit should be given to Chris Wedin at this time.
 
 (a commercial use license will be available in a future paid version of this software)
+# Installation 
+To install this package first you must install the package [Git Dependency Resolver For Unity](https://github.com/mob-sakai/GitDependencyResolverForUnity). To do this open the Package Manager window, select the plus icon in the top left corner, and select "Add package from git URL" and enter
+
+    https://github.com/mob-sakai/GitDependencyResolverForUnity.git
+Once that package has been installed, you can install CardEngine by again selecting "Add package from git URL" and entering 
+
+    https://github.com/cmwedin/CardEngine.git
+
+This will automatically install a separate package I have developed, [CommandPattern](https://github.com/cmwedin/CommandPattern.git), which this package is dependant on.
 # README disclaimer
 as this package is heavily in development frequent updates may make parts of this readme outdated. This is a one person project as of now, so I will not be investing the time to rewrite it every minor update as that time could be spent bringing the package closer to release. I will do my best to identify sections that are no longer in date, but I will not be doing extensive rewrites outside of 0.x... updates. 
 ## Card ECS model
