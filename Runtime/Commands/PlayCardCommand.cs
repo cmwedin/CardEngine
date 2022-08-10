@@ -1,5 +1,6 @@
 using UnityEngine;
 using SadSapphicGames.CommandPattern;
+using System.Linq;
 
 namespace SadSapphicGames.CardEngine
 {
@@ -15,7 +16,11 @@ namespace SadSapphicGames.CardEngine
             }
         }
         public override bool WouldFail() {
-            return ((IFailable)subCommands[1]).WouldFail();
+            var results =
+                from com in subCommands
+                where com is IFailable
+                select ((IFailable)com).WouldFail();
+            return results.Contains(true);
         }
 
     }

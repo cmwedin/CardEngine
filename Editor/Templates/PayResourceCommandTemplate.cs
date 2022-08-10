@@ -11,6 +11,8 @@ public class PayResourceCommandTemplate : PayResourceCommand
     }
 
     public override void Execute() {
+        //? this is where you put the actual logic of paying the resource
+        //? payment of one type of resource should have no effect on an actors ability to pay for a different type of resource
         throw new System.NotImplementedException();
     }
 
