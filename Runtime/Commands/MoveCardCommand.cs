@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SadSapphicGames.CommandPattern;
 
 namespace SadSapphicGames.CardEngine {
-    public class MoveCardCommand : Command
+    public class MoveCardCommand : Command, IUndoable
     {
         Card card;
         CardZone moveToZone;
@@ -11,32 +12,25 @@ namespace SadSapphicGames.CardEngine {
 
         public MoveCardCommand(Card card, CardZone moveToZone)
         {
-            if(moveToZone == null || card == null) throw new System.ArgumentNullException();
+            if(card == null) throw new System.ArgumentNullException();
             this.card = card;
             this.moveToZone = moveToZone;
             this.previousZone = card.CurrentZone;
         }
 
-        public override bool Execute()
+        public override void Execute()
         {
             if(previousZone != null) {
                 previousZone.RemoveCard(card);
             }
-            moveToZone.AddCard(card);
-            return card.CurrentZone == moveToZone;
+            if (moveToZone != null) {
+                moveToZone.AddCard(card);
+            }
         }
 
-        public override void OnFailure()
+        public Command GetUndoCommand()
         {
-            Debug.LogWarning($"Failed to move card {card.CardName} from zone {previousZone?.name} to zone {moveToZone.name}");
-        }
-
-        public override void Undo()
-        {
-            moveToZone.RemoveCard(card);
-            if(previousZone != null) {
-                previousZone.AddCard(card);
-            }    
+            return new MoveCardCommand(card, previousZone);
         }
     }
 }

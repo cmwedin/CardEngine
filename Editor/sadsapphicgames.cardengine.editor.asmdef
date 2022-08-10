@@ -2,7 +2,8 @@
     "name": "sadsapphicgames.cardengine.editor",
     "rootNamespace": "",
     "references": [
-        "GUID:4d9d15c4629caf440bcdaa29165625c1"
+        "GUID:4d9d15c4629caf440bcdaa29165625c1",
+        "GUID:16e558560b8086a4d87050ea5a46f617"
     ],
     "includePlatforms": [
         "Editor"
