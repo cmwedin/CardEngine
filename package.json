@@ -6,9 +6,6 @@
   "dependencies": {
     "com.unity.textmeshpro" : "3.0.0"
   },
-  "gitDependencies" : {
-    "com.sadsapphicgames.commandpattern" : "https://github.com/cmwedin/CommandPattern.git"  
-  },
   "author" : {
     "name" : "Chris Wedin",
     "url" : "https://github.com/cmwedin"
