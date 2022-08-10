@@ -1,4 +1,5 @@
 using UnityEngine;
+using SadSapphicGames.CommandPattern;
 
 namespace SadSapphicGames.CardEngine
 {
@@ -7,17 +8,15 @@ namespace SadSapphicGames.CardEngine
 
         public PlayCardCommand(Card card, CardZone stagingZone) {
             this.card = card;
-            subcommands.Add(new MoveCardCommand(card, stagingZone));
+            subCommands.Add(new MoveCardCommand(card, stagingZone));
             var cardCosts = card.GetData().GetCardCost();
             foreach (var resource in cardCosts.Keys) {
-                for (int i = 0; i < cardCosts[resource]; i++) {
-                    subcommands.Add(resource.CreatePayResourceCommand(card.GetController()));
-                }
+                subCommands.Add(resource.CreatePayResourceCommand(card.GetController(), cardCosts[resource]));
             }
         }
-
-        public override void OnFailure() {
-            Debug.LogWarning($"Failed to play card {card.CardName}");
+        public override bool WouldFail() {
+            return ((IFailable)subCommands[1]).WouldFail();
         }
+
     }
 }
