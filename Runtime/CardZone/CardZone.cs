@@ -30,6 +30,9 @@ namespace SadSapphicGames.CardEngine
             card.transform.SetParent(this.transform);
             card.transform.localPosition = Vector3.zero;
         }
+        public bool HasCard(Card card) {
+            return Cards.Contains(card);
+        }
         public void RemoveCard(Card card) {
             if(!Cards.Contains(card)) {
                 Debug.LogWarning($"Zone does not contain card {card.CardName}");

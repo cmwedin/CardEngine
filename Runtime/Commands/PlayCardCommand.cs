@@ -4,18 +4,21 @@ using System.Linq;
 
 namespace SadSapphicGames.CardEngine
 {
-    public class PlayCardCommand : CompositeCommand {
+    public class PlayCardCommand : CompositeCommand, IFailable {
         private Card card;
+        private CardSO cardData;
 
         public PlayCardCommand(Card card, CardZone stagingZone) {
             this.card = card;
+            cardData = card.GetData();
             subCommands.Add(new MoveCardCommand(card, stagingZone));
-            var cardCosts = card.GetData().GetCardCost();
+            var cardCosts = cardData.GetCardCost();
             foreach (var resource in cardCosts.Keys) {
                 subCommands.Add(resource.CreatePayResourceCommand(card.GetController(), cardCosts[resource]));
+            } 
             }
         }
-        public override bool WouldFail() {
+        public bool WouldFail() {
             var results =
                 from com in subCommands
                 where com is IFailable
