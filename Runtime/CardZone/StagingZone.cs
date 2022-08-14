@@ -14,7 +14,9 @@ namespace SadSapphicGames.CardEngine {
 
         //TODO
         public void ResolveTopCard() {
-            throw new System.NotImplementedException();
+            if(stagedCards.TryPop(out Card card )){
+                CommandManager.instance.QueueCommand(new ResolveCardCommand(card));
+            }
         }
 
         void Start() {
