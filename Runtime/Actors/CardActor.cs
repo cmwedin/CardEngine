@@ -6,15 +6,12 @@ namespace SadSapphicGames.CardEngine
 {
     public class CardActor : AbstractActor
     {
-        [SerializeField] private DeckZone _actorDeckZone;
         [SerializeField] private DecklistSO _actorDecklist;
 
-        public DeckZone ActorDeckZone { get => _actorDeckZone; set => _actorDeckZone = value; }
         public DecklistSO ActorDecklist { get => _actorDecklist; set => _actorDecklist = value; }
 
-        public override void InitializeActor()
-        {
-            ActorDeckZone.LoadDecklist(ActorDecklist, this);
+        public override void InitializeActor() {
+            ZoneManager.instance.GetActorsZones(this).deckZone.LoadDecklist(ActorDecklist, this);
         }
 
         // Start is called before the first frame update
