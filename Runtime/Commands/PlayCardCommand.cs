@@ -16,6 +16,8 @@ namespace SadSapphicGames.CardEngine
             foreach (var resource in cardCosts.Keys) {
                 subCommands.Add(resource.CreatePayResourceCommand(card.GetController(), cardCosts[resource]));
             } 
+            if(cardData.CardEffect is ITargeted) {
+                subCommands.Add(new TargetCommand((ITargeted)cardData.CardEffect));
             }
         }
         public bool WouldFail() {
