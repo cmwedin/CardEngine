@@ -18,7 +18,7 @@ namespace SadSapphicGames.CardEngineEditor {
             // EditorGUILayout.PropertyField(serializedObject.FindProperty("_cardText"));
             GUILayout.BeginHorizontal();
                 GUILayout.Label("Card Text:",EditorStyles.boldLabel);
-                GUILayout.TextArea(serializedObject.FindProperty("_cardText").stringValue);
+                serializedObject.FindProperty("_cardText").stringValue = GUILayout.TextArea(serializedObject.FindProperty("_cardText").stringValue);
             GUILayout.EndHorizontal();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("_cardSprite"));
 
