@@ -21,17 +21,17 @@ namespace SadSapphicGames.CardEngine {
             Shuffle();
         }
         public void Shuffle() {
-            int deckSize = Cards.Count();
+            int deckSize = cards.Count();
             cardQueue = new Queue<Card>();
             // List<int> order = Enumerable.Range(0,deckSize);
             for (int i = deckSize -1; i >= 0; i--) {
                 int j = Random.Range(0,i);
-                Card temp = Cards[i];
-                Cards[i] = Cards[j];
-                Cards[j] = temp;
+                Card temp = cards[i];
+                cards[i] = cards[j];
+                cards[j] = temp;
             } for (int i = 0; i < deckSize; i++) { //? there is perhaps a way to combine these into one loop
-                cardQueue.Enqueue(Cards[i]);
-                Cards[i].transform.SetSiblingIndex(deckSize - 1 - i);    
+                cardQueue.Enqueue(cards[i]);
+                cards[i].transform.SetSiblingIndex(deckSize - 1 - i);    
             }
         }
         public void DrawCard(HandZone playerHand) {
