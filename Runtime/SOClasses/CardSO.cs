@@ -40,8 +40,8 @@ namespace SadSapphicGames.CardEngine
         public string CardText {get => _cardText; set => _cardText = value;}
         [SerializeField] private List<TypeSO> _cardTypes = new List<TypeSO>();
         public ReadOnlyCollection<TypeSO> CardTypes {get => _cardTypes.AsReadOnly();}
-        [SerializeField] private EffectSO _cardEffect;
-        public EffectSO CardEffect {get => _cardEffect; set => _cardEffect = value;}
+        [SerializeField] private CompositeEffectSO _cardEffect;
+        public CompositeEffectSO CardEffect {get => _cardEffect; set => _cardEffect = value;}
         
         [SerializeField]private List<SubdataEntry> typesSubData = new List<SubdataEntry>();
         [SerializeField] private List<ResourceCost> cardCosts = new List<ResourceCost>();
