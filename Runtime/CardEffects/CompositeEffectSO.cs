@@ -9,6 +9,15 @@ namespace SadSapphicGames.CardEngine
     public class CompositeEffectSO : EffectSO {
         [SerializeField] private List<EffectSO> subEffects = new List<EffectSO>();
         public ReadOnlyCollection<EffectSO> Subeffects { get => subEffects.AsReadOnly();}
+        public override AbstractActor Controller {
+            get => base.Controller; 
+            set {
+                foreach (var child in subEffects) {
+                    child.Controller = value;
+                }
+                base.Controller = value;
+            }
+        }
         public int ChildrenCount { get => subEffects.Count;}
         public override void ResolveEffect() {
             foreach (var effect in subEffects) {
