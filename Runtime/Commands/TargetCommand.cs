@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SadSapphicGames.CardEngine
 {
-    public class TargetCommand : Command, IFailable
+    public class TargetCommand : AsyncCommand, IFailable
     {
         private ITargeted effectToTarget;
         bool selectionMade = false;
@@ -26,7 +26,7 @@ namespace SadSapphicGames.CardEngine
             this.validTargets = validTargets.ToList();
         }
 
-        public async override void Execute() {
+        public async override Task ExecuteAsync() {
             if(validTargets.Count == 0) throw new System.Exception("Attempted to target an effect with no valid targets"); //? this should be impossible if this method is invoked but just incase
             Debug.Log($"Please select a target for {((EffectSO)effectToTarget).name}"); //? this will be displayed on screen eventually
             foreach (var gameObject in validTargets) {

@@ -28,7 +28,7 @@ namespace SadSapphicGames.CardEngine {
             }
         }
 
-        public Command GetUndoCommand()
+        public ICommand GetUndoCommand()
         {
             return new MoveCardCommand(card, previousZone);
         }
