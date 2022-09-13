@@ -12,8 +12,8 @@ namespace SadSapphicGames.CardEngineEditor {
             if(!Directory.Exists(parentDirectory)) {
                 throw new Exception($"parent directory {parentDirectory} for file {newFileName} not found");
             }
-            StreamReader reader = new StreamReader(templatePath + templateName);
-            StreamWriter writer = new StreamWriter(parentDirectory + "/" + newFileName);
+            using StreamReader reader = new StreamReader(templatePath + templateName);
+            using StreamWriter writer = new StreamWriter(parentDirectory + "/" + newFileName);
             newFileName = newFileName.Split(".")[0];
             templateName = templateName.Split(".")[0];
             string line = "";

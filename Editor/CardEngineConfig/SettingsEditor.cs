@@ -90,7 +90,7 @@ namespace SadSapphicGames.CardEngineEditor {
                 CardEngineInitWindow.showInitWindow();
                 return null;
             }
-            StreamReader reader = new StreamReader(settingsPath);
+            using StreamReader reader = new StreamReader(settingsPath);
             string json = reader.ReadToEnd();
             reader.Close();
             // Debug.Log($"settings json: {json}");
@@ -100,7 +100,7 @@ namespace SadSapphicGames.CardEngineEditor {
         }
         private static void WriteSettings(Settings settings) {
             string json = JsonUtility.ToJson(settings);
-            StreamWriter writer = new StreamWriter(settingsPath);
+            using StreamWriter writer = new StreamWriter(settingsPath);
             writer.WriteLine(json);
             writer.Close();
         }
