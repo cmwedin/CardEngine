@@ -7,11 +7,25 @@ using System;
 using UnityEngine.Windows;
 
 namespace SadSapphicGames.CardEngineEditor {
+    /// <summary>
+    /// The object for creating a CartTypeSO
+    /// </summary>
     public class CreateCardTypeObject {
+        /// <summary>
+        /// The current directory set for the types directory
+        /// </summary>
         string typesDirectory;
+        /// <summary>
+        /// The database of the create TypeSO's
+        /// </summary>
         TypeDatabaseSO typeDatabase;
+        /// <summary>
+        /// Communicates to the wrapping window it should be closed
+        /// </summary>
         public bool CloseWindow {get; private set;}
-
+        /// <summary>
+        /// Constructs the a CreateCardTypeObject
+        /// </summary>
         public CreateCardTypeObject() {
             var settings = SettingsEditor.ReadSettings(); 
             typeDatabase = TypeDatabaseSO.Instance;
@@ -27,6 +41,10 @@ namespace SadSapphicGames.CardEngineEditor {
                 }
             }
         }
+        /// <summary>
+        /// Creates a new CardTypeSO with a given name
+        /// </summary>
+        /// <param name="typeName">the desired name of the CardType</param>
         public void CreateCardType(string typeName) {
             if(typeName == "") {
                     CloseWindow = true;
@@ -54,6 +72,10 @@ namespace SadSapphicGames.CardEngineEditor {
             typeDatabase.AddEntry(typeSO, typePath);
             AssetDatabase.SaveAssets();
         }
+        /// <summary>
+        /// Initializes the TypeSO by creating its reference object and asset instance
+        /// </summary>
+        /// <param name="typeName"></param>
         public void InitializeType(string typeName) {
             typeName = typeName.Replace(" ", string.Empty);
 
@@ -78,27 +100,51 @@ namespace SadSapphicGames.CardEngineEditor {
             CloseWindow = true;
         }
     }
+    /// <summary>
+    /// The window that allows the user to interact with the inner CreateCardTypeObject
+    /// </summary>
     public class CreateCardTypeWindow : EditorWindow {
-
+        /// <summary>
+        /// The entered name for the TypeSO
+        /// </summary>
         [SerializeField] string typeName = ""; 
+        /// <summary>
+        /// The inner CreateCardTypeObject
+        /// </summary>
         private CreateCardTypeObject windowObject;
+        /// <summary>
+        /// Singleton instance of the window, used to determine when the recompile completes
+        /// </summary>
         static CreateCardTypeWindow instance;
+        /// <summary>
+        /// If the window is waiting for the class of the new type to compile
+        /// </summary>
         bool typeCompiling = false;
+        /// <summary>
+        /// IF the window is waiting for the new type to be initialized
+        /// </summary>
         bool typeInitializing = false;
 
-        public CreateCardTypeWindow() : base() {
-        }
+        /// <summary>
+        /// creates the inner CreateCardTypeObject
+        /// </summary>
         private void OnEnable() {
             windowObject = new CreateCardTypeObject();
         }
-        [MenuItem("CardEngine/Create/Card Type")]
-        static void Init() {
+        /// <summary>
+        /// Opens the window and sets the singleton instance
+        /// </summary>
+        [MenuItem("Tools/CardEngine/Create/Card Type")] static void Init() {
             if(instance != null) {
                 Debug.LogWarning("Create type window already open");
+                return;
             }
             instance = EditorWindow.CreateInstance<CreateCardTypeWindow>();
             instance.Show();
         }
+        /// <summary>
+        /// What the window will display
+        /// </summary>
         private void OnGUI() {
             if(windowObject.CloseWindow) this.Close();
             if(!typeCompiling) {
@@ -114,7 +160,7 @@ namespace SadSapphicGames.CardEngineEditor {
                     }
                 GUILayout.EndHorizontal();
             } else if (typeCompiling) { //? the if is redundant but included for clarity
-                GUILayout.Label("Please wait while effect compiles", EditorStyles.boldLabel);
+                GUILayout.Label("Please wait while CardType compiles", EditorStyles.boldLabel);
             }
             if(instance == null && !typeInitializing) {
                 typeInitializing = true;

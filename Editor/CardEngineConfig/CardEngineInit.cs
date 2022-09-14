@@ -6,13 +6,24 @@ using SadSapphicGames.CardEngine;
 
 namespace SadSapphicGames.CardEngineEditor
 {
-    [System.Serializable]
-    public class CardEngineInit
+    /// <summary>
+    /// The object that handles importing essential resources from their .unitypackage file 
+    /// </summary>
+    [System.Serializable] public class CardEngineInit
     {
+        //TODO this probably needs to be tweaked to support reimporting essential resources if the contents of the config folder are deleted
+        /// <summary>
+        /// Static property to determine if the config folder exist 
+        /// </summary>
         public static bool EssentialsImported { get => Directory.Exists("Assets/CardEngine/Config");} 
+        /// <summary>
+        /// if the initialization process has finished or not
+        /// </summary>
         bool initialized;
-        public CardEngineInit() {}
 
+        /// <summary>
+        /// What to display on the GUI of the importer window
+        /// </summary>
         public void OnGUI() {
             initialized = Directory.Exists("Assets/CardEngine");
             GUILayout.BeginVertical(); {
@@ -34,32 +45,50 @@ namespace SadSapphicGames.CardEngineEditor
         }
         
     }
+    /// <summary>
+    /// The window which wrapper the initializer object
+    /// </summary>
     public class CardEngineInitWindow : EditorWindow {
-        [SerializeField]
-        CardEngineInit initializerObject;
+        /// <summary>
+        /// The object that actually preforms the initialization
+        /// </summary>
+        [SerializeField] CardEngineInit initializerObject;
+        /// <summary>
+        /// Singleton instance of this window
+        /// </summary>
         static CardEngineInitWindow initializerWindow;
-        [MenuItem("CardEngine/Initialize")]
-        public static void showInitWindow() {
+        /// <summary>
+        /// Static method to open the initializer window if it isn't open already
+        /// </summary>
+        [MenuItem("Tools/CardEngine/Initialize")] public static void showInitWindow() {
             if(initializerWindow == null) {
                 initializerWindow = GetWindow<CardEngineInitWindow>();
                 initializerWindow.titleContent = new GUIContent("CardEngine Initializer");
                 initializerWindow.Focus();
             }
         }
+        /// <summary>
+        /// Sets the size of the init window
+        /// </summary>
         void SetEditorWindowSize()
         {
-            EditorWindow editorWindow = this;
-
             Vector2 windowSize = new Vector2(300, 210);
-            editorWindow.minSize = windowSize;
-            editorWindow.maxSize = windowSize;
+            initializerWindow.minSize = windowSize;
+            initializerWindow.maxSize = windowSize;
         }
+        /// <summary>
+        /// Sets the inner initializer object and invokes SetEditorWindowSize 
+        /// </summary>
         private void OnEnable() {
-            SetEditorWindowSize();
+            initializerWindow = this;
             if(initializerObject == null) {
                 initializerObject = new CardEngineInit();
             }
+            SetEditorWindowSize();
         }
+        /// <summary>
+        /// Wraps the OnGUI method of the inner initializer object
+        /// </summary>
         private void OnGUI() {
             initializerObject.OnGUI();
         }

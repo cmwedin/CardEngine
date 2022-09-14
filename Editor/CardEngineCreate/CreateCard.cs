@@ -7,10 +7,25 @@ using UnityEditor;
 using SadSapphicGames.CardEngine;
 
 namespace SadSapphicGames.CardEngineEditor {
+    /// <summary>
+    /// The object used for the logic of creating a cardSO
+    /// </summary>
     public class CreateCardObject {
+        /// <summary>
+        /// The current directory set for CardSO's
+        /// </summary>
         string cardsDirectory;
+        /// <summary>
+        /// The database of CardSO's
+        /// </summary>
         CardDatabaseSO cardDatabase;
+        /// <summary>
+        /// Communicates to the wrapping window it should close
+        /// </summary>
         public bool CloseWindow { get; private set;}
+        /// <summary>
+        /// Constructs the CreateCardObject
+        /// </summary>
         public CreateCardObject() {
             var settings = SettingsEditor.ReadSettings(); 
             cardDatabase = CardDatabaseSO.Instance;
@@ -22,10 +37,15 @@ namespace SadSapphicGames.CardEngineEditor {
                 cardsDirectory = settings.Directories.CardScriptableObjects;
                 if(!Directory.Exists(cardsDirectory)) {
                     CloseWindow = true;
-                    Debug.LogWarning("selected directory invalid, please select a valid directory to store card scriptable objects using the CardEngine/Settings menu");
+                    Debug.LogWarning("selected directory invalid, it may have been deleted, please select a valid directory to store card scriptable objects using the CardEngine/Settings menu");
                 }
             }
         }
+        /// <summary>
+        /// Creates a CardSO with a given name and card text
+        /// </summary>
+        /// <param name="cardName">the card name</param>
+        /// <param name="cardText">the card text</param>
         public void CreateCard(string cardName, string cardText) {
             if(cardName == "") {
                         Debug.LogWarning("Card name required");
@@ -58,21 +78,47 @@ namespace SadSapphicGames.CardEngineEditor {
                     CloseWindow = true;
         }
     }
+    /// <summary>
+    /// The window that allows the user to interact with the inner CreateCardObject
+    /// </summary>
     public class CreateCardWindow : EditorWindow {
+        /// <summary>
+        /// The desired card name
+        /// </summary>
         string cardName;
+        /// <summary>
+        /// The desired card text
+        /// </summary>
         string cardText;
+        /// <summary>
+        /// the inner create card object
+        /// </summary>
         private CreateCardObject windowObject;
-        
-        public CreateCardWindow() : base() {
-        }
+        /// <summary>
+        /// singleton instance of the window, for consistency with windows that need to know when recompiling completes
+        /// </summary>
+        static CreateCardWindow instance;
+
+        /// <summary>
+        /// Creates the inner CreateCardObject
+        /// </summary>
         private void OnEnable() {
             windowObject = new CreateCardObject();
         }
-        [MenuItem("CardEngine/Create/Card")]
-        static void Init() {
-            CreateCardWindow window = EditorWindow.CreateInstance<CreateCardWindow>();
-            window.Show();
+        /// <summary>
+        /// Opens this window
+        /// </summary>
+        [MenuItem("Tools/CardEngine/Create/Card")] static void Init() {
+            if(instance != null) {
+                Debug.LogWarning("Create type window already open");
+                return;
+            }            
+            instance = EditorWindow.CreateInstance<CreateCardWindow>();
+            instance.Show();
         }
+        /// <summary>
+        /// What the window will display
+        /// </summary>
         private void OnGUI() {
             if(windowObject.CloseWindow) this.Close();
             GUILayout.Label("Create a card type", EditorStyles.boldLabel);

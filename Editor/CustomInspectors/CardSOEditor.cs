@@ -6,8 +6,13 @@ using SadSapphicGames.CardEngine;
 
 namespace SadSapphicGames.CardEngineEditor {
 
-[CustomEditor(typeof(CardSO))]
-    public class CardSOEditor : Editor {
+    /// <summary>
+    /// Custom editor for CardSO's
+    /// </summary>
+    [CustomEditor(typeof(CardSO))] public class CardSOEditor : Editor {
+        /// <summary>
+        /// Overrides the InspectorGUI of a CardSO primarily to prevent editing of fields that are handled by editor tools
+        /// </summary>
         public override void OnInspectorGUI() {
             // base.OnInspectorGUI();
             //? directly editable fields
