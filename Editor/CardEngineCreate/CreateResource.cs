@@ -8,11 +8,26 @@ using UnityEngine.Windows;
 
 namespace SadSapphicGames.CardEngineEditor
 {
+    /// <summary>
+    /// The object used to create a resource SO
+    /// </summary>
     public class CreateResourceObject {
+        /// <summary>
+        /// Communicates to the wrapping window it should be closed
+        /// </summary>
         public bool CloseWindow { get; private set; }
+        /// <summary>
+        /// The current directory set for resource SO's
+        /// </summary>
         string resourceDirectory;
+        /// <summary>
+        /// The database of ResourceSO's
+        /// </summary>
         ResourceDatabaseSO resourceDatabase;
 
+        /// <summary>
+        /// Constructs a CreateResourceObject
+        /// </summary>
         public CreateResourceObject()
         {
             var settings = SettingsEditor.ReadSettings();
@@ -28,7 +43,10 @@ namespace SadSapphicGames.CardEngineEditor
                 }
             }
         }
-
+        /// <summary>
+        /// Creates a ResourceSO with a given name
+        /// </summary>
+        /// <param name="resourceName">the name of the ResourceSO</param>
         public void CreateResource(string resourceName) {
             if(resourceName == "") {
                 CloseWindow = true;
@@ -53,6 +71,10 @@ namespace SadSapphicGames.CardEngineEditor
 
         }
 
+        /// <summary>
+        /// Initializes this objects created ResourceSO
+        /// </summary>
+        /// <param name="resourceName"></param>
         public void InitializeResource(string resourceName) {
             ResourceSO resourceSO = (ResourceSO)ScriptableObject.CreateInstance(Type.GetType($"{resourceName},Assembly-csharp"));
             resourceSO.name = resourceName;
@@ -63,26 +85,51 @@ namespace SadSapphicGames.CardEngineEditor
             CloseWindow = true;
         }
     }
+
+    /// <summary>
+    /// The window for the user to interact with the inner CreateResourceObject 
+    /// </summary>
     public class CreateResourceWindow : EditorWindow {
+        /// <summary>
+        /// The inner CreateResourceObject this window wraps
+        /// </summary>
         private CreateResourceObject windowObject;
+        /// <summary>
+        /// The Singleton instance used to determine when the ResourceSO class has finished compiling
+        /// </summary>
         static CreateResourceWindow instance;
+        /// <summary>
+        /// is the window waiting for the resource to compile
+        /// </summary>
         bool resourceCompiling;
+        /// <summary>
+        /// is the window waiting for the resource to initialize
+        /// </summary>
         bool resourceInitializing;
+        /// <summary>
+        /// The entered name for the resource
+        /// </summary>
         [SerializeField]string resourceName;
-        
-        [MenuItem("CardEngine/Create/Resource")]
-        static void Init() {
+        /// <summary>
+        /// Opens the CreateResourceWindow
+        /// </summary>
+        [MenuItem("CardEngine/Create/Resource")] static void Init() {
             if(instance != null) {
                 Debug.LogWarning("Create resource window already open");
+                return;
             }
             instance = EditorWindow.CreateInstance<CreateResourceWindow>();
             instance.Show();
         }
-
+        /// <summary>
+        /// Creates the inner CreateResourceObject
+        /// </summary>
         private void OnEnable() {
             windowObject = new CreateResourceObject();
         }
-
+        /// <summary>
+        /// What will be displayed by the window
+        /// </summary>
         private void OnGUI() {
             if(windowObject.CloseWindow) {this.Close();}
             if(!resourceCompiling) {

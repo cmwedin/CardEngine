@@ -7,11 +7,25 @@ using System;
 using UnityEngine.Windows;
 
 namespace SadSapphicGames.CardEngineEditor {
+    /// <summary>
+    /// The object used to create a UnitEffectSO
+    /// </summary>
     public class CreateUnitEffectObject {
+        /// <summary>
+        /// The currently set directory for UnitEffectSO's
+        /// </summary>
         string effectsDirectory;
+        /// <summary>
+        /// The database of EffectSO's
+        /// </summary>
         EffectDatabaseSO effectDatabase;
+        /// <summary>
+        /// Communicates to the wrapping window it should be closed
+        /// </summary>
         public bool CloseWindow { get; private set;}
-
+        /// <summary>
+        /// Constructs a CreateUnitEffectObject
+        /// </summary>
         public CreateUnitEffectObject() {
             var settings = SettingsEditor.ReadSettings(); 
             effectDatabase = EffectDatabaseSO.Instance;
@@ -27,6 +41,10 @@ namespace SadSapphicGames.CardEngineEditor {
                 } 
             }
         }
+        /// <summary>
+        /// Creates a UnitEffectSO with a given name
+        /// </summary>
+        /// <param name="effectName">the desired name of the effect</param>
         public void CreateUnitEffect(string effectName) {
             if(effectName == "") {
                 CloseWindow = true;
@@ -44,6 +62,10 @@ namespace SadSapphicGames.CardEngineEditor {
             AssetDatabase.ImportAsset($"{newEffectDirectory}/{effectName}.cs");
             AssetDatabase.Refresh();
         }
+        /// <summary>
+        /// Initializes the effect created by this object
+        /// </summary>
+        /// <param name="effectName">the name of the effect created by the object</param>
         public void InitializeEffect(string effectName) {
             effectName = effectName.Replace(" ",string.Empty);
             Type effectType = Type.GetType(effectName + ",Assembly-CSharp");
@@ -54,27 +76,51 @@ namespace SadSapphicGames.CardEngineEditor {
             CloseWindow = true;
         }
     }
+    /// <summary>
+    /// The window for the user to interact with the inner CreateUnitEffectObject
+    /// </summary>
     public class CreateUnitEffectWindow : EditorWindow {
-        
+        /// <summary>
+        /// The inner CreateUnitEffect object this window wraps
+        /// </summary>
         private CreateUnitEffectObject windowObject;
-        static CreateUnitEffectWindow instance = null;
+        /// <summary>
+        /// The singleton instance of the window used to determine when the UnitEffectSO has finished compiling
+        /// </summary>
+        static CreateUnitEffectWindow instance;
+        /// <summary>
+        /// If the effect is currently compiling
+        /// </summary>
         bool effectIsCompiling = false;
+        /// <summary>
+        /// IF the effect is currently initializing 
+        /// </summary>
         bool effectIsInitializing;
+        /// <summary>
+        /// The entered name for the UnitEffectSO to be created
+        /// </summary>
         [SerializeField] string effectName = ""; 
 
-        public CreateUnitEffectWindow() : base() {
-        }
+        /// <summary>
+        /// Creates the 
+        /// </summary>
         private void OnEnable() {
             windowObject = new CreateUnitEffectObject();
         }
-        [MenuItem("CardEngine/Create/Unit Effect")]
-        static void Init() {
+        /// <summary>
+        /// Opens the window and sets it's singleton instance
+        /// </summary>
+        [MenuItem("CardEngine/Create/Unit Effect")] static void Init() {
             if(instance != null) {
                 Debug.LogWarning("Create effect window already open");
+                return;
             }
             instance = EditorWindow.CreateInstance<CreateUnitEffectWindow>();
             instance.Show();
         }
+        /// <summary>
+        /// What will be displayed by the window
+        /// </summary>
         private void OnGUI() {
             if(windowObject.CloseWindow) this.Close();
             if (!effectIsCompiling) {
