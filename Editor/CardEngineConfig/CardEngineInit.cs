@@ -80,6 +80,7 @@ namespace SadSapphicGames.CardEngineEditor
         /// Sets the inner initializer object and invokes SetEditorWindowSize 
         /// </summary>
         private void OnEnable() {
+            initializerWindow = this;
             if(initializerObject == null) {
                 initializerObject = new CardEngineInit();
             }
