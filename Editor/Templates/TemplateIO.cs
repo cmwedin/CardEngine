@@ -6,11 +6,24 @@ using UnityEditor;
 using UnityEngine;
 
 namespace SadSapphicGames.CardEngineEditor {
+    /// <summary>
+    /// Static class for copying templates when using the packages create tools
+    /// </summary>
     public static class TemplateIO  {
+        /// <summary>
+        /// The path for the template directory
+        /// </summary>
         static string templatePath = CardEngineIO.GetPackagePath() + "/Editor/Templates/";
+        /// <summary>
+        /// Copies a given template to a given directory with a new name
+        /// </summary>
+        /// <param name="templateName">the name of the template to copt</param>
+        /// <param name="newFileName">The new name to give the template</param>
+        /// <param name="parentDirectory">the parent directory to copy the template too</param>
+        /// <exception cref="ArgumentException">Thrown if the parent directory cannot be found</exception>
         public static void CopyTemplate(string templateName, string newFileName, string parentDirectory) {
             if(!Directory.Exists(parentDirectory)) {
-                throw new Exception($"parent directory {parentDirectory} for file {newFileName} not found");
+                throw new ArgumentException($"parent directory {parentDirectory} for file {newFileName} not found");
             }
             using StreamReader reader = new StreamReader(templatePath + templateName);
             using StreamWriter writer = new StreamWriter(parentDirectory + "/" + newFileName);
@@ -28,12 +41,5 @@ namespace SadSapphicGames.CardEngineEditor {
             reader.Close();
             writer.Close();
         }
-
-        // internal static void GenerateSettings() {
-        //     if(!Directory.Exists("Assets/CardEngine")) {
-        //         AssetDatabase.CreateFolder("Assets","CardEngine");
-        //     }
-        //     CopyTemplate("DefaultSettings.json","settings.json","Assets/CardEngine");
-        // }
     }
 }
