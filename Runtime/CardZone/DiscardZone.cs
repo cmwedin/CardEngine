@@ -4,17 +4,10 @@ using UnityEngine;
 
 namespace SadSapphicGames.CardEngine
 {
+    /// <summary>
+    /// The zone for cards to be placed after they are used
+    /// </summary>
     public class DiscardZone : CardZone {
-        // Start is called before the first frame update
-        void Start()
-        {
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
