@@ -4,36 +4,32 @@ using UnityEngine;
 using SadSapphicGames.CommandPattern;
 
 namespace SadSapphicGames.CardEngine {
+    /// <summary>
+    /// Singleton manager that wraps a CommandStream
+    /// </summary>
     public class CommandManager : MonoBehaviour
     {
+        /// <summary>
+        /// Singleton instance of the manager
+        /// </summary>
         public static CommandManager instance;
+        /// <summary>
+        /// Stops the manager from executing commands from the internal CommandStream
+        /// </summary>
         public bool freezeCommandExecution;
+        /// <summary>
+        /// The internal CommandStream
+        /// </summary>
         private CommandStream commandStream = new CommandStream();
-
+        /// <summary>
+        /// Exposes the internal CommandStream's QueueCommand method
+        /// </summary>
         public void QueueCommand(Command command) {
             commandStream.QueueCommand(command);
         }
-        
-        // public void UndoUntilCommand(Command stopAtCommand, bool inclusive = false) {
-        //     if(!executedCommands.Contains(stopAtCommand)) {
-        //         throw new System.ArgumentException("Argument not contained in previously executed commands");
-        //     }
-        //     freezeCommandExecution = true;
-        //     while(executedCommands.TryPop(out Command previousCommand)) {
-        //         if(previousCommand != stopAtCommand) {
-        //             previousCommand.Undo();
-        //         } else { //? we have reached the command to stop at
-        //             if(!inclusive) { //? if we don't what to undo the argument as well put it back on the executed stack
-        //                 executedCommands.Push(previousCommand);
-        //             } else { //? otherwise undo it
-        //                 previousCommand.Undo();
-        //             }
-        //             //? break out of the loop
-        //             break;
-        //         }
-        //     }
-        //     freezeCommandExecution = false;
-        // }
+        /// <summary>
+        /// Sets the singleton instance of the manager
+        /// </summary>
         private void Awake() {
             if(instance != null && instance != this) {
                 Destroy(this);
@@ -42,13 +38,9 @@ namespace SadSapphicGames.CardEngine {
             }
 
         }
-        // Start is called before the first frame update
-        void Start()
-        {
-            
-        }
-
-        // Update is called once per frame
+        /// <summary>
+        /// Executes Commands from the CommandStream unless freezeCommandExecution is true
+        /// </summary>
         void Update() {
             if(!freezeCommandExecution) {
                 commandStream.TryExecuteNext();
