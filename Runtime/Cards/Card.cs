@@ -11,11 +11,11 @@ namespace SadSapphicGames.CardEngine{
         /// <summary>
         /// The ui component for displaying the card name
         /// </summary>
-        [SerializeField] private  TextMeshProUGUI cardNameArea;
+        [SerializeField] private  TMP_Text cardNameArea;
         /// <summary>
         /// The ui component for displaying the card text
         /// </summary>
-        [SerializeField] private TextMeshProUGUI cardDescriptionArea;
+        [SerializeField] private TMP_Text cardDescriptionArea;
         /// <summary>
         /// The game object to cover the card with the card back
         /// </summary>
@@ -23,7 +23,7 @@ namespace SadSapphicGames.CardEngine{
         /// <summary>
         /// The game object to display a sprite for the card
         /// </summary>
-        [SerializeField] private GameObject cardImageArea;
+        [SerializeField] private SpriteRenderer cardImageArea;
         /// <summary>
         /// The controller of the card
         /// </summary>

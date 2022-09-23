@@ -16,8 +16,13 @@ namespace SadSapphicGames.CardEngine
         /// </summary>
         [SerializeField] private TypeDataSO typeDataReference;
         public TypeDataSO TypeDataReference { get => typeDataReference; }
-
         
+        /// <summary>
+        /// A UnitEffect that will be added to the resolution of any effect of this type. Can be used to move the cards of this type to a certain zone upon resolution
+        /// </summary>
+        [SerializeField] private UnitEffectSO defaultTypeEffect;
+        public UnitEffectSO DefaultTypeEffect { get => defaultTypeEffect; }
+
         /// <summary>
         /// Property to get the type of componentReferencePrefab (the type of the component this TypeSO will add )
         /// </summary>
