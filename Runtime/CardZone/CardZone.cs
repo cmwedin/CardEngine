@@ -58,7 +58,12 @@ namespace SadSapphicGames.CardEngine
             card.CurrentZone = this;
             card.transform.SetParent(this.transform);
             card.transform.localPosition = Vector3.zero;
+            OnCardAdded?.Invoke();
         }
+        /// <summary>
+        /// Invoked when cards are added to the zone
+        /// </summary>
+        public event Action OnCardAdded;
         /// <summary>
         /// Checks if a card is in the CardZone
         /// </summary>
@@ -78,7 +83,12 @@ namespace SadSapphicGames.CardEngine
                 cards.Remove(card);
                 card.CurrentZone = null;
                 card.transform.SetParent(null);
+                OnCardRemoved?.Invoke();
             }
         }
+        /// <summary>
+        /// Invoked when cards are removed from the zone
+        /// </summary>
+        public event Action OnCardRemoved;
     }
 }
