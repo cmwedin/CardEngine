@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SadSapphicGames.CardEngine {
     /// <summary>
-    /// Currently unused class to provide more control of how the cards are arranged in a CardZone 
+    /// Class that controls how cards are arranged in a CardZone
     /// </summary>
     [RequireComponent(typeof(CardZone))] public abstract class CardZoneLayout : MonoBehaviour {
         /// <summary>
@@ -22,6 +22,8 @@ namespace SadSapphicGames.CardEngine {
         /// </summary>
         private void OnEnable() {
             zone = GetComponent<CardZone>();
+            zone.OnCardAdded += () => LayoutCards();
+            zone.OnCardRemoved += () => LayoutCards();
         }
         /// <summary>
         /// return the card positions to the desired layout

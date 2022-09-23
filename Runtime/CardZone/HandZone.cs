@@ -5,7 +5,7 @@ namespace SadSapphicGames.CardEngine {
     /// <summary>
     /// The zone for cards in a players hand, currently uses a layout group
     /// </summary>
-    [RequireComponent(typeof(HorizontalLayoutGroup))] public class HandZone : CardZone {
+    public class HandZone : CardZone {
         /// <summary>
         /// The maximum number of cards that can be in the hand, not implemented
         /// </summary>

@@ -25,15 +25,15 @@ namespace SadSapphicGames.CardEngine {
         /// <summary>
         /// The layout group the Card's current CardZone
         /// </summary>
-        private LayoutGroup layoutGroup { get => CurrentZone.GetComponent<LayoutGroup>(); }
+        private CardZoneLayout zoneLayout { get => CurrentZone.GetComponent<CardZoneLayout>(); }
         /// <summary>
         /// Updates the layout of layoutGroup
-        /// </summary>
-        private void PokeLayoutGroup() {
-            if(layoutGroup == null) return;
-            layoutGroup.enabled = false;
-            layoutGroup.enabled = true;
-        }
+        // /// </summary>
+        // private void PokeLayoutGroup() {
+        //     if(layoutGroup == null) return;
+        //     layoutGroup.enabled = false;
+        //     layoutGroup.enabled = true;
+        // }
     // * IDragHandler
         /// <summary>
         /// Invoked when a drag starts
@@ -60,7 +60,7 @@ namespace SadSapphicGames.CardEngine {
             UnityEngine.Debug.Log($"{GetComponent<Card>().CardName} dropped");
             dragOffset = Vector2.zero;
             CardEngineManager.instance.ValidatePlay(gameObject.GetComponent<Card>(),eventData);
-            PokeLayoutGroup();
+            zoneLayout.LayoutCards();
         }
     }
 }
